@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 11)
 # when project is pulled in using the add_subdirectory function, e.g.
 #
 #   set(EXPATPP_BUILD_DOCS OFF)
-#   add_subdirectory(${expatpp_SOURCE_DIR}/expat ${expatpp_BINARY_DIR})
+#   add_subdirectory(${expatpp_SOURCE_DIR} ${expatpp_BINARY_DIR})
 #
 # Without activating behaviour NEW for policy CMP0077 here,
 # a user with -Wdev enabled would see warning
@@ -36,7 +36,7 @@ project(expatpp
         CXX
 )
 
-set(PACKAGE_BUGREPORT "expat-bugs@libexpat.org")
+set(PACKAGE_BUGREPORT "gittiver@traumkristalle.net")
 set(PACKAGE_NAME "expatpp")
 set(PACKAGE_VERSION "${PROJECT_VERSION}")
 set(PACKAGE_STRING "${PACKAGE_NAME} ${PACKAGE_VERSION}")
@@ -49,15 +49,12 @@ include(FetchContent)
 #
 # Configuration
 #
-option(EXPATPP_BUILD_EXAMPLES "build the examples for expat library" ON)
-option(EXPATPP_BUILD_TESTS "build the tests for expat library" ON)
-option(EXPATPP_SHARED_LIBS "build a shared expat library" ON)
-option(EXPATPP_BUILD_DOCS "build man page for xmlwf" ${_EXPAT_BUILD_DOCS_DEFAULT})
-option(EXPATPP_ENABLE_INSTALL "install expat files in cmake install target" ON)
+option(EXPATPP_BUILD_EXAMPLES "build the examples for expatpp library" ON)
+option(EXPATPP_BUILD_TESTS "build the tests for expatpp library" ON)
+option(EXPATPP_SHARED_LIBS "build a shared expatpp library" ON)
+option(EXPATPP_BUILD_DOCS "build api documentation" ${_EXPATPP_BUILD_DOCS_DEFAULT})
+option(EXPATPP_ENABLE_INSTALL "install expatpp files in cmake install target" ON)
 option(EXPATPP_WARNINGS_AS_ERRORS "Treat all compiler warnings as errors" OFF)
-if(MSVC OR _EXPAT_HELP)
-    set(EXPAT_MSVC_STATIC_CRT OFF CACHE BOOL "Use /MT flag (static CRT) when compiling in MSVC")
-endif()
 
 #
 # Environment checks
@@ -171,14 +168,12 @@ target_include_directories(expatpp
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-#expat_install(TARGETS expat EXPORT expat
-#                      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-#                      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#                      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS expatpp EXPORT expatpp
+                      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+                      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+                      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-#expat_install(FILES lib/expat.h lib/expat_external.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-if(EXPAT_BUILD_DOCS)
+if(EXPATPP_BUILD_DOCS)
 endif()
 
 #
@@ -198,13 +193,13 @@ if(EXPATPP_BUILD_TESTS)
     enable_testing()
 
     set(test_SRCS
-        tests/expatpp.cpp
+        test/expatpp.cpp
     )
 
-#    add_executable(runtests tests/runtests.c ${test_SRCS})
-#    set_property(TARGET runtests PROPERTY RUNTIME_OUTPUT_DIRECTORY tests)
-#    target_link_libraries(runtests expatpp)
-#    expat_add_test(runtests $<TARGET_FILE:runtests>)
+add_executable(test_expatpp ${test_SRCS})
+set_property(TARGET test_expatpp PROPERTY RUNTIME_OUTPUT_DIRECTORY tests)
+target_link_libraries(test_expatpp expatpp)
+add_test(test_expatpp tests/test_expatpp)
 
 endif(EXPATPP_BUILD_TESTS)
 
@@ -223,6 +218,7 @@ string(TOUPPER "${CMAKE_BUILD_TYPE}" _EXPAT_BUILD_TYPE_UPPER)
 #
 # packaging   
 #
+include(CPack)
 include(InstallRequiredSystemLibraries)
 
 set(CPACK_GENERATOR TGZ ZIP)
@@ -240,11 +236,11 @@ set(CPACK_PACKAGE_CONTACT https://github.com/gittiver/libexpatpp/issues)
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY ${PROJECT_NAME})
 set(CPACK_PACKAGE_VENDOR "expatpp Development Team")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
-set(CPACK_SOURCE_IGNORE_FILES "${CMAKE_CURRENT_BINARY_DIR}/;/build/*;/.git/")
+set(CPACK_SOURCE_IGNORE_FILES "${CMAKE_CURRENT_BINARY_DIR}/**;/build/**;/.git/")
 
 if(WIN32 AND NOT UNIX)
   set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}\\\\${PROJECT_VERSION}")
@@ -256,8 +252,7 @@ else(WIN32 AND NOT UNIX)
   set(CPACK_STRIP_FILES "bin/${PROJECT_NAME}-gen")
   set(CPACK_SOURCE_STRIP_FILES "")
 endif(WIN32 AND NOT UNIX)
-#set(CPACK_PACKAGE_EXECUTABLES xmwf)
-include(CPack)
+#set(CPACK_PACKAGE_EXECUTABLES ???)
 
 set(ARCHIVE_NAME ${CMAKE_PROJECT_NAME}-src-${PROJECT_VERSION})
 add_custom_target(dist

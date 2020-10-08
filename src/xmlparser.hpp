@@ -7,11 +7,11 @@
 #include "expat.h"
 
 namespace xml {
-/** abstract base class for SAX2 Parser based on libxml2 */
-class XmlParser {
+/** abstract base class for SAX2 Parser based on expat */
+class parser {
 
 public:
-   virtual ~XmlParser() = default;
+   virtual ~parser() = default;
    bool parseFile(const std::string& filename);
    
    static const XML_Char* xmlGetAttrValue(const XML_Char** attrs,const XML_Char* key);
@@ -30,4 +30,3 @@ private:
 };
 }
 #endif
-

@@ -1,0 +1,72 @@
+version: '{build}'
+branches:
+  only:
+  - master
+clone_folder: c:\projects\libexpatpp
+image:
+- Visual Studio 2013
+- Visual Studio 2015
+- Visual Studio 2017
+- Visual Studio 2019
+configuration:
+- Release
+- Debug
+platform:
+- x64
+environment:
+  matrix:
+  - arch: Win64
+  # - arch: #does not work, Release|x64 not a valid target
+matrix:
+  fast_finish: false
+
+install:
+  ##################################################
+  # Install packages for docs.
+  # DRi#4000: choco fails to download doxygen.portable so we install ourselves:
+  - appveyor DownloadFile http://doxygen.nl/files/doxygen-1.8.19.windows.x64.bin.zip
+  - 7z x doxygen-1.8.19.windows.x64.bin.zip -oc:\projects\install\doxygen > nul
+  - set PATH=c:\projects\install\doxygen;%PATH%
+
+# skip unsupported combinations
+init:
+- set arch=
+- if "%arch%"=="Win64" ( set arch= Win64)
+- echo %arch%
+- echo %APPVEYOR_BUILD_WORKER_IMAGE%
+- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019" ( set generator="Visual Studio 16 2019" )
+- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
+#- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" ( set generator="Visual Studio 14 2015%arch%" )
+#- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2013" ( set generator="Visual Studio 12 2013%arch%" )
+- echo %generator%
+
+before_build:
+- cmd: |-
+    mkdir build
+    cd build
+    cmake --version
+    cmake .. -G %generator%
+
+build_script:
+ - cmake --build . --target ALL_BUILD 
+ - cmake --build . --target doc
+ - cmake --build . --target package 
+ - cpack --config CPackSourceConfig.cmake
+
+test_script:
+ - cd build
+  - set CTEST_OUTPUT_ON_FAILURE=1
+  - ctest -C %configuration% 
+  - cd ..
+
+#build:
+#  project: c:\projects\litesql\build\litesql.sln
+#  verbosity: minimal
+#  parallel: true
+  
+only_commits:
+  files:
+    - CMakeLists.txt
+    - appveyor.yml
+    - src/
+    - cmake/

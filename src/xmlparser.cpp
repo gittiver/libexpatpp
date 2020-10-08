@@ -7,7 +7,7 @@
 //#include "litesql/logger.hpp"
 
 using std::string;
-using xml::XmlParser;
+using xml::parser;
 
 //using namespace expatpp;
 
@@ -16,17 +16,17 @@ void XMLParser_xmlSAX2StartElement		(void *ctx,
 						 const XML_Char *fullname,
 						 const XML_Char **atts)
 {
-   ((XmlParser*)ctx)->onStartElement(fullname,atts);
+   ((parser*)ctx)->onStartElement(fullname,atts);
 }
 
 void XMLParser_xmlSAX2EndElement(void *ctx,const XML_Char *name)
 {
-   ((XmlParser*)ctx)->onEndElement(name);
+   ((parser*)ctx)->onEndElement(name);
 }
 
 }
 
-bool XmlParser::parseFile(const std::string& filename)
+bool parser::parseFile(const std::string& filename)
 {
 	XML_Parser saxHandler = XML_ParserCreate("UTF-8");
 	XML_SetUserData(saxHandler, this);
@@ -79,7 +79,7 @@ bool XmlParser::parseFile(const std::string& filename)
 	return success;
 }
 
-const XML_Char* XmlParser::xmlGetAttrValue(const XML_Char** attrs,const XML_Char* key)
+const XML_Char* parser::xmlGetAttrValue(const XML_Char** attrs,const XML_Char* key)
 {
    if (attrs!=NULL)
    {      
