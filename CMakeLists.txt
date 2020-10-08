@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 11)
 #   set(EXPATPP_BUILD_DOCS OFF)
 #   add_subdirectory(${expatpp_SOURCE_DIR} ${expatpp_BINARY_DIR})
 #
-# Without activating behaviour NEW for policy CMP0077 here,
+# Without activating behavior NEW for policy CMP0077 here,
 # a user with -Wdev enabled would see warning
 #
 #   Policy CMP0077 is not set: option() honors normal variables.  Run "cmake
@@ -51,7 +51,7 @@ include(FetchContent)
 #
 option(EXPATPP_BUILD_EXAMPLES "build the examples for expatpp library" ON)
 option(EXPATPP_BUILD_TESTS "build the tests for expatpp library" ON)
-option(EXPATPP_SHARED_LIBS "build a shared expatpp library" ON)
+option(EXPATPP_SHARED_LIBS "build a shared expatpp library" OFF)
 option(EXPATPP_BUILD_DOCS "build api documentation" ${_EXPATPP_BUILD_DOCS_DEFAULT})
 option(EXPATPP_ENABLE_INSTALL "install expatpp files in cmake install target" ON)
 option(EXPATPP_WARNINGS_AS_ERRORS "Treat all compiler warnings as errors" OFF)
@@ -147,6 +147,7 @@ else(EXPATPP_SHARED_LIBS)
 endif(EXPATPP_SHARED_LIBS)
 
 add_library(expatpp ${_SHARED} ${expatpp_SRCS})
+set_target_properties(expatpp PROPERTIES POSITION_INDEPENDENT_CODE True)
 target_link_libraries(expatpp expat)
 
 set(LIBCURRENT 7)    # sync
