@@ -59,5 +59,9 @@ only_commits:
   files:
     - CMakeLists.txt
     - appveyor.yml
+    - expatpp_config.h.cmake
     - src/
+    - docs/
+    - examples/
+    - test/ 
     - cmake/
