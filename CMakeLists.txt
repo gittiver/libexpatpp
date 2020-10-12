@@ -172,9 +172,10 @@ target_include_directories(expatpp
 install(TARGETS expatpp EXPORT expatpp
                       RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                       LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-                      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-
+                      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+		      )
 if(EXPATPP_BUILD_DOCS)
+  add_subdirectory(docs/doxygen)
 endif()
 
 #
