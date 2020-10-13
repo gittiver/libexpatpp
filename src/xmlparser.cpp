@@ -7,79 +7,79 @@
 //#include "litesql/logger.hpp"
 
 using std::string;
-using xml::parser;
 
-//using namespace expatpp;
+using namespace xml::parser;
 
-namespace xml {
-void XMLParser_xmlSAX2StartElement		(void *ctx,
+static void XMLParser_xmlSAX2StartElement		(void *ctx,
 						 const XML_Char *fullname,
 						 const XML_Char **atts)
 {
-   ((parser*)ctx)->onStartElement(fullname,atts);
+  if (ctx) {
+    ((delegate*)ctx)->onStartElement(fullname,atts);
+  }
 }
 
-void XMLParser_xmlSAX2EndElement(void *ctx,const XML_Char *name)
+static void XMLParser_xmlSAX2EndElement(void *ctx,const XML_Char *name)
 {
-   ((parser*)ctx)->onEndElement(name);
+  if (ctx) {
+    ((delegate*)ctx)->onEndElement(name);
+  }
 }
 
-}
-
-bool parser::parseFile(const std::string& filename)
+result xml::parser::parseFile(const char* filename, delegate& pDelegate)
 {
-	XML_Parser saxHandler = XML_ParserCreate("UTF-8");
-	XML_SetUserData(saxHandler, this);
-	XML_SetElementHandler(saxHandler,
-		XMLParser_xmlSAX2StartElement,
-		XMLParser_xmlSAX2EndElement);
+  if (nullptr == (&pDelegate)) {
+    return result::NO_DELEGATE;
+  };
+  result res=result::ERROR;
 
-	const size_t BUFF_SIZE = 255;
-	FILE* docfd = fopen(filename.c_str(), "r");
+  XML_Parser saxHandler = XML_ParserCreate("UTF-8");
+  XML_SetUserData(saxHandler, &pDelegate);
+  XML_SetElementHandler(saxHandler,
+			XMLParser_xmlSAX2StartElement,
+			XMLParser_xmlSAX2EndElement);
 
-	bool success = (docfd != NULL);
-	if (!success)
-	{
-	  //	Logger::error("cant open ", filename);
-	}
-	else {
-		for (;;) {
-			int bytes_read;
-			void *buff = XML_GetBuffer(saxHandler, BUFF_SIZE);
-			/* handle error */
-			if (buff == NULL) {
-				success = false;
-				break;
-			}
+  const size_t BUFF_SIZE = 255;
+  FILE* docfd = fopen(filename, "r");
+  
+  if (!docfd) {
+    res = result::ERROR;
+    //	Logger::error("cant open ", filename);
+  } else {
+    for (;;) {
+      int bytes_read;
+      void *buff = XML_GetBuffer(saxHandler, BUFF_SIZE);
+      /* handle error */
+      if (buff == NULL) {
+	res = result::ERROR;
+	break;
+      }
+      
+      bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
+      if (bytes_read < 0) {
+	/* handle error */
+	res = result::ERROR;
+	break;
+      }
 
-			bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
-			if (bytes_read < 0) {
-				/* handle error */
-				success = false;
-				break;
-			}
+      if (!XML_ParseBuffer(saxHandler, bytes_read, bytes_read == 0)) {
+	/* handle parse error */
+	res = result::ERROR;
+	break;
+      }
 
-			if (!XML_ParseBuffer(saxHandler, bytes_read, bytes_read == 0)) {
-				/* handle parse error */
-				success = false;
-				break;
-			}
+      if (bytes_read == 0)
+	break;
+    }
+    fclose(docfd);
+  }
 
-			if (bytes_read == 0)
-				break;
-		}
-		fclose(docfd);
-	}
-
-	if (!success)
-	{
-	  //	Logger::error("error parsing ", filename);
-	}
-	XML_ParserFree(saxHandler);
-	return success;
+  XML_ParserFree(saxHandler);
+  return res;
 }
 
-const XML_Char* parser::xmlGetAttrValue(const XML_Char** attrs,const XML_Char* key)
+const XML_Char* xml::parser::xmlGetAttrValue(const XML_Char** attrs,
+					     const XML_Char* key)
 {
    if (attrs!=NULL)
    {      
@@ -93,3 +93,4 @@ const XML_Char* parser::xmlGetAttrValue(const XML_Char** attrs,const XML_Char* k
    }
    return NULL;
 }
+

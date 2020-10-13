@@ -7,26 +7,28 @@
 #include "expat.h"
 
 namespace xml {
-/** abstract base class for SAX2 Parser based on expat */
-class parser {
 
-public:
-   virtual ~parser() = default;
-   bool parseFile(const std::string& filename);
+
+/** nabstract base class for SAX2 Parser based on expat */
+namespace parser {
+  enum class result : uint8_t {
+    OK,
+    NO_DELEGATE,
+    ERROR
    
-   static const XML_Char* xmlGetAttrValue(const XML_Char** attrs,const XML_Char* key);
-
-protected:
+    
+  };
+  class delegate {
+  public:
    virtual void onStartElement(	const XML_Char *fullname,
-                                 const XML_Char **atts)	= 0;
-   virtual void onEndElement(	const XML_Char *fullname)   = 0;
+                               const XML_Char **atts)	= 0;
+    virtual void onEndElement(	const XML_Char *fullname)   = 0;
+  };
 
-private:
-   friend void XMLParser_xmlSAX2StartElement		(void *ctx,
-						 const XML_Char *fullname,
-						 const XML_Char **atts);
-
-   friend void XMLParser_xmlSAX2EndElement(void *ctx,const XML_Char *name);
-};
+  result parseFile(const char* filename, delegate& pDelegate);
+   
+  const XML_Char* xmlGetAttrValue(const XML_Char** attrs,
+					  const XML_Char* key);
+}
 }
 #endif

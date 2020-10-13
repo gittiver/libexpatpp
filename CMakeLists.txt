@@ -66,7 +66,6 @@ configure_file(expatpp_config.h.cmake "${CMAKE_CURRENT_BINARY_DIR}/expatpp_confi
 add_definitions(-DHAVE_EXPATPP_CONFIG_H)
 #expat_install(FILES "${CMAKE_CURRENT_BINARY_DIR}/expatpp_config.h" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-
 set(EXTRA_COMPILE_FLAGS)
 if (EXPAT_WARNINGS_AS_ERRORS)
     if(MSVC)
@@ -164,7 +163,8 @@ endif(NOT WIN32)
 
 target_include_directories(expatpp
     INTERFACE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
