@@ -137,6 +137,8 @@ endif (NOT EXPAT_FOUND)
 set(expatpp_SRCS
     src/xmlparser.cpp
     src/xmlparser.hpp
+    src/generator.hpp
+    src/generator.cpp
 )
 
 if(EXPATPP_SHARED_LIBS)
@@ -191,18 +193,8 @@ endif(EXPATPP_BUILD_EXAMPLES)
 # C/C++ test runners
 #
 if(EXPATPP_BUILD_TESTS)
-    ## these are unittests that can be run on any platform
-    enable_testing()
-
-    set(test_SRCS
-        test/expatpp.cpp
-    )
-
-add_executable(test_expatpp ${test_SRCS})
-set_property(TARGET test_expatpp PROPERTY RUNTIME_OUTPUT_DIRECTORY tests)
-target_link_libraries(test_expatpp expatpp)
-add_test(test_expatpp tests/test_expatpp)
-
+  enable_testing()
+  add_subdirectory(test)
 endif(EXPATPP_BUILD_TESTS)
 
 export(
