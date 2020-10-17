@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include <memory>
 
 namespace xmlpp {
 /** generating xml elements */
