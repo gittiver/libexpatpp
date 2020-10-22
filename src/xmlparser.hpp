@@ -6,6 +6,7 @@
 #include <string>
 #include <list>
 #include <stack>
+#include <functional>
 
 namespace xmlpp {
 

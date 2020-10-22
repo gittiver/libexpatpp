@@ -41,7 +41,7 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
   if (nullptr == (&pDelegate)) {
     return result::NO_DELEGATE;
   };
-  result res= result::READ_ERROR;
+  result res = result::READ_ERROR;
 
   XML_Parser saxHandler = XML_ParserCreate("UTF-8");
   XML_SetUserData(saxHandler, &pDelegate);
@@ -67,11 +67,6 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
       }
       
       bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
-      if (bytes_read < 0) {
-        /* handle error */
-        res = result::READ_ERROR;
-        break;
-      }
 
       if (!XML_ParseBuffer(saxHandler, bytes_read, bytes_read == 0)) {
         /* handle parse error */
@@ -79,8 +74,11 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
         break;
       }
 
-      if (bytes_read == 0)
+      if (bytes_read == 0) {
+        res = std::feof(docfd) ? result::OK : result::READ_ERROR;
         break;
+
+      }
     }
     fclose(docfd);
   }
