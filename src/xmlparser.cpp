@@ -8,6 +8,9 @@
 
 using std::string;
 
+using std::cout;
+using std::endl;
+
 using namespace xmlpp::parser;
 
 static void XMLParser_xmlSAX2StartElement		(void *ctx,
@@ -38,7 +41,7 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
   if (nullptr == (&pDelegate)) {
     return result::NO_DELEGATE;
   };
-  result res;
+  result res= result::READ_ERROR;
 
   XML_Parser saxHandler = XML_ParserCreate("UTF-8");
   XML_SetUserData(saxHandler, &pDelegate);
@@ -102,3 +105,54 @@ const XML_Char* xmlpp::parser::xmlGetAttrValue(const XML_Char** attrs,
   return NULL;
 }
 
+
+StatefulDelegate::StatefulDelegate()
+{
+  parseStates.push(&root);
+}
+void StatefulDelegate::add_state(State* state) {
+  root.substates.push_back(state);
+}
+
+void StatefulDelegate::onStartElement( const XML_Char *fullname,
+                    const XML_Char **atts)
+{
+  bool processed = false;
+
+  State* s = parseStates.top();
+  for (auto sub : s->substates) {
+    if (sub->tag==fullname) {
+      parseStates.push(sub);
+      if (sub->pfStart) sub->pfStart(atts);
+      processed = true;
+      break;
+    }
+  };
+  if (!processed)
+  {
+    cout << "unexpected Element: " << fullname  << "@" << parseStates.top()->tag << endl;
+  }
+}
+
+void StatefulDelegate::onEndElement(  const XML_Char *fullname)
+{
+  if (parseStates.top()==&root) {
+    cout << "unexpected Element: " << fullname << endl;
+  } else if (parseStates.top()->tag==fullname){
+    State* s = parseStates.top();
+    if (s->pfEnd) s->pfEnd();
+    parseStates.pop();
+  } else  {
+    cout << "unexpected Element: " << fullname  << "@" << parseStates.top()->tag << endl;
+  }
+}
+
+void StatefulDelegate::onCharacterData(const char * pBuf, int len)
+{
+  if (parseStates.empty()) {
+    cout << "unexpected chracter data: " << endl;
+  } else {
+    State* s = parseStates.top();
+    if (s->pfText) s->pfText(pBuf,len);
+  }
+}

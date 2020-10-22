@@ -1,7 +1,6 @@
 #include <iostream>
-#include <list>
-#include <stack>
 #include "xmlparser.hpp"
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -9,100 +8,110 @@ using std::endl;
 using xmlpp::parser::result;
 using xmlpp::parser::delegate;
 using xmlpp::parser::parseFile;
+using xmlpp::parser::State;
+using xmlpp::parser::StatefulDelegate;
 
-struct State {
-  State(const std::string& _tag) :  tag{_tag}
-  {}
-  std::string tag;
-  std::list<State*> substates;
-
-  void onStartElement(const XML_Char **atts)
+void print(const XML_Char **atts) {
+  for (size_t i = 0; atts[i]!=NULL;i+=2)
   {
-    cout << "@" << tag << " start element" << endl;
-
+    cout << atts[i] << "=" << atts[i+1] << endl;
   }
+}
 
-  void onEndElement()
+void StartElement(const XML_Char **atts)
+{
+  cout << "@" << " start element" << endl;
+  for (size_t i = 0; atts[i]!=NULL;i+=2)
   {
-    cout << "@" << tag << " end element" << endl;
+    cout << atts[i] << "=" << atts[i+1] << endl;
   }
+}
 
-  void onCharacterData(const char *pBuf, int len)
-  {
-    cout << "@" << tag << " text"  << endl;
+void EndElement()
+{
+  cout << "@" //<< parseStates.top()->tag
+  << " end element" << endl;
+}
 
+void CharacterData(const char *pBuf, int len)
+{
+  std::string s(pBuf,len);
+  cout << "@" //<< parseStates.top()->tag
+  << " text:"  << s << ":"<< endl;
+}
 
-  }
+struct compound {
+  struct member {
+    std::string name;
+    std::string refid;
+    std::string kind;
+  };
+
+  std::string name;
+  std::string refid;
+  std::string kind;
+  std::vector<member> members;
 };
 
-struct RootState: delegate {
-  State doxygenindex{"doxygenindex"};
-  State compound{"compound"};
-  State compound_name{"name"};
-  State member{"member"};
-  State member_name{"name"};
+struct doxygen_index{
+  std::vector<compound> compounds;
+};
 
-  std::stack<State*> parseStates;
+void print(doxygen_index& d) {
+  for (auto c:d.compounds) {
+    cout << "compound " << c.kind << " " << c.name << " {" << endl;
+    cout << "  refid: " << c.refid << ";" <<endl;
+    for(auto m: c.members) {
+      cout << "  member " <<m.kind << " " <<  m.name << " {" << endl
+      << "  refid: " << m.refid << endl <<"};" <<endl;
+    }
+    cout << "};" << endl;
+  }
+}
 
-  RootState()
+struct DoxyIndexDelegate: StatefulDelegate {
+  doxygen_index doxindex;
+  State doxygenindex{"doxygenindex",StartElement,EndElement,CharacterData};
+  State compound{"compound",
+    [this](const XML_Char **atts)
+    {
+      struct compound c;
+      c.kind = xmlpp::parser::xmlGetAttrValue(atts,"kind");
+      c.refid = xmlpp::parser::xmlGetAttrValue(atts,"refid");
+      doxindex.compounds.push_back(c);
+    }
+  };
+  State compound_name{"name",
+    nullptr,
+    nullptr,
+    [this](const char *pBuf, int len)
+    {
+      doxindex.compounds.back().name.append(pBuf,len);
+    }
+  };
+  State member{"member",
+    [this](const XML_Char **atts)
+    {
+      struct compound::member m;
+      m.kind = xmlpp::parser::xmlGetAttrValue(atts,"kind");
+      m.refid = xmlpp::parser::xmlGetAttrValue(atts,"refid");
+      doxindex.compounds.back().members.push_back(m);
+    }
+  };
+  State member_name{"name",
+    nullptr,
+    nullptr,
+    [this](const char *pBuf, int len)
+    { doxindex.compounds.back().members.back().name.append(pBuf,len); }
+  };
+
+  DoxyIndexDelegate()
   {
     compound.substates.push_back(&compound_name);
     compound.substates.push_back(&member);
     member.substates.push_back(&member_name);
     doxygenindex.substates.push_back(&compound);
-  }
-
-  void onStartElement( const XML_Char *fullname,
-                      const XML_Char **atts) override
-  {
-    bool processed = false;
-    if (parseStates.empty()) {
-      if (doxygenindex.tag != fullname) {
-        cout << "unexpected Element: " << fullname << endl;
-      } else {
-        parseStates.push(&doxygenindex);
-        doxygenindex.onStartElement(atts);
-        processed = true;
-      }
-    } else {
-      State* s = parseStates.top();
-      for (auto sub : s->substates) {
-        if (sub->tag==fullname) {
-          parseStates.push(sub);
-          sub->onStartElement(atts);
-          processed = true;
-          break;
-        }
-      };
-      if (!processed)
-      {
-        cout << "unexpected Element: " << fullname  << "@" << parseStates.top()->tag << endl;
-      }
-    }
-  }
-
-  void onEndElement(  const XML_Char *fullname) override
-  {
-    bool processed = false;
-    if (parseStates.empty()) {
-      cout << "unexpected Element: " << fullname << endl;
-    } else if (parseStates.top()->tag==fullname){
-      State* s = parseStates.top();
-      s->onEndElement();
-      parseStates.pop();
-      processed = true;
-    } else  {
-      cout << "unexpected Element: " << fullname  << "@" << parseStates.top()->tag << endl;
-    }
-  }
-
-  void onCharacterData(const char * pBuf, int len) override
-  {
-    if (parseStates.empty()) {
-      cout << "unexpected chracter data: " << endl;
-    } else {
-      parseStates.top()->onCharacterData(pBuf,len);
-    }
+    add_state(&doxygenindex);
   }
 };
 
@@ -114,11 +123,12 @@ int main(int argc,char** argv) {
     << argv[0] << " filename" << std::endl;
     return EXIT_FAILURE;
   } else {
-    RootState d;
+    DoxyIndexDelegate d;
     result res = parseFile(argv[1],d);
     switch(res) {
       case result::OK:
-        std::cout << argv[1] << "will be processed" << std::endl;
+        std::cout << argv[1] << "wassucessfully processed" << std::endl;
+        print(d.doxindex);
         return EXIT_SUCCESS;
       case result::ERROR_OPEN_FILE:
         std::cout << argv[1] << " can not opened" << std::endl;
