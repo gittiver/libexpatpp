@@ -54,20 +54,22 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
       res = result::ERROR_OPEN_FILE;
       //	Logger::error("cant open ", filename);
     } else {
+
+      XML_Parser saxHandler = XML_ParserCreate("UTF-8");
+      XML_SetUserData(saxHandler, &pDelegate);
+      XML_SetElementHandler(saxHandler,
+        XMLParser_xmlSAX2StartElement,
+        XMLParser_xmlSAX2EndElement);
+      XML_SetCharacterDataHandler(saxHandler, XMLParser_OnCharacterData);
+      void* buff = XML_GetBuffer(saxHandler, BUFF_SIZE);
+
+      /* handle error */
+      if (buff == NULL) {
+        res = result::XML_BUFFER_ERROR;
+      }
+
       for (;;) {
         size_t bytes_read;
-        XML_Parser saxHandler = XML_ParserCreate("UTF-8");
-        XML_SetUserData(saxHandler, &pDelegate);
-        XML_SetElementHandler(saxHandler,
-          XMLParser_xmlSAX2StartElement,
-          XMLParser_xmlSAX2EndElement);
-        XML_SetCharacterDataHandler(saxHandler, XMLParser_OnCharacterData);
-        void* buff = XML_GetBuffer(saxHandler, BUFF_SIZE);
-        /* handle error */
-        if (buff == NULL) {
-          res = result::XML_BUFFER_ERROR;
-          break;
-        }
 
         bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
 
@@ -82,8 +84,9 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
           break;
 
         }
-        XML_ParserFree(saxHandler);
       }
+
+      XML_ParserFree(saxHandler);
       fclose(docfd);
     }
   }
