@@ -38,18 +38,14 @@ static void XMLParser_OnCharacterData(void * ctx, const char * pBuf, int len)
 
 result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
 {
+  result res = result::READ_ERROR;
+  
   if (nullptr == (&pDelegate)) {
     return result::NO_DELEGATE;
+  } else if (filename==nullptr) {
+    res = result::ERROR_OPEN_FILE;
   };
-  result res = result::READ_ERROR;
-
-  XML_Parser saxHandler = XML_ParserCreate("UTF-8");
-  XML_SetUserData(saxHandler, &pDelegate);
-  XML_SetElementHandler(saxHandler,
-                        XMLParser_xmlSAX2StartElement,
-                        XMLParser_xmlSAX2EndElement);
-  XML_SetCharacterDataHandler(saxHandler, XMLParser_OnCharacterData);
-
+ 
   const size_t BUFF_SIZE = 255;
   FILE* docfd = fopen(filename, "r");
   
@@ -58,7 +54,13 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
     //	Logger::error("cant open ", filename);
   } else {
     for (;;) {
-      int bytes_read;
+      size_t bytes_read;
+      XML_Parser saxHandler = XML_ParserCreate("UTF-8");
+      XML_SetUserData(saxHandler, &pDelegate);
+      XML_SetElementHandler(saxHandler,
+          XMLParser_xmlSAX2StartElement,
+          XMLParser_xmlSAX2EndElement);
+      XML_SetCharacterDataHandler(saxHandler, XMLParser_OnCharacterData);
       void *buff = XML_GetBuffer(saxHandler, BUFF_SIZE);
       /* handle error */
       if (buff == NULL) {
@@ -68,7 +70,7 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
       
       bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
 
-      if (!XML_ParseBuffer(saxHandler, bytes_read, bytes_read == 0)) {
+      if (!XML_ParseBuffer(saxHandler, static_cast<int>(bytes_read), bytes_read == 0)) {
         /* handle parse error */
         res = result::PARSE_ERROR;
         break;
@@ -79,11 +81,11 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
         break;
 
       }
+      XML_ParserFree(saxHandler);
     }
     fclose(docfd);
   }
 
-  XML_ParserFree(saxHandler);
   return res;
 }
 
