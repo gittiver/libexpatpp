@@ -41,51 +41,52 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
   result res = result::READ_ERROR;
   
   if (nullptr == (&pDelegate)) {
-    return result::NO_DELEGATE;
+    res = result::NO_DELEGATE;
   } else if (filename==nullptr) {
     res = result::ERROR_OPEN_FILE;
-  };
- 
-  const size_t BUFF_SIZE = 255;
-  FILE* docfd = fopen(filename, "r");
-  
-  if (!docfd) {
-    res = result::ERROR_OPEN_FILE;
-    //	Logger::error("cant open ", filename);
-  } else {
-    for (;;) {
-      size_t bytes_read;
-      XML_Parser saxHandler = XML_ParserCreate("UTF-8");
-      XML_SetUserData(saxHandler, &pDelegate);
-      XML_SetElementHandler(saxHandler,
+  }
+  else {
+
+    const size_t BUFF_SIZE = 255;
+    FILE* docfd = fopen(filename, "r");
+
+    if (!docfd) {
+      res = result::ERROR_OPEN_FILE;
+      //	Logger::error("cant open ", filename);
+    } else {
+      for (;;) {
+        size_t bytes_read;
+        XML_Parser saxHandler = XML_ParserCreate("UTF-8");
+        XML_SetUserData(saxHandler, &pDelegate);
+        XML_SetElementHandler(saxHandler,
           XMLParser_xmlSAX2StartElement,
           XMLParser_xmlSAX2EndElement);
-      XML_SetCharacterDataHandler(saxHandler, XMLParser_OnCharacterData);
-      void *buff = XML_GetBuffer(saxHandler, BUFF_SIZE);
-      /* handle error */
-      if (buff == NULL) {
-        res = result::XML_BUFFER_ERROR;
-        break;
-      }
-      
-      bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
+        XML_SetCharacterDataHandler(saxHandler, XMLParser_OnCharacterData);
+        void* buff = XML_GetBuffer(saxHandler, BUFF_SIZE);
+        /* handle error */
+        if (buff == NULL) {
+          res = result::XML_BUFFER_ERROR;
+          break;
+        }
 
-      if (!XML_ParseBuffer(saxHandler, static_cast<int>(bytes_read), bytes_read == 0)) {
-        /* handle parse error */
-        res = result::PARSE_ERROR;
-        break;
-      }
+        bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
 
-      if (bytes_read == 0) {
-        res = std::feof(docfd) ? result::OK : result::READ_ERROR;
-        break;
+        if (!XML_ParseBuffer(saxHandler, static_cast<int>(bytes_read), bytes_read == 0)) {
+          /* handle parse error */
+          res = result::PARSE_ERROR;
+          break;
+        }
 
+        if (bytes_read == 0) {
+          res = std::feof(docfd) ? result::OK : result::READ_ERROR;
+          break;
+
+        }
+        XML_ParserFree(saxHandler);
       }
-      XML_ParserFree(saxHandler);
+      fclose(docfd);
     }
-    fclose(docfd);
   }
-
   return res;
 }
 
