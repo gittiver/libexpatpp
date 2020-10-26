@@ -61,19 +61,14 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
         XMLParser_xmlSAX2StartElement,
         XMLParser_xmlSAX2EndElement);
       XML_SetCharacterDataHandler(saxHandler, XMLParser_OnCharacterData);
-      void* buff = XML_GetBuffer(saxHandler, BUFF_SIZE);
 
-      /* handle error */
-      if (buff == NULL) {
-        res = result::XML_BUFFER_ERROR;
-      }
-
+      char buff[BUFF_SIZE];
       for (;;) {
         size_t bytes_read;
 
         bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
 
-        if (!XML_ParseBuffer(saxHandler, static_cast<int>(bytes_read), bytes_read == 0)) {
+        if (!XML_Parse(saxHandler, buff, static_cast<int>(bytes_read), bytes_read == 0)) {
           /* handle parse error */
           res = result::PARSE_ERROR;
           break;

@@ -1,15 +1,14 @@
 #ifndef xmlpp_parser_hpp
 #define xmlpp_parser_hpp
 
-#include "expat.h"
-
 #include <string>
 #include <list>
 #include <stack>
 #include <functional>
 
-namespace xmlpp {
+#include "expat.h"
 
+namespace xmlpp {
 
 /** nabstract base class for SAX2 Parser based on expat */
 namespace parser {
