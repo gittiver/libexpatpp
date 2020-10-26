@@ -48,7 +48,8 @@ test_script:
 # - cd build
   - set CTEST_OUTPUT_ON_FAILURE=1
   - cd test 
-  - ctest -C %configuration% 
+  - ctest -V
+#-C %configuration% 
   - cd ..
 #  - cd ..
 
