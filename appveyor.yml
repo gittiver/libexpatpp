@@ -1,7 +1,7 @@
 version: '{build}'
 branches:
   only:
-  - master
+  - main
 clone_folder: c:\projects\libexpatpp
 image:
 #- Visual Studio 2013
@@ -47,7 +47,9 @@ build_script:
 test_script:
 # - cd build
   - set CTEST_OUTPUT_ON_FAILURE=1
+  - cd test 
   - ctest -C %configuration% 
+  - cd ..
 #  - cd ..
 
 #build:
