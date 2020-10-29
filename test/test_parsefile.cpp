@@ -47,8 +47,10 @@ using namespace xmlpp::parser;
 TEST_CASE_METHOD(ParseFileFixture,"parse file")
 {
   empty_delegate d;
+
   SECTION("invalid filename") {
-    REQUIRE(parseFile(nullptr,d)==result::ERROR_OPEN_FILE);
+    std::string empty;
+    REQUIRE(parseFile(empty,d)==result::ERROR_OPEN_FILE);
     REQUIRE(parseFile("file_does_not_exist",d)==result::ERROR_OPEN_FILE);
   }
 

@@ -1,10 +1,14 @@
+/**
+ * \file implementation of xml parser functions
+ *
+ * See LICENSE for copyright information.
+ */
 #include <iostream>
 
 #include <string.h>
 #include <cstdio>
 
 #include "xmlparser.hpp"
-//#include "litesql/logger.hpp"
 
 using std::string;
 
@@ -36,19 +40,17 @@ static void XMLParser_OnCharacterData(void * ctx, const char * pBuf, int len)
   }
 }
 
-result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
+result xmlpp::parser::parseFile(const std::string& filename,
+                                delegate& pDelegate)
 {
   result res = result::READ_ERROR;
   
   if (nullptr == (&pDelegate)) {
     res = result::NO_DELEGATE;
-  } else if (filename==nullptr) {
-    res = result::ERROR_OPEN_FILE;
-  }
-  else {
+  } else {
 
     const size_t BUFF_SIZE = 255;
-    FILE* docfd = fopen(filename, "r");
+    FILE* docfd = fopen(filename.c_str(), "r");
 
     if (!docfd) {
       res = result::ERROR_OPEN_FILE;
@@ -72,6 +74,9 @@ result xmlpp::parser::parseFile(const char* filename, delegate& pDelegate)
           /* handle parse error */
           res = result::PARSE_ERROR;
           break;
+/// TODO utilize these methods to get useful errorstring
+//          XML_GetCurrentLineNumber(p),
+//          XML_ErrorString(XML_GetErrorCode(p)));          break;
         }
 
         if (bytes_read == 0) {

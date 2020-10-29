@@ -1,3 +1,8 @@
+/**
+ * \file xmlparser.hpp contains the xml parser module interface
+ *
+ * See LICENSE for copyright information.
+ */
 #ifndef xmlpp_parser_hpp
 #define xmlpp_parser_hpp
 
@@ -10,7 +15,7 @@
 
 namespace xmlpp {
 
-/** nabstract base class for SAX2 Parser based on expat */
+/** namespace for SAX2 xml Parser based on expat */
 namespace parser {
 enum class result : uint8_t {
   OK,
@@ -21,6 +26,7 @@ enum class result : uint8_t {
   PARSE_ERROR
 };
 
+/** the parser delegate handles the different parser events */
 class delegate {
 public:
   virtual void onStartElement(	const XML_Char *fullname,
@@ -29,8 +35,15 @@ public:
   virtual void onCharacterData(const char * pBuf, int len) = 0;
 };
 
-result parseFile(const char* filename, delegate& pDelegate);
+/** the parser delegate handles the different parser events */
+result parseFile(const std::string& filename, delegate& pDelegate);
 
+/** get value of xml attribute identifeid by key from attrs
+ * @param attrs xml attribute array as array of strings
+ * @param key attribute key to search for
+ *
+ * @return value as pointer to null determined string or nullptr if not found
+ */
 const XML_Char* xmlGetAttrValue(const XML_Char** attrs,
                                 const XML_Char* key);
 

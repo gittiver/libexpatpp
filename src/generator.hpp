@@ -1,3 +1,8 @@
+/**
+ * \file generator.hpp contains the definitions for xml structure definitions
+ *
+ * See LICENSE for copyright information.
+ */
 #ifndef xmlpp_generator_hpp
 #define xmlpp_generator_hpp
 
@@ -9,8 +14,8 @@ namespace xmlpp {
 /** generating xml elements */
 namespace generator {
 struct attribute {
-  std::string name;
-  std::string value;
+  std::string name; //< name/ key of attribute
+  std::string value; //< value of attribute
 };
 
 struct node {

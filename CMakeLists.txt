@@ -127,8 +127,7 @@ if (NOT EXPAT_FOUND)
 
   set(EXPAT_LIBRARIES expat)
   get_target_property(EXPAT_INCLUDE_DIRS expat INCLUDE_DIRECTORIES)
-#  set(EXPAT_INCLUDE_DIRS  ${expat_SOURCE_DIR}/expat/lib ${expat_BIN_DIR})
-  
+
 endif (NOT EXPAT_FOUND)
 
 #
@@ -151,9 +150,9 @@ add_library(expatpp ${_SHARED} ${expatpp_SRCS})
 set_target_properties(expatpp PROPERTIES POSITION_INDEPENDENT_CODE True)
 target_link_libraries(expatpp expat)
 
-set(LIBCURRENT 7)    # sync
-set(LIBREVISION 11)  # with
-set(LIBAGE 6)        # configure.ac!
+set(LIBCURRENT 0)    # sync
+set(LIBREVISION 1)  # with
+set(LIBAGE 0)        # configure.ac!
 math(EXPR LIBCURRENT_MINUS_AGE "${LIBCURRENT} - ${LIBAGE}")
 
 set_property(TARGET expatpp PROPERTY OUTPUT_NAME "${_EXPATPP_OUTPUT_NAME}")
@@ -176,6 +175,10 @@ install(TARGETS expatpp EXPORT expatpp
                       LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
                       ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 		      )
+
+add_executable(xsdgen src/xsdgen.cpp)
+target_link_libraries(xsdgen expatpp)
+
 if(EXPATPP_BUILD_DOCS)
   add_subdirectory(docs/doxygen)
 endif()
@@ -184,7 +187,7 @@ endif()
 # C++ code examples
 #
 if(EXPATPP_BUILD_EXAMPLES)
-  add_executable(doxyxml examples/doxyxml.cpp)
+  add_executable(doxyxml examples/doxyxml.cpp examples/doxyxml.hpp)
   target_link_libraries(doxyxml expatpp)
   set_property(TARGET doxyxml PROPERTY RUNTIME_OUTPUT_DIRECTORY examples)
 endif(EXPATPP_BUILD_EXAMPLES)
