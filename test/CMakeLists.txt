@@ -1,11 +1,21 @@
 Include(FetchContent)
 
 FetchContent_Declare(
-  Catch2
+  catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
   GIT_TAG        v2.13.2)
 
-FetchContent_MakeAvailable(Catch2)
+#FetchContent_MakeAvailable(Catch2)
+FetchContent_GetProperties(catch2)
+if(NOT catch2_POPULATED)
+  FetchContent_Populate(catch2)
+
+  # Set any custom variables, etc. here, then
+  # populate the content as part of this build
+
+  add_subdirectory(${catch2_SOURCE_DIR} ${catch2_BINARY_DIR})
+endif()
+
 
 enable_testing()
 ## these are unittests that can be run on any platform
