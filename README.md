@@ -1,16 +1,23 @@
-libexpatpp - a modern C++ xml parser toolkit using expat                        {#mainpage}
-=====
+libexpatpp - a modern C++ xml parser toolkit using expat     {#mainpage}
+========================================================
 
 [![Travis CI Build Status](https://travis-ci.org/gittiver/libexpatpp.svg?branch=main)](https://travis-ci.org/gittiver/libexpatpp)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/gittiver/libexpatpp?svg=true)](https://ci.appveyor.com/project/gittiver/libexpatpp)
 [![Packaging status](https://repology.org/badge/tiny-repos/libexpatpp.svg)](https://repology.org/metapackage/libexpatpp/versions)
 [![Documentation Status](https://readthedocs.org/projects/libexpatpp/badge/?version=latest)](https://libexpatpp.readthedocs.io/en/latest/?badge=latest) 
 
-A lightweight and modern C/C++ library for building xml parsers
+A lightweight and modern C/C++ library for building xml parsers.
+Currently a work in progress.
+
 
 ## Features
-* wraps  **expat**.
-
+* wraps and build **expat** as part of library
+* runs on all major platforms: Windows, OSX, linux
+* provides an easy to use delegate class to build xml parsers
+* utilizing lambda for easy adding of handler callbacks
+* provides implementation of parser with stack of parsestates
+* [WORK IN PROGRESS]xsdgen for generating C++ classes and parser from
+  xsd schemata
 
 ## Contents
 - [Features](#features)
@@ -36,7 +43,7 @@ cd build && cmake -D CMAKE_BUILD_TYPE=Release .. && make
 This will create binaries in `bin/` directory and libraries (static and shared) in `lib/` directory.
 
 ```
-./bin/runTests
+make -C build all test
 ```
 to run tests.
 
@@ -48,7 +55,7 @@ to install libexpatpp library on your machine.
 
 ## Using libexpatpp in your project
 You can use libexpatpp in you project by either directly copying header and source files from [libexpatpp/](libexpatpp/), or by linking libexpatpp library (see [Building](#building) for instructions how to build libexpatpp libraries).
-In any case, only thing that you have to do in your source files is to include `libexpatpp.h`.
+In any case, only thing that you have to do in your source files is to include `libexpatpp.hpp`.
 
 To get you started quickly, let's take a look at a few ways to get simple Hello World project working.
 
@@ -102,9 +109,19 @@ Position yourself in the root directory and run `doxygen`, this will generate `d
 
 ## Running tests
 
+## xsdgen - generate C++ code from xsd files
+
+parses xml schmea and generates C++ code for types and elements
+from schema
+[TODO] generate also parser class for parsing schema
+
 ## Examples
 
-### doxyml - parse dxygen xml output
+### doxyml - parse doxygen xml output
+
+the example parses the xml output of doxygen documentation system and
+does a simple listing of its elements on standard output.
+
 
 ## Development and contributing
 Feel free to send pull requests and raise issues.
