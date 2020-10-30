@@ -6,7 +6,6 @@
 #include <iostream>
 #include "xmlparser.hpp"
 #include <vector>
-#include <filesystem>
 #include "doxyxml.hpp"
 
 using std::cout;
@@ -61,7 +60,6 @@ void print(doxygen_index& d) {
 void printdef(doxygen_index& d) {
   for (auto c:d.compounds) {
     cout << "compound " << c.name << " {" << endl;
-    c.definition;
     cout << "};" << endl;
   }
 }
