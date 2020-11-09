@@ -3,19 +3,15 @@
  *
  * See LICENSE for copyright information.
  */
-#include <iostream>
 
 #include <string.h>
-#include <cstdio>
-
 #include "xmlparser.hpp"
 
 using std::string;
 
-using std::cout;
-using std::endl;
-
-using namespace xmlpp::parser;
+using xmlpp::parser;
+using xmlpp::delegate;
+using xmlpp::Attr;
 
 static void XMLParser_xmlSAX2StartElement		(void *ctx,
                                              const XML_Char *fullname,
@@ -40,12 +36,62 @@ static void XMLParser_OnCharacterData(void * ctx, const char * pBuf, int len)
   }
 }
 
-result xmlpp::parser::parseFile(const std::string& filename,
-                                delegate& pDelegate)
+static void XMLParser_CommentHandler(void * ctx, const XML_Char *data)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onComment(data);
+  }
+}
+
+
+parser::parser(delegate& delegate) {
+  m_parser = XML_ParserCreate("UTF-8");
+  XML_SetUserData(m_parser, &delegate);
+  XML_SetElementHandler(m_parser,
+    XMLParser_xmlSAX2StartElement,
+    XMLParser_xmlSAX2EndElement);
+  XML_SetCharacterDataHandler(m_parser, XMLParser_OnCharacterData);
+  XML_SetCommentHandler(m_parser, XMLParser_CommentHandler);
+
+}
+
+parser::~parser()
+{
+  XML_ParserFree(m_parser);
+}
+
+parser::status_t parser::parse(const char* buffer, int len, bool isFinal)
+{ return (status_t)XML_Parse(m_parser,buffer, len, isFinal); }
+
+xmlpp::parser::result  parser::parseString(const char* pszString, delegate& delegate)
 {
   result res = result::READ_ERROR;
-  
-  if (nullptr == (&pDelegate)) {
+
+  if (nullptr == (&delegate)) {
+    res = result::NO_DELEGATE;
+  } else {
+
+    parser p(delegate);
+
+    const char* pBuf = pszString;
+    int len = strlen(pszString);
+    if (p.parse(pBuf,len, true)==status_t::ERROR) {
+      /* handle parse error */
+      res = result::PARSE_ERROR;
+      /// TODO utilize these methods to get useful errorstring
+      //          XML_GetCurrentLineNumber(p),
+      //          XML_ErrorString(XML_GetErrorCode(p)));          break;
+    } else {
+      res = result::OK;
+    }
+  }
+  return res;
+}
+
+xmlpp::parser::result parser::parseFile(const std::string& filename, delegate& delegate) {
+  result res = result::READ_ERROR;
+
+  if (nullptr == (&delegate)) {
     res = result::NO_DELEGATE;
   } else {
 
@@ -54,15 +100,9 @@ result xmlpp::parser::parseFile(const std::string& filename,
 
     if (!docfd) {
       res = result::ERROR_OPEN_FILE;
-      //	Logger::error("cant open ", filename);
+      //  Logger::error("cant open ", filename);
     } else {
-
-      XML_Parser saxHandler = XML_ParserCreate("UTF-8");
-      XML_SetUserData(saxHandler, &pDelegate);
-      XML_SetElementHandler(saxHandler,
-        XMLParser_xmlSAX2StartElement,
-        XMLParser_xmlSAX2EndElement);
-      XML_SetCharacterDataHandler(saxHandler, XMLParser_OnCharacterData);
+      parser p(delegate);
 
       char buff[BUFF_SIZE];
       for (;;) {
@@ -70,7 +110,7 @@ result xmlpp::parser::parseFile(const std::string& filename,
 
         bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
 
-        if (!XML_Parse(saxHandler, buff, static_cast<int>(bytes_read), bytes_read == 0)) {
+        if (p.parse(buff, static_cast<int>(bytes_read), bytes_read == 0)==status_t::ERROR) {
           /* handle parse error */
           res = result::PARSE_ERROR;
           break;
@@ -86,14 +126,20 @@ result xmlpp::parser::parseFile(const std::string& filename,
         }
       }
 
-      XML_ParserFree(saxHandler);
       fclose(docfd);
     }
   }
   return res;
 }
+parser::error_t parser::errorcode() const
+{ return (error_t)XML_GetErrorCode(m_parser); }
 
-const XML_Char* xmlpp::parser::xmlGetAttrValue(const XML_Char** attrs,
+int parser::current_line_number() const
+{ return XML_GetCurrentLineNumber(m_parser); }
+int parser::current_column_number() const
+{ return XML_GetCurrentColumnNumber(m_parser); }
+
+const XML_Char* parser::xmlGetAttrValue(const XML_Char** attrs,
                                              const XML_Char* key)
 {
   if (attrs!=NULL)
@@ -109,54 +155,10 @@ const XML_Char* xmlpp::parser::xmlGetAttrValue(const XML_Char** attrs,
   return NULL;
 }
 
-
-StatefulDelegate::StatefulDelegate()
+std::string Attr::getValue(const char* key)
 {
-  parseStates.push(&root);
-}
-void StatefulDelegate::add_state(State* state) {
-  root.substates.push_back(state);
+  const XML_Char* value = parser::xmlGetAttrValue(this->attrs_,key);
+  return value==nullptr ? "" : std::string(value);
 }
 
-void StatefulDelegate::onStartElement( const XML_Char *fullname,
-                    const XML_Char **atts)
-{
-  bool processed = false;
 
-  State* s = parseStates.top();
-  for (auto sub : s->substates) {
-    if (sub->tag==fullname) {
-      parseStates.push(sub);
-      if (sub->pfStart) sub->pfStart(atts);
-      processed = true;
-      break;
-    }
-  };
-  if (!processed)
-  {
-    cout << "unexpected Element: " << fullname  << "@" << parseStates.top()->tag << endl;
-  }
-}
-
-void StatefulDelegate::onEndElement(  const XML_Char *fullname)
-{
-  if (parseStates.top()==&root) {
-    cout << "unexpected Element: " << fullname << endl;
-  } else if (parseStates.top()->tag==fullname){
-    State* s = parseStates.top();
-    if (s->pfEnd) s->pfEnd();
-    parseStates.pop();
-  } else  {
-    cout << "unexpected Element: " << fullname  << "@" << parseStates.top()->tag << endl;
-  }
-}
-
-void StatefulDelegate::onCharacterData(const char * pBuf, int len)
-{
-  if (parseStates.empty()) {
-    cout << "unexpected chracter data: " << endl;
-  } else {
-    State* s = parseStates.top();
-    if (s->pfText) s->pfText(pBuf,len);
-  }
-}

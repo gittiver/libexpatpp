@@ -42,8 +42,10 @@ struct compounddef_t {
       std::string inbodydescription;
     };
     std::string kind;
-    std::vector<memberdef_t> memberdefs;
+    std::string type;
+  std::vector<memberdef_t> memberdefs;
   };
+  std::string id;
   std::string kind;
   std::string language;
   std::string prot;

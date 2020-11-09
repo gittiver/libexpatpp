@@ -5,8 +5,9 @@
 #include <cassert>
 
 #include "xmlparser.hpp"
+/// TODO make same test for parsefile and parse function
 
-class empty_delegate : public xmlpp::parser::delegate {
+class empty_delegate : public xmlpp::abstract_delegate {
   void onStartElement( const XML_Char *fullname,
      const XML_Char **atts) override
   {}
@@ -42,7 +43,7 @@ ParseFileFixture() {
 }
 };
 
-using namespace xmlpp::parser;
+using xmlpp::parser;
 
 TEST_CASE_METHOD(ParseFileFixture,"parse file")
 {
@@ -50,17 +51,17 @@ TEST_CASE_METHOD(ParseFileFixture,"parse file")
 
   SECTION("invalid filename") {
     std::string empty;
-    REQUIRE(parseFile(empty,d)==result::ERROR_OPEN_FILE);
-    REQUIRE(parseFile("file_does_not_exist",d)==result::ERROR_OPEN_FILE);
+    REQUIRE(parser::parseFile(empty,d)==xmlpp::parser::result::ERROR_OPEN_FILE);
+    REQUIRE(parser::parseFile("file_does_not_exist",d)==xmlpp::parser::result::ERROR_OPEN_FILE);
   }
 
   SECTION("existing_file_wellformed") {
     empty_delegate d;
-    REQUIRE(parseFile("x.xml",d)==result::OK);
+    REQUIRE(parser::parseFile("x.xml",d)==xmlpp::parser::result::OK);
   }
 
   SECTION("existing_file_not_wellformed") {
     empty_delegate d;
-    REQUIRE(parseFile("invalid_xml.xml",d)==result::PARSE_ERROR);
+    REQUIRE(parser::parseFile("invalid_xml.xml",d)==xmlpp::parser::result::PARSE_ERROR);
   }
 }

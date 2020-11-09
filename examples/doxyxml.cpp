@@ -11,11 +11,10 @@
 using std::cout;
 using std::endl;
 
-using xmlpp::parser::result;
-using xmlpp::parser::delegate;
-using xmlpp::parser::parseFile;
-using xmlpp::parser::State;
-using xmlpp::parser::StatefulDelegate;
+using xmlpp::parser;
+using xmlpp::delegate;
+using xmlpp::State;
+using xmlpp::StatefulDelegate;
 
 void print(const XML_Char **atts) {
   for (size_t i = 0; atts[i]!=NULL;i+=2)
@@ -48,6 +47,10 @@ void print(doxygen_index& d) {
     cout << "compound " << c.name << " {" << endl;
     cout << "  kind: " << c.kind << ";" <<endl;
     cout << "  refid: " << c.refid << ";" <<endl;
+    cout << "def.kind: " << c.definition.kind << endl;
+    cout << c.definition.sectiondefs.size() << endl;
+    cout << c.definition.sectiondefs.size() << endl;
+
     for(auto m: c.members) {
       cout << "  member " <<  m.name << " {" << endl
            << "  kind: " << m.kind << ";" << endl
@@ -106,10 +109,10 @@ struct DoxyIndexDelegate: StatefulDelegate {
 
   DoxyIndexDelegate()
   {
-    compound.substates.push_back(&compound_name);
-    compound.substates.push_back(&member);
-    member.substates.push_back(&member_name);
-    doxygenindex.substates.push_back(&compound);
+    compound.addState(&compound_name);
+    compound.addState(&member);
+    member.addState(&member_name);
+    doxygenindex.addState(&compound);
     add_state(&doxygenindex);
   }
 
@@ -121,10 +124,13 @@ struct DoxyDelegate: StatefulDelegate {
   State compounddef{"compounddef",
     [this](const XML_Char **atts)
     {
+      xmlpp::Attr attr(atts);
       compounddef_t c;
-      c.kind = xmlpp::parser::xmlGetAttrValue(atts,"kind");
-      c.language = xmlpp::parser::xmlGetAttrValue(atts,"language");
-      c.prot =  xmlpp::parser::xmlGetAttrValue(atts,"prot");
+      c.id = attr.getValue("id");
+      c.kind = attr.getValue("kind");
+      c.language = attr.getValue("language");
+      c.prot =  attr.getValue("prot");
+
       compounddefs.push_back(c);
     },
     nullptr,
@@ -152,7 +158,9 @@ struct DoxyDelegate: StatefulDelegate {
     CharacterData
   };
 
-  State sectiondef_type{"type",nullptr,nullptr,[this](const char *pBuf, int len){ } };
+  State sectiondef_type{"type",nullptr,nullptr,
+    [this](const char *pBuf, int len)
+    {compounddefs.back().sectiondefs.back().type.append(pBuf,len); } };
   State sectiondef_definition{"definition"};
   State sectiondef_argsstring{"argsstring"};
   State sectiondef_name{"name"};
@@ -209,32 +217,40 @@ struct DoxyDelegate: StatefulDelegate {
 
   DoxyDelegate()
   {
-    compounddef.substates.push_back(&compoundname);
-    compounddef.substates.push_back(&title);
-    compounddef.substates.push_back(&basecompoundref);
-    compounddef.substates.push_back(&derivedcompoundref);
-    compounddef.substates.push_back(&includes);
-    compounddef.substates.push_back(&includedby);
-    compounddef.substates.push_back(&incdepgraph);
-    compounddef.substates.push_back(&invincdepgraph);
-    compounddef.substates.push_back(&innerdir);
-    compounddef.substates.push_back(&innerfile);
-    compounddef.substates.push_back(&innerclass);
-    compounddef.substates.push_back(&innernamespace);
-    compounddef.substates.push_back(&innerpage);
-    compounddef.substates.push_back(&innergroup);
-    compounddef.substates.push_back(&templateparamlist);
-    compounddef.substates.push_back(&sectiondef);
-    compounddef.substates.push_back(&tableofcontents);
-    compounddef.substates.push_back(&briefdescription);
-    compounddef.substates.push_back(&detaileddescription);
-    compounddef.substates.push_back(&inheritancegraph);
-    compounddef.substates.push_back(&collaborationgraph);
-    compounddef.substates.push_back(&programlisting);
-    compounddef.substates.push_back(&location);
-    compounddef.substates.push_back(&listofallmembers);
+    compounddef.addState(&compoundname);
+    compounddef.addState(&title);
+    compounddef.addState(&basecompoundref);
+    compounddef.addState(&derivedcompoundref);
+    compounddef.addState(&includes);
+    compounddef.addState(&includedby);
+    compounddef.addState(&incdepgraph);
+    compounddef.addState(&invincdepgraph);
+    compounddef.addState(&innerdir);
+    compounddef.addState(&innerfile);
+    compounddef.addState(&innerclass);
+    compounddef.addState(&innernamespace);
+    compounddef.addState(&innerpage);
+    compounddef.addState(&innergroup);
+    compounddef.addState(&templateparamlist);
 
-    doxygen.substates.push_back(&compounddef);
+    sectiondef.addState(&sectiondef_definition);
+    sectiondef.addState(&sectiondef_argsstring);
+    sectiondef.addState(&sectiondef_name);
+    sectiondef.addState(&sectiondef_briefdescription);
+    sectiondef.addState(&sectiondef_detaileddescription);
+    sectiondef.addState(&sectiondef_inbodydescription);
+   
+    compounddef.addState(&sectiondef);
+    compounddef.addState(&tableofcontents);
+    compounddef.addState(&briefdescription);
+    compounddef.addState(&detaileddescription);
+    compounddef.addState(&inheritancegraph);
+    compounddef.addState(&collaborationgraph);
+    compounddef.addState(&programlisting);
+    compounddef.addState(&location);
+    compounddef.addState(&listofallmembers);
+
+    doxygen.addState(&compounddef);
     add_state(&doxygen);
   }
 };
@@ -243,7 +259,10 @@ void compound::parse_definition(const std::string& dirname) {
   std::string filename = dirname .empty()? refid : (dirname +"/" + refid + ".xml");
   cout << "Parsing " << name << " definition from " << filename << endl;
   DoxyDelegate d;
-  result res = parseFile(filename,d);
+  xmlpp::parser::result res = parser::parseFile(filename,d);
+  // TODO handle bugs
+  if (!d.compounddefs.empty())
+    definition = d.compounddefs.at(0);
 }
 
 #ifdef _WIN32
@@ -273,14 +292,14 @@ int main(int argc,char** argv) {
     DoxyIndexDelegate d;
     d.dirname = path(argv[1]);
 
-    result res = parseFile(argv[1],d);
+    xmlpp::parser::result res = parser::parseFile(argv[1],d);
     switch(res) {
-      case result::OK:
+      case xmlpp::parser::result::OK:
         std::cout << argv[1] << "was sucessfully processed" << std::endl;
         print(d.doxindex);
 
         return EXIT_SUCCESS;
-      case result::ERROR_OPEN_FILE:
+      case xmlpp::parser::result::ERROR_OPEN_FILE:
         std::cout << argv[1] << " can not opened" << std::endl;
         return -static_cast<int>(res);
       default:

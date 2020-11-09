@@ -100,6 +100,7 @@ if(MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS -wd4996)
 endif(MSVC)
 
+#handle expat dependency
 if(EXPATPP_USE_SYSTEM_EXPAT)
 include (${CMAKE_ROOT}/Modules/FindEXPAT.cmake)
 mark_as_advanced(EXPAT_INCLUDE_DIRS EXPAT_LIBRARIES EXPAT_FOUND)
@@ -130,12 +131,23 @@ if (NOT EXPAT_FOUND)
 
 endif (NOT EXPAT_FOUND)
 
+# handle outcome dependency
+#FetchContent_Declare(outcome
+#  		 GIT_REPOSITORY https://github.com/ned14/outcome.git
+#		 GIT_TAG v2.1.4)
+#if(NOT outcome_POPULATED)
+#  FetchContent_Populate(outcome)
+#  add_subdirectory(${outcome_SOURCE_DIR} ${outcome_BINARY_DIR})
+#endif(NOT outcome_POPULATED)
+
 #
 # C library
 #
 set(expatpp_SRCS
     src/xmlparser.cpp
     src/xmlparser.hpp
+    src/delegate.hpp
+    src/delegate.cpp
     src/generator.hpp
     src/generator.cpp
 )

@@ -10,11 +10,9 @@
 using std::cout;
 using std::endl;
 
-using xmlpp::parser::result;
-using xmlpp::parser::delegate;
-using xmlpp::parser::parseFile;
-using xmlpp::parser::State;
-using xmlpp::parser::StatefulDelegate;
+using xmlpp::parser;
+using xmlpp::State;
+using xmlpp::StatefulDelegate;
 
 void print(const XML_Char **atts) {
   for (size_t i = 0; atts[i]!=NULL;i+=2)
@@ -294,25 +292,25 @@ struct xsd_parse_delegate: StatefulDelegate {
 
   xsd_parse_delegate()
   {
-    xsd_schema.substates.push_back(&xsd_import);
-    xsd_schema.substates.push_back(&xsd_element);
+    xsd_schema.addState(&xsd_import);
+    xsd_schema.addState(&xsd_element);
 
-    xsd_complexType.substates.push_back(&xsd_attribute);
-    xsd_complexType.substates.push_back(&xsd_complexType_sequence);
-    xsd_complexType.substates.push_back(&xsd_choice);
-    xsd_choice.substates.push_back(&xsd_choice_element);
+    xsd_complexType.addState(&xsd_attribute);
+    xsd_complexType.addState(&xsd_complexType_sequence);
+    xsd_complexType.addState(&xsd_choice);
+    xsd_choice.addState(&xsd_choice_element);
 
-    xsd_complexType_sequence.substates.push_back(&xsd_complexType_sequence_element);
-    xsd_schema.substates.push_back(&xsd_complexType);
-    xsd_sequence.substates.push_back(&xsd_sequence_complexType);
-    xsd_schema.substates.push_back(&xsd_sequence);
+    xsd_complexType_sequence.addState(&xsd_complexType_sequence_element);
+    xsd_schema.addState(&xsd_complexType);
+    xsd_sequence.addState(&xsd_sequence_complexType);
+    xsd_schema.addState(&xsd_sequence);
 
-    xsd_simpleType_restriction.substates.push_back(&xsd_simpleType_restriction_enum);
-    xsd_simpleType.substates.push_back(&xsd_simpleType_restriction);
-    xsd_schema.substates.push_back(&xsd_simpleType);
+    xsd_simpleType_restriction.addState(&xsd_simpleType_restriction_enum);
+    xsd_simpleType.addState(&xsd_simpleType_restriction);
+    xsd_schema.addState(&xsd_simpleType);
 
-    xsd_group.substates.push_back(&xsd_group_choice);
-    xsd_schema.substates.push_back(&xsd_group);
+    xsd_group.addState(&xsd_group_choice);
+    xsd_schema.addState(&xsd_group);
 
     add_state(&xsd_schema);
   }
@@ -330,16 +328,18 @@ int main(int argc,char** argv) {
     xsd_parse_delegate d;
     //d.dirname = path(argv[1]);
 
-    result res = parseFile(argv[1],d);
+    xmlpp::parser::result res = parser::parseFile(argv[1],d);
     switch(res) {
-      case result::OK:
+
+      case xmlpp::parser::result::OK:
         std::cout << argv[1] << "was sucessfully processed" << std::endl;
         print(d.schema);
-
         return EXIT_SUCCESS;
-      case result::ERROR_OPEN_FILE:
+
+      case xmlpp::parser::result::ERROR_OPEN_FILE:
         std::cout << argv[1] << " can not opened" << std::endl;
         return -static_cast<int>(res);
+
       default:
         std::cout << "error " << static_cast<int>(res) << " on parsing " << argv[1] << std::endl;
         return -static_cast<int>(res);
