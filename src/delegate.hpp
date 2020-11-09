@@ -9,6 +9,7 @@
 #include <string>
 #include <list>
 #include <stack>
+#include <functional>
 
 #include "expat.h"
 
