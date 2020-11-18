@@ -3,9 +3,8 @@ Include(FetchContent)
 FetchContent_Declare(
   catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v2.13.2)
+  GIT_TAG        v2.13.3)
 
-#FetchContent_MakeAvailable(Catch2)
 FetchContent_GetProperties(catch2)
 if(NOT catch2_POPULATED)
   FetchContent_Populate(catch2)
@@ -22,6 +21,8 @@ enable_testing()
 add_executable(test_parser
   test_main.cpp
   test_parsefile.cpp
+  test_parse.cpp
+  test_parser_callbacks.cpp
 )
 target_link_libraries(test_parser Catch2::Catch2 expatpp)
 add_test(test_parser test_parser)

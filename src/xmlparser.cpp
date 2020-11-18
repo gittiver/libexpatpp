@@ -43,16 +43,184 @@ static void XMLParser_CommentHandler(void * ctx, const XML_Char *data)
   }
 }
 
+static void XMLParser_XmlDeclHandler(void * ctx,
+                                     const XML_Char *version,
+                                     const XML_Char *encoding,
+                                     int standalone)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onXmlDecl(version,encoding, standalone);
+  }
+}
+
+static void XMLParser_EntityDeclHandler(void * ctx,
+                                        const XML_Char *entityName,
+                                        int is_parameter_entity,
+                                        const XML_Char *value,
+                                        int value_length,
+                                        const XML_Char *base,
+                                        const XML_Char *systemId,
+                                        const XML_Char *publicId,
+                                        const XML_Char *notationName)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onEntityDecl(entityName,
+                                   is_parameter_entity,
+                                   value, value_length,
+                                   base,
+                                   systemId,
+                                   publicId,
+                                   notationName);
+  }
+}
+
+static void XMLParser_StartCdataSectionHandler(void * ctx)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onStartCdataSection();
+  }
+}
+
+static void XMLParser_EndCdataSectionHandler(void * ctx)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onEndCdataSection();
+  }
+}
+
+static void XMLParser_StartNamespaceDeclHandler(void * ctx,
+                                                const XML_Char *prefix,
+                                                const XML_Char *uri)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onStartNamespace(prefix,uri);
+  }
+}
+
+static void XMLParser_EndNamespaceDeclHandler(void * ctx,const XML_Char *prefix)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onEndNamespace(prefix);
+  }
+}
+
+static void XMLParser_ProcessingInstruction(void * ctx,
+                                            const XML_Char* target,
+                                            const XML_Char* data)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onProcessingInstruction(target,data);
+  }
+}
+
+static void XMLParser_UnparsedEntityDecl(void * ctx,
+                                         const XML_Char* entityName,
+                                         const XML_Char* base,
+                                         const XML_Char* systemId,
+                                         const XML_Char* publicId,
+                                         const XML_Char* notationName)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onUnparsedEntityDecl(entityName,
+                                           base,
+                                           systemId,
+                                           publicId,
+                                           notationName);
+  }
+}
+
+static void XMLParser_NotationDecl(void * ctx,const XML_Char* notationName,
+                                   const XML_Char* base,
+                                   const XML_Char* systemId,
+                                   const XML_Char* publicId)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onNotationDecl(notationName,
+                                     base,
+                                     systemId,
+                                     publicId);
+  }
+}
+
+static void XMLParser_AttlistDecl(void * ctx,const XML_Char *elname,
+                                  const XML_Char *attname,
+                                  const XML_Char *att_type,
+                                  const XML_Char *dflt,
+                                  int             isrequired)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onAttlistDecl(elname,
+                                    attname,
+                                    att_type,
+                                    dflt,
+                                    isrequired);
+  }
+}
+
+static void XMLParser_StartDoctypeDecl(void * ctx,const XML_Char *doctypeName,
+                                       const XML_Char *sysid,
+                                       const XML_Char *pubid,
+                                       int has_internal_subset)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onStartDoctypeDecl(doctypeName,
+                                         sysid,
+                                         pubid,
+                                         has_internal_subset);
+  }
+}
+
+static void XMLParser_EndDoctypeDecl(void * ctx)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onEndDoctypeDecl();
+  }
+}
+
+static void XMLParser_ElementDecl(void * ctx, const XML_Char *name, XML_Content *model)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onElementDecl(name,model);
+  }
+}
+
+static void XMLParser_SkippedEntity(void * ctx,const XML_Char *entityName,
+                                    int is_parameter_entity)
+{
+  if (ctx) {
+    ((delegate*)ctx)->onSkippedEntity(entityName,is_parameter_entity);
+  }
+}
 
 parser::parser(delegate& delegate) {
   m_parser = XML_ParserCreate("UTF-8");
   XML_SetUserData(m_parser, &delegate);
+
   XML_SetElementHandler(m_parser,
-    XMLParser_xmlSAX2StartElement,
-    XMLParser_xmlSAX2EndElement);
+                        XMLParser_xmlSAX2StartElement,
+                        XMLParser_xmlSAX2EndElement);
   XML_SetCharacterDataHandler(m_parser, XMLParser_OnCharacterData);
   XML_SetCommentHandler(m_parser, XMLParser_CommentHandler);
+  XML_SetXmlDeclHandler(m_parser,XMLParser_XmlDeclHandler);
+  XML_SetEntityDeclHandler(m_parser, XMLParser_EntityDeclHandler);
 
+  XML_SetCdataSectionHandler(m_parser,
+                             XMLParser_StartCdataSectionHandler,
+                             XMLParser_EndCdataSectionHandler);
+  XML_SetNamespaceDeclHandler(m_parser,
+                              XMLParser_StartNamespaceDeclHandler,
+                              XMLParser_EndNamespaceDeclHandler);
+  XML_SetProcessingInstructionHandler(m_parser,
+                                      XMLParser_ProcessingInstruction);
+  XML_SetUnparsedEntityDeclHandler(m_parser,XMLParser_UnparsedEntityDecl);
+  XML_SetNotationDeclHandler(m_parser,XMLParser_NotationDecl);
+  XML_SetAttlistDeclHandler(m_parser, XMLParser_AttlistDecl);
+  XML_SetDoctypeDeclHandler(m_parser,
+                            XMLParser_StartDoctypeDecl,
+                            XMLParser_EndDoctypeDecl);
+  XML_SetElementDeclHandler(m_parser,XMLParser_ElementDecl);
+  XML_SetAttlistDeclHandler(m_parser,XMLParser_AttlistDecl);
+  XML_SetSkippedEntityHandler(m_parser,XMLParser_SkippedEntity);
 }
 
 parser::~parser()
@@ -67,15 +235,18 @@ xmlpp::parser::result  parser::parseString(const char* pszString, delegate& dele
 {
   result res = result::READ_ERROR;
 
-  if (nullptr == (&delegate)) {
+  if (pszString==nullptr) {
+    res = result::INVALID_INPUT;
+  }
+  else if (nullptr == (&delegate)) {
     res = result::NO_DELEGATE;
   } else {
 
     parser p(delegate);
 
     const char* pBuf = pszString;
-    int len = strlen(pszString);
-    if (p.parse(pBuf,len, true)==status_t::ERROR) {
+    size_t len = strlen(pszString);
+    if (p.parse(pBuf,static_cast<int>(len), true)==status_t::ERROR) {
       /* handle parse error */
       res = result::PARSE_ERROR;
       /// TODO utilize these methods to get useful errorstring
@@ -160,5 +331,3 @@ std::string Attr::getValue(const char* key)
   const XML_Char* value = parser::xmlGetAttrValue(this->attrs_,key);
   return value==nullptr ? "" : std::string(value);
 }
-
-

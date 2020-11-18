@@ -17,6 +17,7 @@ public:
     OK,
     NO_DELEGATE,
     ERROR_OPEN_FILE,
+    INVALID_INPUT,
     XML_BUFFER_ERROR,
     READ_ERROR,
     PARSE_ERROR
