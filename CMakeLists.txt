@@ -50,6 +50,7 @@ include(FetchContent)
 # Configuration
 #
 option(EXPATPP_BUILD_EXAMPLES "build the examples for expatpp library" ON)
+option(EXPATPP_BUILD_TOOLS "build the tools for expatpp library(xsdgen)" OFF)
 option(EXPATPP_BUILD_TESTS "build the tests for expatpp library" ON)
 option(EXPATPP_SHARED_LIBS "build a shared expatpp library" OFF)
 option(EXPATPP_BUILD_DOCS "build api documentation" ${_EXPATPP_BUILD_DOCS_DEFAULT})
@@ -188,12 +189,17 @@ install(TARGETS expatpp EXPORT expatpp
                       ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 		      )
 
-add_executable(xsdgen src/xsdgen.cpp)
-target_link_libraries(xsdgen expatpp)
-
 if(EXPATPP_BUILD_DOCS)
   add_subdirectory(docs/doxygen)
 endif()
+
+#
+# build tools
+#
+if(EXPATPP_BUILD_TOOLS)
+  add_executable(xsdgen src/xsdgen/xsdgen.cpp)
+  target_link_libraries(xsdgen expatpp)
+endif(EXPATPP_BUILD_TOOLS)
 
 #
 # C++ code examples
@@ -281,6 +287,7 @@ endif()
 message(STATUS "")
 message(STATUS "  Build documentation ........ ${EXPATPP_BUILD_DOCS}")
 message(STATUS "  Build examples ............. ${EXPATPP_BUILD_EXAMPLES}")
+message(STATUS "  Build tools(xsdgen)......... ${EXPATPP_BUILD_TOOLS}")
 message(STATUS "  Build tests ................ ${EXPATPP_BUILD_TESTS}")
 message(STATUS "")
 message(STATUS "  Features")
