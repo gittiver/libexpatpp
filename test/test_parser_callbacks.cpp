@@ -10,6 +10,7 @@
  * http://www.inf.fu-berlin.de/lehre/SS03/19560-P/Docs/JWSDP/tutorial/doc/JAXPSAX10.html
  * https://www.w3.org/TR/xml/
  */
+#include <string.h>
 #include "catch2/catch.hpp"
 
 #include "xmlparser.hpp"
