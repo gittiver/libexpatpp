@@ -212,6 +212,7 @@ parser::parser(delegate& delegate) {
                               XMLParser_EndNamespaceDeclHandler);
   XML_SetProcessingInstructionHandler(m_parser,
                                       XMLParser_ProcessingInstruction);
+  // TODO OBSOLete replace by XML_EntityDeclHandler
   XML_SetUnparsedEntityDeclHandler(m_parser,XMLParser_UnparsedEntityDecl);
   XML_SetNotationDeclHandler(m_parser,XMLParser_NotationDecl);
   XML_SetAttlistDeclHandler(m_parser, XMLParser_AttlistDecl);
@@ -219,7 +220,6 @@ parser::parser(delegate& delegate) {
                             XMLParser_StartDoctypeDecl,
                             XMLParser_EndDoctypeDecl);
   XML_SetElementDeclHandler(m_parser,XMLParser_ElementDecl);
-  XML_SetAttlistDeclHandler(m_parser,XMLParser_AttlistDecl);
   XML_SetSkippedEntityHandler(m_parser,XMLParser_SkippedEntity);
 }
 
