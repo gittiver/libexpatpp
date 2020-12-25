@@ -22,9 +22,15 @@ add_executable(test_parser
   test_main.cpp
   test_parsefile.cpp
   test_parse.cpp
-  test_parser_callbacks.cpp
 )
 target_link_libraries(test_parser Catch2::Catch2 expatpp)
 add_test(test_parser test_parser)
+
+add_executable(test_parser_callbacks
+  test_main.cpp
+  test_parser_callbacks.cpp
+)
+target_link_libraries(test_parser_callbacks Catch2::Catch2 expatpp)
+add_test(test_parser_callbacks test_parser_callbacks)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --extra-verbose)
