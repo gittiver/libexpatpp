@@ -18,13 +18,13 @@ endif()
 
 enable_testing()
 ## these are unittests that can be run on any platform
-add_executable(test_parser
+add_executable(test_parse
   test_main.cpp
   test_parsefile.cpp
   test_parse.cpp
 )
-target_link_libraries(test_parser Catch2::Catch2 expatpp)
-add_test(test_parser test_parser)
+target_link_libraries(test_parse Catch2::Catch2 expatpp)
+add_test(test_parse test_parse)
 
 add_executable(test_parser_callbacks
   test_main.cpp
