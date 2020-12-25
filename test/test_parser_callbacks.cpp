@@ -574,7 +574,7 @@ SCENARIO("virtual void onEntityDecl("
       cnt++;
       this->entityName = entityName;
       this->is_parameter_entity = is_parameter_entity;
-      this->value = value;
+      this->value.append(value, value_length);
       this->value_length = value_length;
       this->base = VALID_STRING(base);
       this->systemId = VALID_STRING(systemId);
