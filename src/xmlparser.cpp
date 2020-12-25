@@ -193,7 +193,7 @@ static void XMLParser_SkippedEntity(void * ctx,const XML_Char *entityName,
 }
 
 parser::parser(delegate& delegate) {
-  m_parser = XML_ParserCreate("UTF-8");
+  m_parser = XML_ParserCreateNS("UTF-8",':');
   XML_SetUserData(m_parser, &delegate);
 
   XML_SetElementHandler(m_parser,
