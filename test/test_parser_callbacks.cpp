@@ -20,6 +20,8 @@ using std::vector;
 
 using xmlpp::parser;
 
+#define VALID_STRING(s) ((s)?(s):"")
+
 SCENARIO("test element callbacks")
 {
   class element_delegate : public xmlpp::abstract_delegate {
@@ -131,7 +133,53 @@ SCENARIO("virtual void onUnparsedEntityDecl(const XML_Char* entityName,"
          "const XML_Char* publicId,"
          "const XML_Char* notationName)")
 {
-  WARN("NOT_IMPLEMENTED");
+  class UnparsedEntityDeclDelegate : public xmlpp::abstract_delegate {
+  public:
+    int cnt{0};
+    string entityName;
+    string base;
+    string systemId;
+    string publicId;
+    string notationName;
+
+
+    void onUnparsedEntityDecl(const XML_Char* entityName,
+              const XML_Char* base,
+             const XML_Char* systemId,
+             const XML_Char* publicId,
+             const XML_Char* notationName) override
+    {
+      cnt++;
+      this->entityName = VALID_STRING(entityName);
+      this->base = VALID_STRING(base);
+      this->systemId = VALID_STRING(systemId);
+      this->publicId = VALID_STRING(publicId);
+      this->notationName = VALID_STRING(notationName);
+    }
+  };
+
+  GIVEN("UNPARSED ENTITIY") {
+    const char* XML =
+    "<?xml version=\"1.0\" standalone=\"no\" ?>"
+    "<!DOCTYPE img ["
+    "  <!ELEMENT img EMPTY>"
+    "  <!ATTLIST img src ENTITY #REQUIRED>"
+    "  <!ENTITY logo SYSTEM"
+    "    \"http://www.xmlwriter.net/logo.gif\" NDATA gif>"
+    "  <!NOTATION gif PUBLIC \"gif viewer\">"
+    "]>"
+    "<img src=\"logo\"/>";
+    UnparsedEntityDeclDelegate d;
+    REQUIRE(parser::parseString(XML,d)==parser::result::OK);
+    REQUIRE(d.cnt==1);
+    REQUIRE(d.entityName == "logo");
+    REQUIRE(d.notationName == "gif");
+    REQUIRE(d.base == "");
+    REQUIRE(d.publicId == "");
+    REQUIRE(d.systemId == "http://www.xmlwriter.net/logo.gif");
+
+
+  }
 }
 
 SCENARIO("virtual void onNotationDecl(const XML_Char* notationName,"
@@ -139,7 +187,45 @@ SCENARIO("virtual void onNotationDecl(const XML_Char* notationName,"
          "const XML_Char* systemId,"
          "const XML_Char* publicId)")
 {
-  WARN("NOT_IMPLEMENTED");
+  class NotationDecl_delegate : public xmlpp::abstract_delegate {
+  public:
+    int cnt{0};
+    string notationName;
+    string base;
+    string systemId;
+    string publicId;
+
+    void onNotationDecl(const XML_Char* notationName,
+             const XML_Char* base,
+             const XML_Char* systemId,
+             const XML_Char* publicId) override
+    {
+      cnt++;
+      this->notationName = VALID_STRING(notationName);
+      this->base = VALID_STRING(base);
+      this->systemId = VALID_STRING(systemId);
+      this->publicId = VALID_STRING(publicId);
+    }
+  };
+
+  GIVEN("notationDeclaration") {
+    const char *XML =
+    "<?xml version='1.0'?>"
+    "<!DOCTYPE code ["
+    "  <!ELEMENT code (#PCDATA)>"
+    "  <!NOTATION vrml PUBLIC \"VRML 1.0\">"
+    "  <!ATTLIST code lang NOTATION (vrml) #REQUIRED>"
+    "]>"
+    "<code lang=\"vrml\">Some VRML instructions</code>";
+
+    NotationDecl_delegate d;
+    REQUIRE(parser::parseString(XML,d)==parser::result::OK);
+    REQUIRE(d.cnt==1);
+    REQUIRE(d.notationName == "vrml");
+    REQUIRE(d.base == "");
+    REQUIRE(d.publicId == "VRML 1.0");
+    REQUIRE(d.systemId == "");
+  }
 }
 
 SCENARIO("virtual void onStartNamespace(const XML_Char* prefix,"
@@ -463,14 +549,63 @@ SCENARIO("virtual void onEntityDecl("
          "const XML_Char *publicId,"
          "const XML_Char *notationName)")
 {
-  WARN("NOT_IMPLEMENTED");
+  class EntityDecl_delegate : public xmlpp::abstract_delegate {
+  public:
+    int cnt{0};
+    string entityName;
+    int is_parameter_entity{0};
+    string value;
+    int value_length{0};
+    string base;
+    string systemId;
+    string publicId;
+    string notationName;
+
+    void onEntityDecl(
+             const XML_Char *entityName,
+             int is_parameter_entity,
+             const XML_Char *value,
+             int value_length,
+             const XML_Char *base,
+             const XML_Char *systemId,
+             const XML_Char *publicId,
+             const XML_Char *notationName) override
+    {
+      cnt++;
+      this->entityName = entityName;
+      this->is_parameter_entity = is_parameter_entity;
+      this->value = value;
+      this->value_length = value_length;
+      this->base = VALID_STRING(base);
+      this->systemId = VALID_STRING(systemId);
+      this->publicId = VALID_STRING(publicId);
+      this->notationName = VALID_STRING(notationName);
+    }
+  };
+
+  GIVEN("entityDecl") {
+    EntityDecl_delegate d;
+    const char* XML =
+    "<?xml version='1.0' encoding='utf-8'?>"
+    "<!DOCTYPE hr["
+    "<!ELEMENT slideshow (#PCDATA)>"
+    "<!ENTITY name \"gulliver\">"
+    "]>"
+    "<slideshow>&name;</slideshow>";
+
+    REQUIRE(parser::parseString(XML,d)==parser::result::OK);
+    REQUIRE( d.cnt == 1 );
+    REQUIRE(d.entityName == "name");
+    REQUIRE(d.value == "gulliver");
+    REQUIRE(d.value_length == strlen("gulliver"));
+  }
 }
 
-SCENARIO("virtual void onSkippedEntity(const XML_Char *entityName,"
-         "int is_parameter_entity)")
-{
-  WARN("NOT_IMPLEMENTED");
-}
+//SCENARIO("virtual void onSkippedEntity(const XML_Char *entityName,"
+//         "int is_parameter_entity)")
+//{
+//  WARN("NOT_IMPLEMENTED");
+//}
 
 SCENARIO("virtual void onXmlDecl( const XML_Char      *version,"
          "const XML_Char      *encoding,"
