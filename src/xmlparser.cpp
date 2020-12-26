@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include "xmlparser.hpp"
+#include <expat.h>
 
 using std::string;
 
@@ -249,9 +250,10 @@ xmlpp::parser::result  parser::parseString(const char* pszString, delegate& dele
     if (p.parse(pBuf,static_cast<int>(len), true)==status_t::ERROR) {
       /* handle parse error */
       res = result::PARSE_ERROR;
-      /// TODO utilize these methods to get useful errorstring
-      //          XML_GetCurrentLineNumber(p),
-      //          XML_ErrorString(XML_GetErrorCode(p)));          break;
+      delegate.onParseError(XML_GetCurrentLineNumber(p.m_parser),
+                            XML_GetCurrentColumnNumber(p.m_parser),
+                            XML_GetCurrentByteIndex(p.m_parser),
+                            xmlpp::Error(XML_GetErrorCode(p.m_parser)));
     } else {
       res = result::OK;
     }
@@ -284,10 +286,11 @@ xmlpp::parser::result parser::parseFile(const std::string& filename, delegate& d
         if (p.parse(buff, static_cast<int>(bytes_read), bytes_read == 0)==status_t::ERROR) {
           /* handle parse error */
           res = result::PARSE_ERROR;
+          delegate.onParseError(XML_GetCurrentLineNumber(p.m_parser),
+                                XML_GetCurrentColumnNumber(p.m_parser),
+                                XML_GetCurrentByteIndex(p.m_parser),
+                                Error(XML_GetErrorCode(p.m_parser)));
           break;
-/// TODO utilize these methods to get useful errorstring
-//          XML_GetCurrentLineNumber(p),
-//          XML_ErrorString(XML_GetErrorCode(p)));          break;
         }
 
         if (bytes_read == 0) {
@@ -311,7 +314,7 @@ int parser::current_column_number() const
 { return XML_GetCurrentColumnNumber(m_parser); }
 
 const XML_Char* parser::xmlGetAttrValue(const XML_Char** attrs,
-                                             const XML_Char* key)
+                                        const XML_Char* key)
 {
   if (attrs!=NULL)
   {

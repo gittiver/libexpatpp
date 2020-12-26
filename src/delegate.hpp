@@ -14,6 +14,17 @@
 #include "expat.h"
 
 namespace xmlpp {
+
+/** wrapper class type for expats XML_Error */
+class Error  {
+public:
+  Error (XML_Error error) noexcept;
+  std::string to_string() const;
+  XML_Error errorcode() const;
+private:
+  XML_Error error;
+};
+
 /** the parser delegate handles the different parser events */
 class delegate {
 public:
@@ -24,7 +35,7 @@ public:
   virtual void onEndElement(  const XML_Char *fullname)   = 0;
   virtual void onCharacterData(const char * pBuf, int len) = 0;
   virtual void onProcessingInstruction(const XML_Char* target,
-                                       const XML_Char* data) =0 ;
+                                       const XML_Char* data) = 0;
   virtual void onUnparsedEntityDecl(const XML_Char* entityName,
                                     const XML_Char* base,
                                     const XML_Char* systemId,
@@ -35,24 +46,24 @@ public:
                               const XML_Char* systemId,
                               const XML_Char* publicId) = 0;
   virtual void onStartNamespace(const XML_Char* prefix,
-                                const XML_Char* uri)= 0;
+                                const XML_Char* uri) = 0;
   virtual void onEndNamespace(const XML_Char*) = 0;
   virtual void onAttlistDecl(const XML_Char *elname,
                              const XML_Char *attname,
                              const XML_Char *att_type,
                              const XML_Char *dflt,
-                             int             isrequired)= 0;
+                             int             isrequired) = 0;
   virtual void onStartCdataSection()= 0;
   virtual void onEndCdataSection()= 0;
   
   virtual void onStartDoctypeDecl(const XML_Char *doctypeName,
                                   const XML_Char *sysid,
                                   const XML_Char *pubid,
-                                  int has_internal_subset)= 0;
-  virtual void onEndDoctypeDecl()= 0;
+                                  int has_internal_subset) = 0;
+  virtual void onEndDoctypeDecl() = 0;
 
   virtual void onComment( const XML_Char *data)= 0;
-  virtual void onElementDecl( const XML_Char *name, XML_Content *model)= 0;
+  virtual void onElementDecl( const XML_Char *name, XML_Content *model) = 0;
   virtual void onEntityDecl(
                             const XML_Char *entityName,
                             int is_parameter_entity,
@@ -61,22 +72,23 @@ public:
                             const XML_Char *base,
                             const XML_Char *systemId,
                             const XML_Char *publicId,
-                            const XML_Char *notationName)= 0;
+                            const XML_Char *notationName) = 0;
   virtual void onSkippedEntity(const XML_Char *entityName,
-                               int is_parameter_entity)= 0;
+                               int is_parameter_entity) = 0;
   virtual void onXmlDecl( const XML_Char      *version,
                          const XML_Char      *encoding,
                          int standalone)= 0;
+  virtual void onParseError(size_t line,size_t column, size_t pos, Error error) = 0;
 };
 
-/** the parser delegate handles the different parser events */
+/** default base class for delegates.
+ only needed methods needs to be overridden, all interface maethods have an empt default implementation */
 class abstract_delegate : public delegate {
 public:
   abstract_delegate();
   
-  void onStartElement(const XML_Char *fullname,
-                      const XML_Char **atts) override;
-  void onEndElement(	const XML_Char *fullname)    override;
+  void onStartElement(const XML_Char *fullname, const XML_Char **atts) override;
+  void onEndElement(	const XML_Char *fullname) override;
   void onCharacterData(const char * pBuf, int len) override;
   void onProcessingInstruction(const XML_Char* target,
                                const XML_Char* data) override;
@@ -89,8 +101,7 @@ public:
                       const XML_Char* base,
                       const XML_Char* systemId,
                       const XML_Char* publicId) override;
-  void onStartNamespace(const XML_Char* prefix,
-                        const XML_Char* uri) override;
+  void onStartNamespace(const XML_Char* prefix, const XML_Char* uri) override;
   void onEndNamespace(const XML_Char*) override;
   void onAttlistDecl(const XML_Char *elname,
                      const XML_Char *attname,
@@ -121,6 +132,7 @@ public:
   void onXmlDecl( const XML_Char      *version,
                  const XML_Char      *encoding,
                  int standalone) override;
+  void onParseError(size_t line,size_t column, size_t pos, Error error) override;
 };
 
 struct State {
@@ -146,13 +158,11 @@ struct State {
 
 private:
   std::list<State*> substates_;
-
 };
 
 struct RootState: public State {
   State root{"root"};
   std::stack<State*> parseStates;
-
 };
 
 class StatefulDelegate: public abstract_delegate {

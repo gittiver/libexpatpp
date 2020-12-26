@@ -656,3 +656,52 @@ SCENARIO("virtual void onXmlDecl( const XML_Char      *version,"
     REQUIRE( d.encoding == "utf-8" );
   }
 }
+
+SCENARIO("OnParseError")
+{
+  class ParseErrorDelegate : public xmlpp::abstract_delegate {
+  public:
+    int cnt{0};
+    size_t line{0};
+    size_t column{0};
+    size_t pos{0};
+    xmlpp::Error error{XML_ERROR_NONE};
+
+    void onParseError(size_t line,size_t column, size_t pos, xmlpp::Error error) override
+    {
+      cnt++;
+      this->line = line;
+      this->column = column;
+      this->pos = pos;
+      this->error = error;
+    }
+  };
+
+  GIVEN("no xml decl") {
+    ParseErrorDelegate d;
+    string xml =
+    "<p></p>";
+
+    REQUIRE(parser::parseString(xml.c_str(),d)==parser::result::OK);
+    REQUIRE( d.cnt == 0 );
+    REQUIRE( d.line == 0 );
+    REQUIRE( d.column == 0 );
+    REQUIRE( d.pos == 0 );
+    REQUIRE( d.error.errorcode()== XML_ERROR_NONE );
+  }
+
+  GIVEN("invalid xml decl") {
+    ParseErrorDelegate d;
+    string xml =
+    "<?xml version='1.0' encoding='utf-8' add='1'?><p></p>";
+
+    REQUIRE(parser::parseString(xml.c_str(),d)==parser::result::PARSE_ERROR);
+    REQUIRE( d.cnt == 1 );
+    REQUIRE( d.line == 1 );
+    REQUIRE( d.column == 37 );
+    REQUIRE( d.pos == 37 );
+    REQUIRE( d.error.errorcode() == XML_ERROR_XML_DECL );
+  }
+
+  /// TODO add other error types to check?
+}
