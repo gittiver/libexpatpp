@@ -6,7 +6,7 @@
 #ifndef xmlpp_parser_hpp
 #define xmlpp_parser_hpp
 
-#include "delegate.hpp"
+#include "delegate.hpp" 
 namespace xmlpp {
 
 

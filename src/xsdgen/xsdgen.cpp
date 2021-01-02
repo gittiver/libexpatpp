@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include "xmlparser.hpp"
+#include "state.hpp"
 
 using std::cout;
 using std::endl;

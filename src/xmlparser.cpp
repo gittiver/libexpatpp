@@ -1,5 +1,5 @@
 /**
- * \file implementation of xml parser functions
+ * \file xmlparser.cpp implementation of xml parser functions
  *
  * See LICENSE for copyright information.
  */

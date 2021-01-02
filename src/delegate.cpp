@@ -6,6 +6,8 @@
 #include <iostream>
 #include "delegate.hpp"
 
+#include "state.hpp"
+
 using std::string;
 
 using std::cout;
@@ -61,7 +63,7 @@ void abstract_delegate::onAttlistDecl(const XML_Char *elname,
                                       const XML_Char *attname,
                                       const XML_Char *att_type,
                                       const XML_Char *dflt,
-                                      int             isrequired) {}
+                                      bool            isrequired) {}
 void abstract_delegate::onStartCdataSection()
 {}
 void abstract_delegate::onEndCdataSection()
@@ -100,7 +102,7 @@ void abstract_delegate::onXmlDecl( const XML_Char      *version,
 
 void abstract_delegate::onParseError(size_t line,size_t column, size_t pos, Error error)
 {}
-
+  
 StatefulDelegate::StatefulDelegate()
 {
   parseStates.push(&root);

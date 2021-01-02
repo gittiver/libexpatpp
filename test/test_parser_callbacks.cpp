@@ -317,7 +317,7 @@ SCENARIO("virtual void onAttlistDecl(const XML_Char *elname,"
                const XML_Char *attname,
                const XML_Char *att_type,
                const XML_Char *dflt,
-               int             isrequired) override
+               bool             isrequired) override
     {
       cnt++;
       this->elname = elname;

@@ -1,10 +1,11 @@
 /**
- * \file implementation of example application with parser for doxygens xml format
+ * \file doxyxml.cpp implementation of example application with parser for doxygens xml format
  * 
  * See LICENSE for copyright information.
  */
 #include <iostream>
 #include "xmlparser.hpp"
+#include "state.hpp"
 #include <vector>
 #include "doxyxml.hpp"
 
