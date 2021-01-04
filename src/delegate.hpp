@@ -148,7 +148,7 @@ public:
    * delegate function is called if an DTD element declaration is parsed 
    * from xml data. 
    *
-   * for details of the @ref model see expat library documentation
+   * for details of the model see expat library documentation
    * @param name name of the declared element
    * @param model the content model for the declared element
    */
@@ -156,12 +156,12 @@ public:
 
   /** 
    * delegate function is called if an element attribute list declaration 
-   * is parsed 
+   * is parsed. 
    *
    * @param elname name of the declared element this attribute list refers to 
    * @param attname name of the declared attribute
    * @param att_type type of the declared attribute
-   * @param dflt \todo 
+   * @param dflt
    * @param isrequired true if attribute is required, false if optional
    */
   virtual void onAttlistDecl(const XML_Char *elname,
