@@ -1,0 +1,6 @@
+<map id="DoxyDelegate" name="DoxyDelegate">
+<area shape="rect" id="node2" href="$classxmlpp_1_1StatefulDelegate.html" title="xmlpp::StatefulDelegate" alt="" coords="8,171,171,197"/>
+<area shape="rect" id="node3" href="$classxmlpp_1_1abstract__delegate.html" title="default base class for delegates. " alt="" coords="5,81,173,108"/>
+<area shape="rect" id="node4" href="$classxmlpp_1_1delegate.html" title="the parser delegate handles the different parser events " alt="" coords="32,5,147,32"/>
+<area shape="rect" id="node5" href="$structxmlpp_1_1State.html" title="xmlpp::State" alt="" coords="195,171,291,197"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classxmlpp_1_1delegate.html" title="the parser delegate handles the different parser events " alt="" coords="5,31,120,57"/>
+<area shape="rect" id="node2" href="$classxmlpp_1_1abstract__delegate.html" title="default base class for delegates. " alt="" coords="168,31,336,57"/>
+<area shape="rect" id="node3" href="$classxmlpp_1_1StatefulDelegate.html" title="xmlpp::StatefulDelegate" alt="" coords="384,31,547,57"/>
+<area shape="rect" id="node4" href="$structDoxyDelegate.html" title="DoxyDelegate" alt="" coords="611,5,716,32"/>
+<area shape="rect" id="node5" href="$structDoxyIndexDelegate.html" title="DoxyIndexDelegate" alt="" coords="595,56,732,83"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="DoxyIndexDelegate" name="DoxyIndexDelegate">
+<area shape="rect" id="node2" href="$classxmlpp_1_1StatefulDelegate.html" title="xmlpp::StatefulDelegate" alt="" coords="8,171,171,197"/>
+<area shape="rect" id="node3" href="$classxmlpp_1_1abstract__delegate.html" title="default base class for delegates. " alt="" coords="5,81,173,108"/>
+<area shape="rect" id="node4" href="$classxmlpp_1_1delegate.html" title="the parser delegate handles the different parser events " alt="" coords="32,5,147,32"/>
+<area shape="rect" id="node5" href="$structxmlpp_1_1State.html" title="xmlpp::State" alt="" coords="293,171,389,197"/>
+<area shape="rect" id="node7" href="$structdoxygen__index.html" title="index of doxygen items as parsed from index.xml produced by doxygen " alt="" coords="413,171,523,197"/>
+</map>
