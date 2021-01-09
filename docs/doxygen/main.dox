@@ -1,6 +1,8 @@
 /**
 @mainpage libexpatpp - a modern C++ xml parser toolkit using expat
 
+\tableofcontents
+
 @section Overview
 
 [![Travis CI Build Status](https://travis-ci.org/gittiver/libexpatpp.svg?branch=main)](https://travis-ci.org/gittiver/libexpatpp)
@@ -9,59 +11,50 @@
 [![Documentation Status](https://readthedocs.org/projects/libexpatpp/badge/?version=latest)](https://libexpatpp.readthedocs.io/en/latest/?badge=latest) 
 
 A lightweight and modern C/C++ library for building xml parsers.
-Currently a work in progress.
 
+Currently a work in progress.
 
 @section Features
 
-* wraps and build **expat** as part of library
-* runs on all major platforms: Windows, OSX, linux
-* provides an easy to use delegate class to build xml parsers
-* utilizing lambda for easy adding of handler callbacks
-* provides implementation of parser with stack of parsestates
-* [WORK IN PROGRESS]xsdgen for generating C++ classes and parser from
+- wraps and build **expat** as part of library
+- runs on all major platforms: Windows, OSX, linux
+- provides an easy to use delegate class to build xml parsers
+- utilizing lambda for easy adding of handler callbacks
+- provides implementation of parser with stack of parsestates
+- [WORK IN PROGRESS]xsdgen for generating C++ classes and parser from
   xsd schemata
 
-@section Contents
-- [Features](#features)
-- [Building](#building)
-- [Using libexpatpp in your project](#using-libexpatpp-in-your-project)
-- [Usage and examples](#usage-and-examples)
-- [API documentation](#api-documentation)
-- [Running tests](#running-tests)
-- [Development and contributing](#development-and-contributing)
-- [Publication](#publication)
-- [Acknowledgements](#acknowledgements)
-
-
-@section Building
+@section building Building
 
 @subsection CMake
+
 libexpatpp can be built with CMake.
 
-Execute following command to build libexpatpp using CMAKE:
+The simplest (and platform independent) way to build the project using cmake
+is executing the following command:
 
 @code 
 
-cd build && cmake -D CMAKE_BUILD_TYPE=Release .. && make
+cmake -B <builddir> && cmake --build <builddir>
 
 @endcode
 
-This will create binaries in `bin/` directory and libraries (static and shared) in `lib/` directory.
+First command in chain creates the build directory <builddir> and configures the project.
+Second command does a build of the default target in <builddir>.
 
+Cmake can also be called with predefined options,
+here for configuring and building a Release build:
 @code 
 
-make -C build all test
+cmake -D CMAKE_BUILD_TYPE=Release -B <builddir> && cmake --build <builddir>
 
 @endcode
-
-to run tests.
 
 Optionally, you can run
 
 @code 
 
-sudo make install
+cmake --build <builddir> --target install
 
 @endcode
 
@@ -69,7 +62,7 @@ to install libexpatpp library on your machine.
 
 @section Using libexpatpp in your project
 
-You can use libexpatpp in you project by either directly copying header and source files from [libexpatpp/](libexpatpp/), or by linking libexpatpp library (see [Building](#building) for instructions how to build libexpatpp libraries).
+You can use libexpatpp in you project by either directly copying header and source files from [libexpatpp/](libexpatpp/), or by linking libexpatpp library (see @ref Building for instructions how to build libexpatpp libraries).
 In any case, only thing that you have to do in your source files is to include `libexpatpp.hpp`.
 
 To get you started quickly, let's take a look at a few ways to get simple Hello World project working.

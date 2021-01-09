@@ -161,7 +161,7 @@ public:
    * @param elname name of the declared element this attribute list refers to 
    * @param attname name of the declared attribute
    * @param att_type type of the declared attribute
-   * @param dflt
+   * @param dflt  
    * @param isrequired true if attribute is required, false if optional
    */
   virtual void onAttlistDecl(const XML_Char *elname,
