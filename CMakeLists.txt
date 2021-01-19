@@ -142,14 +142,19 @@ endif (NOT EXPAT_FOUND)
 #endif(NOT outcome_POPULATED)
 
 #
-# C library
+# the C++ expatpp library target
 #
-set(expatpp_SRCS
-    src/xmlparser.cpp
+set(expatpp_HEADERS
+    src/expatpp.hpp
     src/xmlparser.hpp
     src/delegate.hpp
-    src/delegate.cpp
     src/generator.hpp
+)
+
+set(expatpp_SRCS
+    ${expatpp_HEADERS}
+    src/xmlparser.cpp
+    src/delegate.cpp
     src/generator.cpp
 )
 
