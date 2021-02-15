@@ -1,4 +1,5 @@
 <map id="xmlpp::abstract_delegate" name="xmlpp::abstract_delegate">
-<area shape="rect" id="node3" href="$classxmlpp_1_1StatefulDelegate.html" title="xmlpp::StatefulDelegate" alt="" coords="8,155,171,181"/>
-<area shape="rect" id="node2" href="$classxmlpp_1_1delegate.html" title="definition of the parser delegate interface. " alt="" coords="32,5,147,32"/>
+<area shape="rect" id="node1" title="default base class for delegates." alt="" coords="5,80,176,107"/>
+<area shape="rect" id="node3" href="$classxmlpp_1_1StatefulDelegate.html" title=" " alt="" coords="9,155,173,181"/>
+<area shape="rect" id="node2" href="$classxmlpp_1_1delegate.html" title="definition of the parser delegate interface." alt="" coords="33,5,149,32"/>
 </map>

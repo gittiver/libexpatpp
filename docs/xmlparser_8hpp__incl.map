@@ -1,3 +1,6 @@
 <map id="xmlparser.hpp" name="xmlparser.hpp">
-<area shape="rect" id="node2" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface " alt="" coords="26,80,122,107"/>
+<area shape="rect" id="node1" title="contains the xml parser module interface" alt="" coords="21,5,127,32"/>
+<area shape="rect" id="node2" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface" alt="" coords="25,80,123,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,60,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="84,155,149,181"/>
 </map>
