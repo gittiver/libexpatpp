@@ -21,7 +21,7 @@ Currently a work in progress.
 ## Contents
 - [Features](#features)
 - [Building](#building)
-- [Using libexpatpp in your project](#using-libexpatpp-in-your-project)
+- [Using libexpatpp in your project](#using-expatpp-library-in-your-project)
 - [API documentation](#api-documentation)
 - [Running tests](#running-tests)
 - [Development and contributing](#development-and-contributing)
@@ -58,7 +58,7 @@ The example hello_world contains a complete sample project using libexpatcpp and
 
 Our "hello_world" project has just one source file, `hello_world.cpp` file, and it looks like this:
 
-```
+```cpp
 /**
  * \file hello_world.cpp the hello_world example for expatpp library
  * 
@@ -129,7 +129,7 @@ To get you started quickly, let's take a look at a few ways to get simple Hello 
 CMake contains the FetchContent() command to use libraries where a project depends on.
 
 With:
-```
+```cmake
 FetchContent_Declare(expatpp         
     GIT_REPOSITORY "https://github.com/gittiver/libexpatpp" 
     GIT_TAG "v0_0_1" )
@@ -139,7 +139,7 @@ FetchContent_MakeAvailable(expatpp)
 we include the library into the build.
 
 With: 
-```
+```cmake
 target_link_libraries(your_exe expatpp)
 ```
 
@@ -150,7 +150,7 @@ This approach is used in the helloworld example, you can use the CMakeFile.lst f
 
 You can install libraries by running in libexpatpp directory: 
 
-```
+```bash
 cmake --build <builddir> --target install
 ```
 
@@ -161,13 +161,13 @@ If you get error message like `cannot open shared object file: No such file or d
 ### Approach #3: Use as git submodule and use cmake in your project via CMake.
 
 If you are using CMake for compilation, we suggest adding libexpatpp as a git submodule with the command
-```
+```bash
 git submodule add https://github.com/gittiver/libexpatpp vendor/libexpatpp`
 ```
 
 Afterwards, modify your top level CMakeLists.txt file accordingly:
 
-```
+```cmake
 add_subdirectory(vendor/libexpatpp EXCLUDE_FROM_ALL)
 target_link_libraries(your_exe expatpp)
 ```
