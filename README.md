@@ -13,8 +13,8 @@ Currently a work in progress.
 * wraps and build **expat** as part of library
 * runs on all major platforms: Windows, OSX, linux
 * provides an easy to use delegate class to build xml parsers
-* utilizing lambda for easy adding of handler callbacks
-* provides implementation of parser with stack of parsestates
+* [WORK IN PROGRESS]utilizing lambda for easy adding of handler callbacks
+* [WORK IN PROGRESS]provides implementation of parser with stack of parsestates
 * [WORK IN PROGRESS]xsdgen for generating C++ classes and parser from
   xsd schemata
 
@@ -32,76 +32,101 @@ Currently a work in progress.
 
 ## Building
 
-### CMake
+libexpatpp can be built with <a href="https://cmake.org">CMake</a>.
+CMake is able to produce a build environment for most platforms.
+For the most important IDE exists a <a href="https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html">generator option</a> which allows to build project files for these systems.
 
-libexpatpp can be built with CMake.
-
-Execute following command to build libexpatpp using CMAKE:
-```
-cd build && cmake -D CMAKE_BUILD_TYPE=Release .. && make
-```
-This will create binaries in `bin/` directory and libraries (static and shared) in `lib/` directory.
+The simplest (and platform independent) way to build the project using cmake
+is executing the following command:
 
 ```
-make -C build all test
-```
-to run tests.
 
-Optionally, you can run
-```
-sudo make install
-```
-to install libexpatpp library on your machine.
+cmake -B <builddir> && cmake --build <builddir>
 
-## Using libexpatpp in your project
-You can use libexpatpp in you project by either directly copying header and source files from [libexpatpp/](libexpatpp/), or by linking libexpatpp library (see [Building](#building) for instructions how to build libexpatpp libraries).
-In any case, only thing that you have to do in your source files is to include `libexpatpp.hpp`.
+```
+
+First command in chain creates the build directory \<builddir\> and configures the project.
+Second command does a build of the default target in \<builddir\>.
+
+Cmake can also be called with predefined options,
+here for configuring and building a Release build:
+```
+cmake -D CMAKE_BUILD_TYPE=Release -B <builddir> && cmake --build <builddir>
+```
+@section integration Using expatpp library in your project
+
+@subsection hello_world The "Hello World" example
+
+The example hello_world contains a complete sample project using libexpatcpp and makes use of Cmake's FetchContent() Command to include, build and link expatpp library(explained more detailed in \ref approach1 .
+
+Our "hello_world" project has just one source file, `hello_world.cpp` file, and it looks like this:
+
+\include hello_world/hello_world.cpp
+
+Running it should output
+
+```
+element p
+contains this text: Hello World
+```
+
+for the CMake based build we have included a simple CMakeLists.txt: 
+
+\include hello_world/CMakeLists.txt
 
 To get you started quickly, let's take a look at a few ways to get simple Hello World project working.
 
-Our Hello World project has just one source file, `helloWorld.cpp` file, and it looks like this:
-```cpp
-#include <cstdio>
-#include "libexpatpp.h"
+### Approach #1: Use Cmake's FetchContent() Command
 
-int main() {
-}
+CMake contains the FetchContent() command to use libraries where a project depends on.
+
+With:
+```
+FetchContent_Declare(expatpp         
+    GIT_REPOSITORY "https://github.com/gittiver/libexpatpp" 
+    GIT_TAG "v0_0_1" )
+FetchContent_MakeAvailable(expatpp)
 ```
 
-Running it should output `???`.
+we include the library into the build.
 
-### Approach #2: Copying libexpatpp header file and static library.
-
-Instead of copying libexpatpp source files, you could copy static library (check [Building](#building) on how to create static library). We also need to copy libexpatpp header files. We get following project structure:
+With: 
 ```
-libexpatpp/  -> copied from libexpatpp
-  include/
-    libexpatpp.h
-  libexpatpp.a
-helloWorld.cpp -> your program
+target_link_libraries(your_exe expatpp)
 ```
 
-Now you can compile it with `c++ helloWorld.cpp -o helloWorld -I libexpatpp/include -L libexpatpp -llibexpatpp`.
+we link our executable against libexpatpp.
+This approach is used in the helloworld example, you can use the CMakeFile.lst from there as starting point for your project.
 
-### Approach #3: Install libexpatpp library on machine.
+### Approach #2: Install libexpatpp library on machine.
 
-Alternatively, you could avoid copying any libexpatpp files and instead install libraries by running `sudo make install` (check [Building](#building) for exact instructions depending on approach you used for building). Now, all you have to do to compile your project is `c++ helloWorld.cpp -o helloWorld -llibexpatpp`.
+You can install libraries by running in libexpatpp directory: 
+
+```
+cmake --build <builddir> --target install
+```
+
+Now, all you have to do to compile your project is `c++ helloWorld.cpp -o helloWorld -llibexpatpp`.
+
 If you get error message like `cannot open shared object file: No such file or directory`, make sure that your linker includes path where libexpatpp was installed.
 
-### Approach #4: Use cmake in your project via CMake.
+### Approach #3: Use as git submodule and use cmake in your project via CMake.
 
-If you are using CMake for compilation, we suggest adding libexpatpp as a git submodule with the command `git submodule add https://github.com/martinsos/libexpatpp vendor/libexpatpp`. Afterwards, modify your top level CMakeLists.txt file accordingly:
+If you are using CMake for compilation, we suggest adding libexpatpp as a git submodule with the command
 ```
+git submodule add https://github.com/gittiver/libexpatpp vendor/libexpatpp`
+```
+
+Afterwards, modify your top level CMakeLists.txt file accordingly:
+
+```
+
 add_subdirectory(vendor/libexpatpp EXCLUDE_FROM_ALL)
-target_link_libraries(your_exe libexpatpp) # or target_link_libraries(your_exe libexpatpp)
+target_link_libraries(your_exe expatpp)
+
 ```
-The `add_subdirectory` command adds a folder to the build tree, meaning it will run CMakeLists.txt from the included folder as well. Flag `EXCLUDE_FROM_ALL` disables building (and instalment) of targets in the added folder which are not needed in your project. In the above example only the (static) library `libexpatpp` will be build, while `libexpatpp-aligner`, `hello_world` and the rest won't. In order to access the `libexpatpp` API, add `#include "libexpatpp.h"` in your source file (CMake will automatically update your include path).
 
-
-For more example projects take a look at applications in [apps/](apps/).
-
-
-## Usage and examples
+The `add_subdirectory` command adds a folder to the build tree, meaning it will run CMakeLists.txt from the included folder as well. Flag `EXCLUDE_FROM_ALL` disables building (and instalment) of targets in the added folder which are not needed in your project. In the above example only the (static) library `libexpatpp` will be build, while `libexpatpp-aligner`, `hello_world` and the rest won't. In order to access the `libexpatpp` API, add `#include "expatpp.hpp"` in your source file (CMake will automatically update your include path).
 
 ## API documentation
 
@@ -114,7 +139,7 @@ Position yourself in the root directory and run `doxygen`, this will generate `d
 
 ## xsdgen - generate C++ code from xsd files
 
-parses xml schmea and generates C++ code for types and elements
+parses xml schemata and generates C++ code for types and elements
 from schema
 [TODO] generate also parser class for parsing schema
 
