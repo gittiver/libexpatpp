@@ -40,9 +40,7 @@ The simplest (and platform independent) way to build the project using cmake
 is executing the following command:
 
 ```
-
 cmake -B <builddir> && cmake --build <builddir>
-
 ```
 
 First command in chain creates the build directory \<builddir\> and configures the project.
@@ -53,9 +51,9 @@ here for configuring and building a Release build:
 ```
 cmake -D CMAKE_BUILD_TYPE=Release -B <builddir> && cmake --build <builddir>
 ```
-## integration Using expatpp library in your project
+## Using expatpp library in your project
 
-### hello_world The "Hello World" example
+### The "Hello World" example
 
 The example hello_world contains a complete sample project using libexpatcpp and makes use of Cmake's FetchContent() Command to include, build and link expatpp library(explained more detailed in \ref approach1 .
 
@@ -171,10 +169,8 @@ git submodule add https://github.com/gittiver/libexpatpp vendor/libexpatpp`
 Afterwards, modify your top level CMakeLists.txt file accordingly:
 
 ```
-
 add_subdirectory(vendor/libexpatpp EXCLUDE_FROM_ALL)
 target_link_libraries(your_exe expatpp)
-
 ```
 
 The `add_subdirectory` command adds a folder to the build tree, meaning it will run CMakeLists.txt from the included folder as well. Flag `EXCLUDE_FROM_ALL` disables building (and instalment) of targets in the added folder which are not needed in your project. In the above example only the (static) library `libexpatpp` will be build, while `libexpatpp-aligner`, `hello_world` and the rest won't. In order to access the `libexpatpp` API, add `#include "expatpp.hpp"` in your source file (CMake will automatically update your include path).
@@ -211,5 +207,4 @@ When developing, you may want to use `-D CMAKE_BUILD_TYPE=Debug` flag when calli
 ## Publication
 
 ## Acknowledgements
-
 
