@@ -1,4 +1,4 @@
-# libexpatpp - a modern C++ xml parser toolkit using expat #    {#mainpage}
+# libexpatpp - a modern C++ xml parser toolkit using expat
 
 [![Travis CI Build Status](https://travis-ci.org/gittiver/libexpatpp.svg?branch=main)](https://travis-ci.org/gittiver/libexpatpp)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/gittiver/libexpatpp?svg=true)](https://ci.appveyor.com/project/gittiver/libexpatpp)
@@ -22,7 +22,6 @@ Currently a work in progress.
 - [Features](#features)
 - [Building](#building)
 - [Using libexpatpp in your project](#using-libexpatpp-in-your-project)
-- [Usage and examples](#usage-and-examples)
 - [API documentation](#api-documentation)
 - [Running tests](#running-tests)
 - [Development and contributing](#development-and-contributing)
