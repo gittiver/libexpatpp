@@ -47,20 +47,20 @@ $(function() {
 <ul><li class="level1"><a href="#Overview">Overview</a></li>
 <li class="level1"><a href="#Features">Features</a></li>
 <li class="level1"><a href="#Building">Building</a></li>
-<li class="level1"><a href="#integration">Using expatpp library in your project</a><ul><li class="level2"><a href="#approach1">Approach #1: Install libexpatpp library on machine.</a></li>
-<li class="level2"><a href="#approach2">Approach #2: Use as git submodule and use cmake in your project via CMake.</a></li>
-<li class="level2"><a href="#approach3">Approach #3: Use Cmake&#39;s FetchContent() Command</a></li>
-<li class="level2"><a href="#approach4">Approach #4: Use CMake Copying libexpatpp header file and static library.</a></li>
-<li class="level2"><a href="#autotoc_md0">Usage and examples</a></li>
-<li class="level2"><a href="#autotoc_md1">API documentation</a></li>
-<li class="level2"><a href="#autotoc_md2">Running tests</a></li>
-<li class="level2"><a href="#autotoc_md3">xsdgen - generate C++ code from xsd files</a></li>
-<li class="level2"><a href="#autotoc_md4">Examples</a><ul><li class="level3"><a href="#autotoc_md5">doxyml - parse doxygen xml output</a></li>
+<li class="level1"><a href="#integration">Using expatpp library in your project</a><ul><li class="level2"><a href="#hello_world">The &quot;Hello World&quot; example</a></li>
+<li class="level2"><a href="#approach1">Approach #1: Use Cmake&#39;s FetchContent() Command</a></li>
+<li class="level2"><a href="#approach2">Approach #2: Install libexpatpp library on machine.</a></li>
+<li class="level2"><a href="#approach3">Approach #3: Use as git submodule and use cmake in your project via CMake.</a></li>
 </ul>
 </li>
-<li class="level2"><a href="#autotoc_md6">Development and contributing</a></li>
-<li class="level2"><a href="#autotoc_md7">Publication</a></li>
-<li class="level2"><a href="#autotoc_md8">Acknowledgements</a></li>
+<li class="level1"><a href="#API">documentation</a><ul><li class="level2"><a href="#autotoc_md0">Running tests</a></li>
+<li class="level2"><a href="#autotoc_md1">xsdgen - generate C++ code from xsd files</a></li>
+<li class="level2"><a href="#autotoc_md2">Examples</a><ul><li class="level3"><a href="#autotoc_md3">doxyml - parse doxygen xml output</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#autotoc_md4">Development and contributing</a></li>
+<li class="level2"><a href="#autotoc_md5">Publication</a></li>
+<li class="level2"><a href="#autotoc_md6">Acknowledgements</a></li>
 </ul>
 </li>
 </ul>
@@ -75,8 +75,8 @@ Features</h1>
 <li>wraps and build <b>expat</b> as part of library</li>
 <li>runs on all major platforms: Windows, OSX, linux</li>
 <li>provides an easy to use delegate class to build xml parsers</li>
-<li>utilizing lambda for easy adding of handler callbacks</li>
-<li>provides implementation of parser with stack of parsestates</li>
+<li>[WORK IN PROGRESS]utilizing lambda for easy adding of handler callbacks</li>
+<li>[WORK IN PROGRESS]provides implementation of parser with stack of parsestates</li>
 <li>[WORK IN PROGRESS]xsdgen for generating C++ classes and parser from xsd schemata</li>
 </ul>
 <h1><a class="anchor" id="Building"></a>
@@ -86,70 +86,147 @@ Building</h1>
 <div class="fragment"><div class="line">cmake -B &lt;builddir&gt; &amp;&amp; cmake --build &lt;builddir&gt;</div>
 </div><!-- fragment --><p>First command in chain creates the build directory &lt;builddir&gt; and configures the project. Second command does a build of the default target in &lt;builddir&gt;.</p>
 <p>Cmake can also be called with predefined options, here for configuring and building a Release build: </p><div class="fragment"><div class="line">cmake -D CMAKE_BUILD_TYPE=Release -B &lt;builddir&gt; &amp;&amp; cmake --build &lt;builddir&gt;</div>
-</div><!-- fragment --><p>Optionally, you can run</p>
-<div class="fragment"><div class="line">cmake --build &lt;builddir&gt; --target install</div>
-</div><!-- fragment --><p>to install libexpatpp library on your machine.</p>
-<h1><a class="anchor" id="integration"></a>
+</div><!-- fragment --><h1><a class="anchor" id="integration"></a>
 Using expatpp library in your project</h1>
-<p>You can use libexpatpp in you project by either directly copying header and source files from <a href="libexpatpp/">libexpatpp/</a>, or by linking libexpatpp library (see <a class="el" href="index.html#Building">Building</a> for instructions how to build libexpatpp libraries). In any case, only thing that you have to do in your source files is to include <code><a class="el" href="expatpp_8hpp.html" title="contains the expatpp libraries interface header">expatpp.hpp</a></code>.</p>
-<p>To get you started quickly, let's take a look at a few ways to get simple Hello World project working.</p>
-<p>Our Hello World project has just one source file, <code>hello_world.cpp</code> file, and it looks like this:</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="expatpp_8hpp.html">expatpp.hpp</a>&quot;</span></div>
+<h2><a class="anchor" id="hello_world"></a>
+The "Hello World" example</h2>
+<p>The example hello_world contains a complete sample project using libexpatcpp and makes use of Cmake's FetchContent() Command to include, build and link expatpp library(explained more detailed in <a class="el" href="index.html#approach1">Approach #1: Use Cmake's FetchContent() Command</a> .</p>
+<p>Our "hello_world" project has just one source file, <code>hello_world.cpp</code> file, and it looks like this:</p>
+<div class="fragment"><div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="expatpp_8hpp.html">expatpp.hpp</a>&quot;</span></div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">int</span> main() {</div>
+<div class="line"><span class="keyword">using</span> std::cout;</div>
+<div class="line"><span class="keyword">using</span> std::endl;</div>
 <div class="line"> </div>
+<div class="line"><span class="keyword">class </span>element_delegate : <span class="keyword">public</span> <a class="code" href="classxmlpp_1_1abstract__delegate.html">xmlpp::abstract_delegate</a> {</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">  std::string fullname;</div>
+<div class="line">  std::string characterData;</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1abstract__delegate.html#af5ab763f72d462aa5ff0e95111caef7f">onStartElement</a>( <span class="keyword">const</span> XML_Char *fullname, <span class="keyword">const</span> XML_Char **atts)<span class="keyword"> override </span>{</div>
+<div class="line">    this-&gt;fullname = fullname;</div>
+<div class="line">  }</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1abstract__delegate.html#aa1ea4a51b6c029e1b27f8c065cbdf9da">onCharacterData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *pBuf, <span class="keywordtype">int</span> len)<span class="keyword"> override </span>{</div>
+<div class="line">    characterData.append(pBuf,len);</div>
+<div class="line">  }</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc,<span class="keywordtype">char</span>** argv) {</div>
+<div class="line">  <span class="comment">// prepare xml input, </span></div>
+<div class="line">  <span class="keyword">const</span> <span class="keywordtype">char</span>* xml = <span class="stringliteral">&quot;&lt;p&gt;hello world!&lt;/p&gt;&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// use the delegate to extract character data from input string</span></div>
+<div class="line">  element_delegate d;</div>
+<div class="line"> </div>
+<div class="line">  <span class="comment">// parse xml input using delegate d&#39;s callbacks</span></div>
+<div class="line">  xmlpp::parser::result res = xmlpp::parser::parseString(xml,d);</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">switch</span>(res) {</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">case</span> xmlpp::parser::result::OK:</div>
+<div class="line">    <span class="comment">// and output the extracted data in case of successful parsing</span></div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;element &quot;</span> &lt;&lt; d.fullName &lt;&lt; endl</div>
+<div class="line">     &lt;&lt; <span class="stringliteral">&quot; contains this text: &quot;</span>&lt;&lt; d.characterData &lt;&lt; endl;</div>
+<div class="line">    <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">default</span>:</div>
+<div class="line">    cout &lt;&lt; <span class="stringliteral">&quot;error &quot;</span> &lt;&lt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(res)</div>
+<div class="line">     &lt;&lt; <span class="stringliteral">&quot; on parsing &quot;</span> &lt;&lt; endl;</div>
+<div class="line">    <span class="keywordflow">return</span> -<span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(res);</div>
+<div class="line">  }</div>
 <div class="line">}</div>
+<div class="ttc" id="aclassxmlpp_1_1abstract__delegate_html"><div class="ttname"><a href="classxmlpp_1_1abstract__delegate.html">xmlpp::abstract_delegate</a></div><div class="ttdoc">default base class for delegates.</div><div class="ttdef"><b>Definition:</b> delegate.hpp:217</div></div>
+<div class="ttc" id="aclassxmlpp_1_1abstract__delegate_html_aa1ea4a51b6c029e1b27f8c065cbdf9da"><div class="ttname"><a href="classxmlpp_1_1abstract__delegate.html#aa1ea4a51b6c029e1b27f8c065cbdf9da">xmlpp::abstract_delegate::onCharacterData</a></div><div class="ttdeci">void onCharacterData(const char *pBuf, int len) override</div><div class="ttdoc">callback is called with parsed character data inside of an xml element.</div><div class="ttdef"><b>Definition:</b> delegate.cpp:40</div></div>
+<div class="ttc" id="aclassxmlpp_1_1abstract__delegate_html_af5ab763f72d462aa5ff0e95111caef7f"><div class="ttname"><a href="classxmlpp_1_1abstract__delegate.html#af5ab763f72d462aa5ff0e95111caef7f">xmlpp::abstract_delegate::onStartElement</a></div><div class="ttdeci">void onStartElement(const XML_Char *fullname, const XML_Char **atts) override</div><div class="ttdoc">this callback is called after parsing the starting tag of an xml element.</div><div class="ttdef"><b>Definition:</b> delegate.cpp:34</div></div>
 <div class="ttc" id="aexpatpp_8hpp_html"><div class="ttname"><a href="expatpp_8hpp.html">expatpp.hpp</a></div><div class="ttdoc">contains the expatpp libraries interface header</div></div>
-</div><!-- fragment --><p>Running it should output <code>???</code>.</p>
+</div><!-- fragment --><p>Running it should output</p>
+<pre class="fragment">element p
+contains this text: Hello World
+</pre><p>for the CMake based build we have included a simple CMakeLists.txt:</p>
+<div class="fragment"><div class="line">cmake_minimum_required(VERSION 3.1.3)</div>
+<div class="line"> </div>
+<div class="line">enable_language(C)</div>
+<div class="line">enable_language(CXX)</div>
+<div class="line">set(CMAKE_CXX_STANDARD 11)</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span>(POLICY CMP0077)</div>
+<div class="line">    cmake_policy(SET CMP0077 NEW)</div>
+<div class="line">endif()</div>
+<div class="line"> </div>
+<div class="line">project(expatpp_hello_world VERSION 0.0.1 LANGUAGES CXX)</div>
+<div class="line"> </div>
+<div class="line">include(FetchContent)</div>
+<div class="line"><span class="preprocessor">#</span></div>
+<div class="line"><span class="preprocessor"># expatpp Configuration variables</span></div>
+<div class="line"><span class="preprocessor">#</span></div>
+<div class="line">set(EXPATPP_BUILD_EXAMPLES Off)</div>
+<div class="line">set(EXPATPP_BUILD_TOOLS Off)</div>
+<div class="line">set(EXPATPP_BUILD_TESTS Off)</div>
+<div class="line">set(EXPATPP_BUILD_DOCS Off)</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor"># add expatpp project to the build</span></div>
+<div class="line">FetchContent_Declare(expatpp</div>
+<div class="line">         GIT_REPOSITORY https:<span class="comment">//github.com/gittiver/libexpatpp.git</span></div>
+<div class="line">         GIT_TAG main</div>
+<div class="line">         )</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span>(NOT expatpp_POPULATED)</div>
+<div class="line">  FetchContent_Populate(expatpp)</div>
+<div class="line">  add_subdirectory(${expatpp_SOURCE_DIR} ${expatpp_BINARY_DIR})</div>
+<div class="line">endif(NOT expatpp_POPULATED)</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor"># add executable</span></div>
+<div class="line">add_executable(hello_world hello_world.cpp)</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor"># link against expatpp library (produced by expatpp)</span></div>
+<div class="line">target_link_libraries(hello_world PUBLIC expatpp)</div>
+</div><!-- fragment --><p>To get you started quickly, let's take a look at a few ways to get simple Hello World project working.</p>
 <h2><a class="anchor" id="approach1"></a>
-Approach #1: Install libexpatpp library on machine.</h2>
-<p>Alternatively, you could avoid copying any libexpatpp files and instead install libraries by running <code>sudo make install</code> (check <a href="#building">Building</a> for exact instructions depending on approach you used for building). Now, all you have to do to compile your project is <code>c++ helloWorld.cpp -o helloWorld -llibexpatpp</code>. If you get error message like <code>cannot open shared object file: No such file or directory</code>, make sure that your linker includes path where libexpatpp was installed.</p>
-<h2><a class="anchor" id="approach2"></a>
-Approach #2: Use as git submodule and use cmake in your project via CMake.</h2>
-<p>If you are using CMake for compilation, we suggest adding libexpatpp as a git submodule with the command <code>git submodule add <a href="https://github.com/gittiver/libexpatpp">https://github.com/gittiver/libexpatpp</a> vendor/libexpatpp</code>. Afterwards, modify your top level CMakeLists.txt file accordingly:</p>
-<div class="fragment"><div class="line">add_subdirectory(vendor/libexpatpp EXCLUDE_FROM_ALL)</div>
-<div class="line">target_link_libraries(your_exe expatpp)</div>
-</div><!-- fragment --><p>The <code>add_subdirectory</code> command adds a folder to the build tree, meaning it will run CMakeLists.txt from the included folder as well. Flag <code>EXCLUDE_FROM_ALL</code> disables building (and instalment) of targets in the added folder which are not needed in your project. In the above example only the (static) library <code>libexpatpp</code> will be build, while <code>libexpatpp-aligner</code>, <code>hello_world</code> and the rest won't. In order to access the <code>libexpatpp</code> API, add <code>#include "libexpatpp.h"</code> in your source file (CMake will automatically update your include path).</p>
-<p>For more example projects take a look at applications in <a href="apps/">apps/</a>.</p>
-<h2><a class="anchor" id="approach3"></a>
-Approach #3: Use Cmake's FetchContent() Command</h2>
-<div class="fragment"><div class="line">FetchContent_Declare(expatpp         </div>
+Approach #1: Use Cmake's FetchContent() Command</h2>
+<p>CMake contains the FetchContent() command to use libraries where a project depends on.</p>
+<p>With: </p><div class="fragment"><div class="line">FetchContent_Declare(expatpp         </div>
 <div class="line">    GIT_REPOSITORY <span class="stringliteral">&quot;https://github.com/gittiver/libexpatpp&quot;</span> </div>
 <div class="line">    GIT_TAG <span class="stringliteral">&quot;v0_0_1&quot;</span> )</div>
 <div class="line">FetchContent_MakeAvailable(expatpp)</div>
-</div><!-- fragment --><div class="fragment"><div class="line">target_link_libraries(your_exe expatpp)</div>
-</div><!-- fragment --><h2><a class="anchor" id="approach4"></a>
-Approach #4: Use CMake Copying libexpatpp header file and static library.</h2>
-<p>Instead of copying libexpatpp source files, you could copy static library (check <a href="#building">Building</a> on how to create static library). We also need to copy libexpatpp header files. We get following project structure:</p>
-<div class="fragment"><div class="line">libexpatpp/  -&gt; copied from libexpatpp</div>
-<div class="line">  include/</div>
-<div class="line">    expatpp.hpp</div>
-<div class="line">  libexpatpp.a</div>
-<div class="line">helloWorld.cpp -&gt; your program  </div>
-</div><!-- fragment --><p>Now you can compile it with <code>c++ helloWorld.cpp -o helloWorld -I libexpatpp/include -L libexpatpp -llibexpatpp</code>.</p>
-<h2><a class="anchor" id="autotoc_md0"></a>
-Usage and examples</h2>
-<h2><a class="anchor" id="autotoc_md1"></a>
-API documentation</h2>
+</div><!-- fragment --><p> we include the library into the build.</p>
+<p>With: </p><div class="fragment"><div class="line">target_link_libraries(your_exe expatpp)</div>
+</div><!-- fragment --><p> we link our executable against libexpatpp. This approach is used in the helloworld example, you can use the CMakeFile.lst from there as starting point for your project.</p>
+<h2><a class="anchor" id="approach2"></a>
+Approach #2: Install libexpatpp library on machine.</h2>
+<p>You can install libraries by running in libexpatpp directory:</p>
+<div class="fragment"><div class="line">cmake --build &lt;builddir&gt; --target install</div>
+</div><!-- fragment --><p>Now, all you have to do to compile your project is <code>c++ helloWorld.cpp -o helloWorld -llibexpatpp</code>.</p>
+<p>If you get error message like <code>cannot open shared object file: No such file or directory</code>, make sure that your linker includes path where libexpatpp was installed.</p>
+<h2><a class="anchor" id="approach3"></a>
+Approach #3: Use as git submodule and use cmake in your project via CMake.</h2>
+<p>If you are using CMake for compilation, we suggest adding libexpatpp as a git submodule with the command </p><div class="fragment"><div class="line">git submodule add https:<span class="comment">//github.com/gittiver/libexpatpp vendor/libexpatpp`</span></div>
+</div><!-- fragment --><p> Afterwards, modify your top level CMakeLists.txt file accordingly:</p>
+<div class="fragment"><div class="line">add_subdirectory(vendor/libexpatpp EXCLUDE_FROM_ALL)</div>
+<div class="line">target_link_libraries(your_exe expatpp)</div>
+</div><!-- fragment --><p>The <code>add_subdirectory</code> command adds a folder to the build tree, meaning it will run CMakeLists.txt from the included folder as well. Flag <code>EXCLUDE_FROM_ALL</code> disables building (and instalment) of targets in the added folder which are not needed in your project. In the above example only the (static) library <code>libexpatpp</code> will be build, while <code>libexpatpp-aligner</code>, <code>hello_world</code> and the rest won't. In order to access the <code>libexpatpp</code> API, add <code>#include "expatpp.hpp"</code> in your source file (CMake will automatically update your include path).</p>
+<h1><a class="anchor" id="API"></a>
+documentation</h1>
 <p>For complete documentation of libexpatpp library API, visit <a href="http://gittiver.github.io/libexpatpp">http://gittiver.github.io/libexpatpp</a> (should be updated to the latest release).</p>
 <p>To generate the latest API documentation yourself from the source, you need to have <a href="www.doxygen.org">doxygen</a> installed. Position yourself in the root directory and run <code>doxygen</code>, this will generate <code>docs/</code> directory. Then open <code>docs/html/index.html</code> file with you favorite browser.</p>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<h2><a class="anchor" id="autotoc_md0"></a>
 Running tests</h2>
-<h2><a class="anchor" id="autotoc_md3"></a>
+<h2><a class="anchor" id="autotoc_md1"></a>
 xsdgen - generate C++ code from xsd files</h2>
-<p>parses xml schmea and generates C++ code for types and elements from schema [TODO] generate also parser class for parsing schema</p>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<p>parses xml schemata and generates C++ code for types and elements from schema [TODO] generate also parser class for parsing schema</p>
+<h2><a class="anchor" id="autotoc_md2"></a>
 Examples</h2>
-<h3><a class="anchor" id="autotoc_md5"></a>
+<h3><a class="anchor" id="autotoc_md3"></a>
 doxyml - parse doxygen xml output</h3>
 <p>the example parses the xml output of doxygen documentation system and does a simple listing of its elements on standard output.</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
+<h2><a class="anchor" id="autotoc_md4"></a>
 Development and contributing</h2>
 <p>Feel free to send pull requests and raise issues.</p>
 <p>When developing, you may want to use <code>-D CMAKE_BUILD_TYPE=Debug</code> flag when calling <code>cmake</code> in order to get debugging flags passed to compiler. This should also happen if you just run <code>cmake ..</code> with no flags, but I think I have noticed it does not always works as expected (probably has something to do with cmake cache). To check which flags is compiler using, run <code>make</code> with <code>VERBOSE=1</code>: <code>make VERBOSE=1</code>.</p>
-<h2><a class="anchor" id="autotoc_md7"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Publication</h2>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Acknowledgements</h2>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
