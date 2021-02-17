@@ -53,16 +53,15 @@ $(function() {
 <li class="level2"><a href="#approach3">Approach #3: Use as git submodule and use cmake in your project via CMake.</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#API">documentation</a><ul><li class="level2"><a href="#autotoc_md0">Running tests</a></li>
-<li class="level2"><a href="#autotoc_md1">xsdgen - generate C++ code from xsd files</a></li>
-<li class="level2"><a href="#autotoc_md2">Examples</a><ul><li class="level3"><a href="#autotoc_md3">doxyml - parse doxygen xml output</a></li>
+<li class="level1"><a href="#API">documentation</a></li>
+<li class="level1"><a href="#Running">tests</a></li>
+<li class="level1"><a href="#xsdgen">- generate C++ code from xsd files</a></li>
+<li class="level1"><a href="#Examples">Examples</a><ul><li class="level2"><a href="#doxyml">- parse doxygen xml output</a></li>
 </ul>
 </li>
-<li class="level2"><a href="#autotoc_md4">Development and contributing</a></li>
-<li class="level2"><a href="#autotoc_md5">Publication</a></li>
-<li class="level2"><a href="#autotoc_md6">Acknowledgements</a></li>
-</ul>
-</li>
+<li class="level1"><a href="#Development">and contributing</a></li>
+<li class="level1"><a href="#Publication">Publication</a></li>
+<li class="level1"><a href="#Acknowledgements">Acknowledgements</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="Overview"></a>
@@ -210,24 +209,24 @@ Approach #3: Use as git submodule and use cmake in your project via CMake.</h2>
 documentation</h1>
 <p>For complete documentation of libexpatpp library API, visit <a href="http://gittiver.github.io/libexpatpp">http://gittiver.github.io/libexpatpp</a> (should be updated to the latest release).</p>
 <p>To generate the latest API documentation yourself from the source, you need to have <a href="www.doxygen.org">doxygen</a> installed. Position yourself in the root directory and run <code>doxygen</code>, this will generate <code>docs/</code> directory. Then open <code>docs/html/index.html</code> file with you favorite browser.</p>
-<h2><a class="anchor" id="autotoc_md0"></a>
-Running tests</h2>
-<h2><a class="anchor" id="autotoc_md1"></a>
-xsdgen - generate C++ code from xsd files</h2>
+<h1><a class="anchor" id="Running"></a>
+tests</h1>
+<h1><a class="anchor" id="xsdgen"></a>
+- generate C++ code from xsd files</h1>
 <p>parses xml schemata and generates C++ code for types and elements from schema [TODO] generate also parser class for parsing schema</p>
-<h2><a class="anchor" id="autotoc_md2"></a>
-Examples</h2>
-<h3><a class="anchor" id="autotoc_md3"></a>
-doxyml - parse doxygen xml output</h3>
+<h1><a class="anchor" id="Examples"></a>
+Examples</h1>
+<h2><a class="anchor" id="doxyml"></a>
+- parse doxygen xml output</h2>
 <p>the example parses the xml output of doxygen documentation system and does a simple listing of its elements on standard output.</p>
-<h2><a class="anchor" id="autotoc_md4"></a>
-Development and contributing</h2>
+<h1><a class="anchor" id="Development"></a>
+and contributing</h1>
 <p>Feel free to send pull requests and raise issues.</p>
 <p>When developing, you may want to use <code>-D CMAKE_BUILD_TYPE=Debug</code> flag when calling <code>cmake</code> in order to get debugging flags passed to compiler. This should also happen if you just run <code>cmake ..</code> with no flags, but I think I have noticed it does not always works as expected (probably has something to do with cmake cache). To check which flags is compiler using, run <code>make</code> with <code>VERBOSE=1</code>: <code>make VERBOSE=1</code>.</p>
-<h2><a class="anchor" id="autotoc_md5"></a>
-Publication</h2>
-<h2><a class="anchor" id="autotoc_md6"></a>
-Acknowledgements</h2>
+<h1><a class="anchor" id="Publication"></a>
+Publication</h1>
+<h1><a class="anchor" id="Acknowledgements"></a>
+Acknowledgements</h1>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
