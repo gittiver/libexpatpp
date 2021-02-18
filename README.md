@@ -221,6 +221,8 @@ Position yourself in the root directory and run `doxygen`, this will generate `d
 
 ## Running tests
 
+TBD describe how to run included Catch2 based tests
+
 ## xsdgen - generate C++ code from xsd files
 
 parses xml schemata and generates C++ code for types and elements
