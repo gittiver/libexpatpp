@@ -236,14 +236,13 @@ from schema
 the example parses the xml output of doxygen documentation system and
 does a simple listing of its elements on standard output.
 
-
 ## Development and contributing
 Feel free to send pull requests and raise issues.
 
 When developing, you may want to use `-D CMAKE_BUILD_TYPE=Debug` flag when calling `cmake` in order to get debugging flags passed to compiler. 
 This should also happen if you just run `cmake <builddir>` with no flags. 
-To check which flags is compiler using, run `make` with `VERBOSE=1`: `make VERBOSE=1`.
 
+To check which flags is compiler using, run `make` with `VERBOSE=1`: `make VERBOSE=1`.
 
 ## Publication
 
