@@ -38,7 +38,7 @@ int main(int argc,char** argv) {
 
   case xmlpp::parser::result::OK:
     // and output the extracted data in case of successful parsing
-    cout << "element " << d.fullName << endl
+    cout << "element " << d.fullname << endl
 	 << " contains this text: "<< d.characterData << endl;
     return EXIT_SUCCESS;
 
