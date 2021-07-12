@@ -33,6 +33,12 @@ struct State {
 
   std::string tag;
   void addState(State* s) { substates_.push_back(s); }
+  State* addState(const std::string& tagname)
+  {
+    State* s = new State(tagname);
+    substates_.push_back(s);
+    return s;
+  }
   const std::list<State*>& substates() { return substates_; }
   std::function<void (const XML_Char **atts)> pfStart{nullptr};
   std::function<void ()> pfEnd{nullptr};
