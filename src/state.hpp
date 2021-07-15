@@ -31,7 +31,6 @@ struct State {
 
   virtual ~State(){}
 
-  std::string tag;
   void addState(State* s) { substates_.push_back(s); }
   State* addState(const std::string& tagname)
   {
@@ -44,6 +43,7 @@ struct State {
   std::function<void ()> pfEnd{nullptr};
   std::function<void (const char *pBuf, int len)> pfText{nullptr};
 
+  std::string tag;
 private:
   std::list<State*> substates_;
 };
