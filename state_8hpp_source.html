@@ -19,7 +19,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libexpatpp
-   &#160;<span id="projectnumber">0.1.0</span>
+   &#160;<span id="projectnumber">0.1.2</span>
    </div>
   </td>
  </tr>
@@ -73,45 +73,51 @@ $(function() {
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keyword">virtual</span> ~<a class="code" href="structxmlpp_1_1State.html">State</a>(){}</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  std::string tag;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordtype">void</span> addState(<a class="code" href="structxmlpp_1_1State.html">State</a>* s) { substates_.push_back(s); }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="keyword">const</span> std::list&lt;State*&gt;&amp; substates() { <span class="keywordflow">return</span> substates_; }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  std::function&lt;void (<span class="keyword">const</span> XML_Char **atts)&gt; pfStart{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  std::function&lt;void ()&gt; pfEnd{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  std::function&lt;void (<span class="keyword">const</span> <span class="keywordtype">char</span> *pBuf, <span class="keywordtype">int</span> len)&gt; pfText{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  std::list&lt;State*&gt; substates_;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="structxmlpp_1_1RootState.html">   45</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structxmlpp_1_1RootState.html">RootState</a>: <span class="keyword">public</span> <a class="code" href="structxmlpp_1_1State.html">State</a> {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="structxmlpp_1_1State.html">State</a> root{<span class="stringliteral">&quot;root&quot;</span>};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  std::stack&lt;State*&gt; parseStates;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;};</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classxmlpp_1_1StatefulDelegate.html">   50</a></span>&#160;<span class="keyword">class </span><a class="code" href="classxmlpp_1_1StatefulDelegate.html">StatefulDelegate</a>: <span class="keyword">public</span> <a class="code" href="classxmlpp_1_1abstract__delegate.html">abstract_delegate</a> {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <a class="code" href="classxmlpp_1_1StatefulDelegate.html">StatefulDelegate</a>();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordtype">void</span> add_state(<a class="code" href="structxmlpp_1_1State.html">State</a>* state);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keyword">const</span> <a class="code" href="structxmlpp_1_1State.html">State</a>* <span class="keyword">const</span> current_element()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> parseStates.top(); }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1StatefulDelegate.html#aaafa110f5b1dd4c71334bffee5b6f012">onStartElement</a>(<span class="keyword">const</span> XML_Char *fullname, <span class="keyword">const</span> XML_Char **atts) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1StatefulDelegate.html#aaa601133aa330b9dd19af086f63d7e5f">onEndElement</a>(<span class="keyword">const</span> XML_Char *fullname) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1StatefulDelegate.html#aa38fc5f098c2b5c28f1d3d74bacdb013">onCharacterData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * pBuf, <span class="keywordtype">int</span> len) <span class="keyword">override</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <a class="code" href="structxmlpp_1_1State.html">State</a> root{<span class="stringliteral">&quot;root&quot;</span>};</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  std::stack&lt;State*&gt; parseStates;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// #ifndef xmlpp_state_hpp</span></div>
-<div class="ttc" id="aclassxmlpp_1_1StatefulDelegate_html"><div class="ttname"><a href="classxmlpp_1_1StatefulDelegate.html">xmlpp::StatefulDelegate</a></div><div class="ttdef"><b>Definition:</b> state.hpp:50</div></div>
-<div class="ttc" id="aclassxmlpp_1_1StatefulDelegate_html_aa38fc5f098c2b5c28f1d3d74bacdb013"><div class="ttname"><a href="classxmlpp_1_1StatefulDelegate.html#aa38fc5f098c2b5c28f1d3d74bacdb013">xmlpp::StatefulDelegate::onCharacterData</a></div><div class="ttdeci">void onCharacterData(const char *pBuf, int len) override</div><div class="ttdoc">callback is called with parsed character data inside of an xml element.</div><div class="ttdef"><b>Definition:</b> delegate.cpp:147</div></div>
-<div class="ttc" id="aclassxmlpp_1_1StatefulDelegate_html_aaa601133aa330b9dd19af086f63d7e5f"><div class="ttname"><a href="classxmlpp_1_1StatefulDelegate.html#aaa601133aa330b9dd19af086f63d7e5f">xmlpp::StatefulDelegate::onEndElement</a></div><div class="ttdeci">void onEndElement(const XML_Char *fullname) override</div><div class="ttdoc">callback is called after parsing the end tag of an xml element</div><div class="ttdef"><b>Definition:</b> delegate.cpp:134</div></div>
-<div class="ttc" id="aclassxmlpp_1_1StatefulDelegate_html_aaafa110f5b1dd4c71334bffee5b6f012"><div class="ttname"><a href="classxmlpp_1_1StatefulDelegate.html#aaafa110f5b1dd4c71334bffee5b6f012">xmlpp::StatefulDelegate::onStartElement</a></div><div class="ttdeci">void onStartElement(const XML_Char *fullname, const XML_Char **atts) override</div><div class="ttdoc">this callback is called after parsing the starting tag of an xml element.</div><div class="ttdef"><b>Definition:</b> delegate.cpp:114</div></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keywordtype">void</span> addState(<a class="code" href="structxmlpp_1_1State.html">State</a>* s) { substates_.push_back(s); }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <a class="code" href="structxmlpp_1_1State.html">State</a>* addState(<span class="keyword">const</span> std::string&amp; tagname)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="structxmlpp_1_1State.html">State</a>* s = <span class="keyword">new</span> <a class="code" href="structxmlpp_1_1State.html">State</a>(tagname);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    substates_.push_back(s);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">return</span> s;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">const</span> std::list&lt;State*&gt;&amp; substates() { <span class="keywordflow">return</span> substates_; }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  std::function&lt;void (<span class="keyword">const</span> XML_Char **atts)&gt; pfStart{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  std::function&lt;void ()&gt; pfEnd{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  std::function&lt;void (<span class="keyword">const</span> <span class="keywordtype">char</span> *pBuf, <span class="keywordtype">int</span> len)&gt; pfText{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  std::string tag;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  std::list&lt;State*&gt; substates_;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;};</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="structxmlpp_1_1RootState.html">   51</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structxmlpp_1_1RootState.html">RootState</a>: <span class="keyword">public</span> <a class="code" href="structxmlpp_1_1State.html">State</a> {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <a class="code" href="structxmlpp_1_1State.html">State</a> root{<span class="stringliteral">&quot;root&quot;</span>};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  std::stack&lt;State*&gt; parseStates;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;};</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classxmlpp_1_1StatefulDelegate.html">   56</a></span>&#160;<span class="keyword">class </span><a class="code" href="classxmlpp_1_1StatefulDelegate.html">StatefulDelegate</a>: <span class="keyword">public</span> <a class="code" href="classxmlpp_1_1abstract__delegate.html">abstract_delegate</a> {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <a class="code" href="classxmlpp_1_1StatefulDelegate.html">StatefulDelegate</a>();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordtype">void</span> add_state(<a class="code" href="structxmlpp_1_1State.html">State</a>* state);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keyword">const</span> <a class="code" href="structxmlpp_1_1State.html">State</a>* <span class="keyword">const</span> current_element()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> parseStates.top(); }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1StatefulDelegate.html#a5bb1184657cb3de55086a70d96854788">onStartElement</a>(<span class="keyword">const</span> XML_Char *fullname, <span class="keyword">const</span> XML_Char **atts) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1StatefulDelegate.html#ae757caee4b626a9633c23a6ec2211332">onEndElement</a>(<span class="keyword">const</span> XML_Char *fullname) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1StatefulDelegate.html#a37ec1c307c95111264e267cfee8f4dcc">onCharacterData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> * pBuf, <span class="keywordtype">int</span> len) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <a class="code" href="structxmlpp_1_1State.html">State</a> root{<span class="stringliteral">&quot;root&quot;</span>};</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  std::stack&lt;State*&gt; parseStates;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// #ifndef xmlpp_state_hpp</span></div>
+<div class="ttc" id="aclassxmlpp_1_1StatefulDelegate_html"><div class="ttname"><a href="classxmlpp_1_1StatefulDelegate.html">xmlpp::StatefulDelegate</a></div><div class="ttdef"><b>Definition:</b> state.hpp:56</div></div>
+<div class="ttc" id="aclassxmlpp_1_1StatefulDelegate_html_a37ec1c307c95111264e267cfee8f4dcc"><div class="ttname"><a href="classxmlpp_1_1StatefulDelegate.html#a37ec1c307c95111264e267cfee8f4dcc">xmlpp::StatefulDelegate::onCharacterData</a></div><div class="ttdeci">void onCharacterData(const char *pBuf, int len) override</div><div class="ttdoc">callback is called with parsed character data inside of an xml element.</div><div class="ttdef"><b>Definition:</b> state.cpp:59</div></div>
+<div class="ttc" id="aclassxmlpp_1_1StatefulDelegate_html_a5bb1184657cb3de55086a70d96854788"><div class="ttname"><a href="classxmlpp_1_1StatefulDelegate.html#a5bb1184657cb3de55086a70d96854788">xmlpp::StatefulDelegate::onStartElement</a></div><div class="ttdeci">void onStartElement(const XML_Char *fullname, const XML_Char **atts) override</div><div class="ttdoc">this callback is called after parsing the starting tag of an xml element.</div><div class="ttdef"><b>Definition:</b> state.cpp:26</div></div>
+<div class="ttc" id="aclassxmlpp_1_1StatefulDelegate_html_ae757caee4b626a9633c23a6ec2211332"><div class="ttname"><a href="classxmlpp_1_1StatefulDelegate.html#ae757caee4b626a9633c23a6ec2211332">xmlpp::StatefulDelegate::onEndElement</a></div><div class="ttdeci">void onEndElement(const XML_Char *fullname) override</div><div class="ttdoc">callback is called after parsing the end tag of an xml element</div><div class="ttdef"><b>Definition:</b> state.cpp:46</div></div>
 <div class="ttc" id="aclassxmlpp_1_1abstract__delegate_html"><div class="ttname"><a href="classxmlpp_1_1abstract__delegate.html">xmlpp::abstract_delegate</a></div><div class="ttdoc">default base class for delegates.</div><div class="ttdef"><b>Definition:</b> delegate.hpp:217</div></div>
 <div class="ttc" id="adelegate_8hpp_html"><div class="ttname"><a href="delegate_8hpp.html">delegate.hpp</a></div><div class="ttdoc">contains the xml parsers delegate interface</div></div>
-<div class="ttc" id="astructxmlpp_1_1RootState_html"><div class="ttname"><a href="structxmlpp_1_1RootState.html">xmlpp::RootState</a></div><div class="ttdef"><b>Definition:</b> state.hpp:45</div></div>
+<div class="ttc" id="astructxmlpp_1_1RootState_html"><div class="ttname"><a href="structxmlpp_1_1RootState.html">xmlpp::RootState</a></div><div class="ttdef"><b>Definition:</b> state.hpp:51</div></div>
 <div class="ttc" id="astructxmlpp_1_1State_html"><div class="ttname"><a href="structxmlpp_1_1State.html">xmlpp::State</a></div><div class="ttdef"><b>Definition:</b> state.hpp:20</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
