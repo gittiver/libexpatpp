@@ -31,17 +31,19 @@ struct State {
 
   virtual ~State(){}
 
-  std::string tag;
   void addState(State* s) { substates_.push_back(s); }
-  void addState(const std::string& tagname)
-  {   
-    substates_.push_back(new State(tagname));
+  State* addState(const std::string& tagname)
+  {
+    State* s = new State(tagname);
+    substates_.push_back(s);
+    return s;
   }
   const std::list<State*>& substates() { return substates_; }
   std::function<void (const XML_Char **atts)> pfStart{nullptr};
   std::function<void ()> pfEnd{nullptr};
   std::function<void (const char *pBuf, int len)> pfText{nullptr};
 
+  std::string tag;
 private:
   std::list<State*> substates_;
 };

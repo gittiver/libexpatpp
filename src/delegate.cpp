@@ -10,7 +10,7 @@
 
 using std::string;
 
-using std::cout;
+using std::cerr;
 using std::endl;
 
 namespace xmlpp {
@@ -107,56 +107,5 @@ void abstract_delegate::onParseError(size_t  /* line */,
 				     size_t  /* pos */,
 				     Error  /* error */)
 {}
-  
-StatefulDelegate::StatefulDelegate()
-{
-  parseStates.push(&root);
-}
-void StatefulDelegate::add_state(State* state) {
-  root.addState(state);
-}
-
-void StatefulDelegate::onStartElement( const XML_Char *fullname,
-				       const XML_Char **atts)
-{
-  bool processed = false;
-  
-  State* s = parseStates.top();
-  for (auto sub : s->substates()) {
-    if (sub->tag==fullname) {
-      parseStates.push(sub);
-      if (sub->pfStart) sub->pfStart(atts);
-      processed = true;
-      break;
-    }
-  };
-  if (!processed)
-  {
-    cout << "unexpected Element: " << fullname  << "@" << parseStates.top()->tag << endl;
-  }
-}
-
-void StatefulDelegate::onEndElement(  const XML_Char *fullname)
-{
-  if (parseStates.top()==&root) {
-    cout << "unexpected Element: " << fullname << endl;
-  } else if (parseStates.top()->tag==fullname){
-    State* s = parseStates.top();
-    if (s->pfEnd) s->pfEnd();
-    parseStates.pop();
-  } else  {
-    cout << "unexpected Element: " << fullname  << "@" << parseStates.top()->tag << endl;
-  }
-}
-
-void StatefulDelegate::onCharacterData(const char * pBuf, int len)
-{
-  if (parseStates.empty()) {
-    cout << "unexpected character data: " << endl;
-  } else {
-    State* s = parseStates.top();
-    if (s->pfText) s->pfText(pBuf,len);
-  }
-}
 
 }

@@ -155,6 +155,7 @@ set(expatpp_HEADERS
     src/xmlparser.hpp
     src/delegate.hpp
     src/generator.hpp
+    src/state.hpp
 )
 
 set(expatpp_SRCS
@@ -162,6 +163,7 @@ set(expatpp_SRCS
     src/xmlparser.cpp
     src/delegate.cpp
     src/generator.cpp
+    src/state.cpp
 )
 
 if(EXPATPP_SHARED_LIBS)
