@@ -239,9 +239,6 @@ xmlpp::parser::result  parser::parseString(const char* pszString,
 
   if (pszString==nullptr) {
     res = result::INVALID_INPUT;
-  }
-  else if (nullptr == (&delegate)) {
-    res = result::NO_DELEGATE;
   } else {
 
     parser p(delegate);
@@ -265,45 +262,40 @@ xmlpp::parser::result  parser::parseString(const char* pszString,
 xmlpp::parser::result parser::parseFile(const std::string& filename,
 					delegate& delegate) {
   result res = result::READ_ERROR;
+  const size_t BUFF_SIZE = 255;
 
-  if (nullptr == (&delegate)) {
-    res = result::NO_DELEGATE;
+  FILE* docfd = fopen(filename.c_str(), "r");
+
+  if (!docfd) {
+    res = result::ERROR_OPEN_FILE;
+    //  Logger::error("cant open ", filename);
   } else {
+    parser p(delegate);
 
-    const size_t BUFF_SIZE = 255;
-    FILE* docfd = fopen(filename.c_str(), "r");
+    char buff[BUFF_SIZE];
+    for (;;) {
+      size_t bytes_read;
 
-    if (!docfd) {
-      res = result::ERROR_OPEN_FILE;
-      //  Logger::error("cant open ", filename);
-    } else {
-      parser p(delegate);
+      bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
 
-      char buff[BUFF_SIZE];
-      for (;;) {
-        size_t bytes_read;
-
-        bytes_read = fread(buff, 1, BUFF_SIZE, docfd);
-
-        if (p.parse(buff, static_cast<int>(bytes_read), bytes_read == 0)==status_t::ERROR) {
-          /* handle parse error */
-          res = result::PARSE_ERROR;
-          delegate.onParseError(XML_GetCurrentLineNumber(p.m_parser),
-                                XML_GetCurrentColumnNumber(p.m_parser),
-                                XML_GetCurrentByteIndex(p.m_parser),
-                                Error(XML_GetErrorCode(p.m_parser)));
-          break;
-        }
-
-        if (bytes_read == 0) {
-          res = std::feof(docfd) ? result::OK : result::READ_ERROR;
-          break;
-
-        }
+      if (p.parse(buff, static_cast<int>(bytes_read), bytes_read == 0)==status_t::ERROR) {
+	/* handle parse error */
+	res = result::PARSE_ERROR;
+	delegate.onParseError(XML_GetCurrentLineNumber(p.m_parser),
+			      XML_GetCurrentColumnNumber(p.m_parser),
+			      XML_GetCurrentByteIndex(p.m_parser),
+			      Error(XML_GetErrorCode(p.m_parser)));
+	break;
       }
 
-      fclose(docfd);
+      if (bytes_read == 0) {
+	res = std::feof(docfd) ? result::OK : result::READ_ERROR;
+	break;
+
+      }
     }
+
+    fclose(docfd);
   }
   return res;
 }
