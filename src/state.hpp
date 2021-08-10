@@ -23,10 +23,10 @@ struct State {
         std::function<void ()> _pfEnd = nullptr,
         std::function<void (const char *pBuf, int len)> _pfText = nullptr
         ) noexcept
-  :  tag{_tag},
-  pfStart{_pfStart},
-  pfEnd{_pfEnd},
-  pfText{_pfText}
+  : pfStart{_pfStart},
+    pfEnd{_pfEnd},
+    pfText{_pfText},
+    tag{_tag}
   {}
 
   virtual ~State(){}
