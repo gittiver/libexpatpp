@@ -260,7 +260,7 @@ void compound::parse_definition(const std::string& dirname) {
   std::string filename = dirname .empty()? refid : (dirname +"/" + refid + ".xml");
   cout << "Parsing " << name << " definition from " << filename << endl;
   DoxyDelegate d;
-  xmlpp::parser::result res = parser::parseFile(filename,d);
+  /* xmlpp::parser::result res = */ parser::parseFile(filename,d);
   // TODO handle bugs
   if (!d.compounddefs.empty())
     definition = d.compounddefs.at(0);
