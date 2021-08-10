@@ -193,8 +193,8 @@ static void XMLParser_SkippedEntity(void * ctx,const XML_Char *entityName,
   }
 }
 
-parser::parser(delegate& delegate) {
-  m_parser = XML_ParserCreateNS("UTF-8",':');
+parser::parser(delegate& delegate, char namespaceSeparator) {
+  m_parser = XML_ParserCreateNS("UTF-8",namespaceSeparator);
   XML_SetUserData(m_parser, &delegate);
 
   XML_SetElementHandler(m_parser,
@@ -232,7 +232,8 @@ parser::~parser()
 parser::status_t parser::parse(const char* buffer, int len, bool isFinal)
 { return (status_t)XML_Parse(m_parser,buffer, len, isFinal); }
 
-xmlpp::parser::result  parser::parseString(const char* pszString, delegate& delegate)
+xmlpp::parser::result  parser::parseString(const char* pszString,
+					   delegate& delegate)
 {
   result res = result::READ_ERROR;
 
@@ -261,7 +262,8 @@ xmlpp::parser::result  parser::parseString(const char* pszString, delegate& dele
   return res;
 }
 
-xmlpp::parser::result parser::parseFile(const std::string& filename, delegate& delegate) {
+xmlpp::parser::result parser::parseFile(const std::string& filename,
+					delegate& delegate) {
   result res = result::READ_ERROR;
 
   if (nullptr == (&delegate)) {

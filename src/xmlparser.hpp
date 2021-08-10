@@ -72,7 +72,7 @@ public:
     INVALID_ARGUMENT
   };
 
-  parser(delegate& delegate);
+  parser(delegate& delegate,char namespaceSeparator = ':');
   virtual ~parser();
 
   static result parseString(const char*pszString, delegate& delegate);
