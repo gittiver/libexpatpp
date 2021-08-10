@@ -8,14 +8,14 @@
 /// TODO make same test for parsefile and parse function
 
 class empty_delegate : public xmlpp::abstract_delegate {
-  void onStartElement( const XML_Char *fullname,
-     const XML_Char **atts) override
+  void onStartElement( const XML_Char *,
+		       const XML_Char **) override
   {}
 
-  void onEndElement(  const XML_Char *fullname) override
+  void onEndElement(  const XML_Char *) override
   {}
 
-  void onCharacterData(const char *pBuf, int len) override {
+  void onCharacterData(const char *, int ) override {
   }
 
 

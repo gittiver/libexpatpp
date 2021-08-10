@@ -29,6 +29,12 @@ if(POLICY CMP0077)
     cmake_policy(SET CMP0077 NEW)
 endif()
 
+if (MSVC)
+    add_compile_options(/W4 /WX)
+else()
+    add_compile_options(-Wall -Wextra -pedantic)
+endif()
+
 project(expatpp
     VERSION
         0.1.2

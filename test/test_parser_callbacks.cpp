@@ -43,7 +43,7 @@ SCENARIO("test element callbacks")
       // TODO atts
     }
 
-    void onEndElement(  const XML_Char *fullname) override
+    void onEndElement(  const XML_Char * /*fullname*/) override
     {
       cnt_end++;
     }
@@ -619,7 +619,7 @@ SCENARIO("virtual void onXmlDecl( const XML_Char      *version,"
 
     void  onXmlDecl(const XML_Char      *version,
                     const XML_Char      *encoding,
-                    int standalone) override
+                    int /*standalone*/ ) override
     {
       cnt++;
       this->version = version;

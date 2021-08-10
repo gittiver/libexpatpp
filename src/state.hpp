@@ -33,6 +33,10 @@ struct State {
 
   std::string tag;
   void addState(State* s) { substates_.push_back(s); }
+  void addState(const std::string& tagname)
+  {   
+    substates_.push_back(new State(tagname));
+  }
   const std::list<State*>& substates() { return substates_; }
   std::function<void (const XML_Char **atts)> pfStart{nullptr};
   std::function<void ()> pfEnd{nullptr};
@@ -51,7 +55,7 @@ class StatefulDelegate: public abstract_delegate {
 public:
   StatefulDelegate();
   void add_state(State* state);
-  const State* const current_element() const { return parseStates.top(); }
+  State* current_element() const { return parseStates.top(); }
 protected:
   void onStartElement(const XML_Char *fullname, const XML_Char **atts) override;
   void onEndElement(const XML_Char *fullname) override;

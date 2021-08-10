@@ -147,7 +147,7 @@ struct DoxyDelegate: StatefulDelegate {
   };
 
   State sectiondef{"sectiondef",
-    [this](const XML_Char **atts)
+    [this](const XML_Char ** /*atts*/)
     {
       compounddef_t::sectiondef_t s;
       //      m.kind = xmlpp::parser::xmlGetAttrValue(atts,"kind");
