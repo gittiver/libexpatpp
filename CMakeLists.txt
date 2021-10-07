@@ -30,7 +30,7 @@ if(POLICY CMP0077)
 endif()
 
 if (MSVC)
-    add_compile_options(/W4 /WX)
+    add_compile_options(/W4)
 else()
     add_compile_options(-Wall -Wextra -pedantic)
 endif()
@@ -133,7 +133,6 @@ if (NOT EXPAT_FOUND)
 
     add_subdirectory(${expat_SOURCE_DIR}/expat ${expat_BINARY_DIR})
   endif()
-  message("Extra_compiler_flags=${EXTRA_COMPILE_FLAGS}")
   set(EXPAT_LIBRARIES expat)
   get_target_property(EXPAT_INCLUDE_DIRS expat INCLUDE_DIRECTORIES)
 
