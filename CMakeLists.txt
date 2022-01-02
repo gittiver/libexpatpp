@@ -37,7 +37,7 @@ endif()
 
 project(expatpp
     VERSION
-        0.1.2
+        0.1.3
     LANGUAGES
         CXX
 )
@@ -116,7 +116,7 @@ endif(EXPATPP_USE_SYSTEM_EXPAT)
 if (NOT EXPAT_FOUND)
   FetchContent_Declare(expat
   		 GIT_REPOSITORY https://github.com/libexpat/libexpat.git
-		 GIT_TAG R_2_4_1)
+		 GIT_TAG R_2_4_2)
   if(NOT expat_POPULATED)
 
     set(EXPAT_SHARED_LIBS Off)
@@ -137,15 +137,6 @@ if (NOT EXPAT_FOUND)
   get_target_property(EXPAT_INCLUDE_DIRS expat INCLUDE_DIRECTORIES)
 
 endif (NOT EXPAT_FOUND)
-
-# handle outcome dependency
-#FetchContent_Declare(outcome
-#  		 GIT_REPOSITORY https://github.com/ned14/outcome.git
-#		 GIT_TAG v2.1.4)
-#if(NOT outcome_POPULATED)
-#  FetchContent_Populate(outcome)
-#  add_subdirectory(${outcome_SOURCE_DIR} ${outcome_BINARY_DIR})
-#endif(NOT outcome_POPULATED)
 
 #
 # the C++ expatpp library target
