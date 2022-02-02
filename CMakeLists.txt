@@ -37,7 +37,7 @@ endif()
 
 project(expatpp
     VERSION
-        0.1.3
+        0.1.4
     LANGUAGES
         CXX
 )
@@ -116,7 +116,7 @@ endif(EXPATPP_USE_SYSTEM_EXPAT)
 if (NOT EXPAT_FOUND)
   FetchContent_Declare(expat
   		 GIT_REPOSITORY https://github.com/libexpat/libexpat.git
-		 GIT_TAG R_2_4_2)
+		 GIT_TAG R_2_4_4)
   if(NOT expat_POPULATED)
 
     set(EXPAT_SHARED_LIBS Off)
