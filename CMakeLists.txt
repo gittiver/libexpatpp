@@ -116,7 +116,7 @@ endif(EXPATPP_USE_SYSTEM_EXPAT)
 if (NOT EXPAT_FOUND)
   FetchContent_Declare(expat
   		 GIT_REPOSITORY https://github.com/libexpat/libexpat.git
-		 GIT_TAG R_2_4_4)
+		 GIT_TAG R_2_4_7)
   if(NOT expat_POPULATED)
 
     set(EXPAT_SHARED_LIBS Off)
