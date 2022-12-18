@@ -37,7 +37,7 @@ endif()
 
 project(expatpp
     VERSION
-        0.1.5
+        0.1.7
     LANGUAGES
         CXX
 )
