@@ -1,9 +1,9 @@
 <map id="state.hpp" name="state.hpp">
-<area shape="rect" id="node1" title="contains classes for stateful parse delegate" alt="" coords="102,5,179,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,80,44,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="69,80,122,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="147,80,225,107"/>
-<area shape="rect" id="node5" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface" alt="" coords="250,80,349,107"/>
-<area shape="rect" id="node6" title=" " alt="" coords="229,155,284,181"/>
-<area shape="rect" id="node7" title=" " alt="" coords="308,155,373,181"/>
+<area shape="rect" id="node1" title="contains classes for stateful parse delegate" alt="" coords="108,5,191,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,80,48,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="73,80,130,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="154,80,241,107"/>
+<area shape="rect" id="node5" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface" alt="" coords="265,80,372,107"/>
+<area shape="rect" id="node6" title=" " alt="" coords="244,155,303,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="327,155,398,181"/>
 </map>

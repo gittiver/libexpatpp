@@ -19,7 +19,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">libexpatpp
-   &#160;<span id="projectnumber">0.1.2</span>
+   &#160;<span id="projectnumber">0.1.5</span>
    </div>
   </td>
  </tr>
@@ -65,10 +65,10 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        std::function&lt;<span class="keywordtype">void</span> ()&gt; _pfEnd = <span class="keyword">nullptr</span>,</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        std::function&lt;<span class="keywordtype">void</span> (<span class="keyword">const</span> <span class="keywordtype">char</span> *pBuf, <span class="keywordtype">int</span> len)&gt; _pfText = <span class="keyword">nullptr</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        ) noexcept</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  :  tag{_tag},</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  pfStart{_pfStart},</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  pfEnd{_pfEnd},</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  pfText{_pfText}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  : pfStart{_pfStart},</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    pfEnd{_pfEnd},</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    pfText{_pfText},</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    tag{_tag}</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  {}</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keyword">virtual</span> ~<a class="code" href="structxmlpp_1_1State.html">State</a>(){}</div>
@@ -99,7 +99,7 @@ $(function() {
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <a class="code" href="classxmlpp_1_1StatefulDelegate.html">StatefulDelegate</a>();</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordtype">void</span> add_state(<a class="code" href="structxmlpp_1_1State.html">State</a>* state);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keyword">const</span> <a class="code" href="structxmlpp_1_1State.html">State</a>* <span class="keyword">const</span> current_element()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> parseStates.top(); }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <a class="code" href="structxmlpp_1_1State.html">State</a>* current_element()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> parseStates.top(); }</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">protected</span>:</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1StatefulDelegate.html#a5bb1184657cb3de55086a70d96854788">onStartElement</a>(<span class="keyword">const</span> XML_Char *fullname, <span class="keyword">const</span> XML_Char **atts) <span class="keyword">override</span>;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classxmlpp_1_1StatefulDelegate.html#ae757caee4b626a9633c23a6ec2211332">onEndElement</a>(<span class="keyword">const</span> XML_Char *fullname) <span class="keyword">override</span>;</div>

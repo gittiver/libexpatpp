@@ -1,6 +1,6 @@
 <map id="xmlpp::generator::node" name="xmlpp::generator::node">
-<area shape="rect" id="node1" title=" " alt="" coords="115,5,273,32"/>
-<area shape="rect" id="node2" href="$structxmlpp_1_1generator_1_1element.html" title=" " alt="" coords="12,80,189,107"/>
-<area shape="rect" id="node4" href="$structxmlpp_1_1generator_1_1text.html" title=" " alt="" coords="213,80,364,107"/>
-<area shape="rect" id="node3" href="$structxmlpp_1_1generator_1_1composite__element.html" title=" " alt="" coords="5,155,196,196"/>
+<area shape="rect" id="node1" title=" " alt="" coords="126,5,301,32"/>
+<area shape="rect" id="node2" href="$structxmlpp_1_1generator_1_1element.html" title=" " alt="" coords="13,80,209,107"/>
+<area shape="rect" id="node4" href="$structxmlpp_1_1generator_1_1text.html" title=" " alt="" coords="233,80,401,107"/>
+<area shape="rect" id="node3" href="$structxmlpp_1_1generator_1_1composite__element.html" title=" " alt="" coords="5,155,216,196"/>
 </map>

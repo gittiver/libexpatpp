@@ -1,5 +1,5 @@
 <map id="xmlparser.hpp" name="xmlparser.hpp">
-<area shape="rect" id="node1" title="contains the xml parser module interface" alt="" coords="63,5,169,32"/>
-<area shape="rect" id="node2" href="$expatpp_8hpp.html" title="contains the expatpp libraries interface header" alt="" coords="5,80,101,107"/>
-<area shape="rect" id="node3" href="$xmlparser_8cpp.html" title="implementation of xml parser functions" alt="" coords="126,80,231,107"/>
+<area shape="rect" id="node1" title="contains the xml parser module interface" alt="" coords="66,5,181,32"/>
+<area shape="rect" id="node2" href="$expatpp_8hpp.html" title="contains the expatpp libraries interface header" alt="" coords="5,80,108,107"/>
+<area shape="rect" id="node3" href="$xmlparser_8cpp.html" title="implementation of xml parser functions" alt="" coords="133,80,247,107"/>
 </map>
