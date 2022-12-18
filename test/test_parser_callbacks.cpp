@@ -11,7 +11,7 @@
  * https://www.w3.org/TR/xml/
  */
 #include <string.h>
-#include "catch2/catch.hpp"
+#include "catch2/catch_all.hpp"
 
 #include "xmlparser.hpp"
 

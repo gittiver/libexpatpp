@@ -3,7 +3,7 @@ Include(FetchContent)
 FetchContent_Declare(
   catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v2.13.3)
+  GIT_TAG        v3.2.1)
 
 FetchContent_GetProperties(catch2)
 if(NOT catch2_POPULATED)
@@ -19,18 +19,16 @@ endif()
 enable_testing()
 ## these are unittests that can be run on any platform
 add_executable(test_parse
-  test_main.cpp
   test_parsefile.cpp
   test_parse.cpp
 )
-target_link_libraries(test_parse Catch2::Catch2 expatpp)
+target_link_libraries(test_parse Catch2::Catch2WithMain expatpp)
 add_test(test_parse test_parse)
 
 add_executable(test_parser_callbacks
-  test_main.cpp
   test_parser_callbacks.cpp
 )
-target_link_libraries(test_parser_callbacks Catch2::Catch2 expatpp)
+target_link_libraries(test_parser_callbacks Catch2::Catch2WithMain expatpp)
 add_test(test_parser_callbacks test_parser_callbacks)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --extra-verbose)
