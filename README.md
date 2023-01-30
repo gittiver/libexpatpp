@@ -1,9 +1,14 @@
 # libexpatpp - a modern C++ xml parser toolkit using expat
 
+[![Build and Test](https://github.com/gittiver/libexpatpp/actions/workflows/ccpp.yml/badge.svg)](https://github.com/gittiver/libexpatpp/actions/workflows/ccpp.yml)
+[![Documentation](https://github.com/gittiver/libexpatpp/actions/workflows/doxygen-gh-pages.yml/badge.svg)](https://github.com/gittiver/libexpatpp/actions/workflows/doxygen-gh-pages.yml)
+[![Packaging status](https://repology.org/badge/tiny-repos/libexpatpp.svg)](https://repology.org/metapackage/libexpatpp/versions)
+
+<!--
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/gittiver/libexpatpp?svg=true)](https://ci.appveyor.com/project/gittiver/libexpatpp)
 [![Travis CI Build Status](https://travis-ci.org/gittiver/libexpatpp.svg?branch=main)](https://travis-ci.org/gittiver/libexpatpp)
-[![Packaging status](https://repology.org/badge/tiny-repos/libexpatpp.svg)](https://repology.org/metapackage/libexpatpp/versions)
 [![Documentation Status](https://readthedocs.org/projects/libexpatpp/badge/?version=latest)](https://libexpatpp.readthedocs.io/en/latest/?badge=latest) 
+!-->
 
 A lightweight and modern C/C++ library for building xml parsers.
 Currently a work in progress.
