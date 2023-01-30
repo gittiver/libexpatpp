@@ -3,7 +3,7 @@ Include(FetchContent)
 FetchContent_Declare(
   catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v3.2.1)
+  GIT_TAG        v3.3.1)
 
 FetchContent_GetProperties(catch2)
 if(NOT catch2_POPULATED)
@@ -30,5 +30,12 @@ add_executable(test_parser_callbacks
 )
 target_link_libraries(test_parser_callbacks Catch2::Catch2WithMain expatpp)
 add_test(test_parser_callbacks test_parser_callbacks)
+
+#test for issue #6
+add_executable(test_asam_generation_problem
+  test_asam_generation_problem.cpp
+)
+target_link_libraries(test_asam_generation_problem Catch2::Catch2WithMain expatpp)
+add_test(test_asam_generation_problem test_asam_generation_problem)
 
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} --extra-verbose)
