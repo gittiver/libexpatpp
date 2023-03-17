@@ -159,7 +159,7 @@ struct xsd_parse_delegate: StatefulDelegate {
       schema.elements.push_back(e);
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
@@ -171,16 +171,16 @@ struct xsd_parse_delegate: StatefulDelegate {
       schema.complexTypes.push_back(t);
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
   State xsd_complexType_sequence{"xsd:sequence",
-    [this](const XML_Char **atts)
+    [this](const XML_Char ** /*atts*/)
     {
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
@@ -193,7 +193,7 @@ struct xsd_parse_delegate: StatefulDelegate {
       schema.complexTypes.back().elements.push_back(e);
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
@@ -211,7 +211,7 @@ struct xsd_parse_delegate: StatefulDelegate {
       schema.complexTypes.back().attributes.push_back(a);
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
@@ -223,7 +223,7 @@ struct xsd_parse_delegate: StatefulDelegate {
       schema.simpleTypes.push_back(t);
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
@@ -233,7 +233,7 @@ struct xsd_parse_delegate: StatefulDelegate {
       schema.simpleTypes.back().restriction.base = xmlpp::parser::xmlGetAttrValue(atts,"base") ? xmlpp::parser::xmlGetAttrValue(atts,"base") : "";
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
@@ -246,47 +246,47 @@ struct xsd_parse_delegate: StatefulDelegate {
       schema.simpleTypes.back().restriction.values.push_back(e);
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
 
   State xsd_group{"xsd:group",
-    [this](const XML_Char **atts)
+    [this](const XML_Char ** /*atts*/)
     {
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
 
   State xsd_group_choice{"xsd:choice",
-    [this](const XML_Char **atts)
+    [this](const XML_Char ** /*atts*/)
     {
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
 
   State xsd_choice{"xsd:choice",
-    [this](const XML_Char **atts)
+    [this](const XML_Char ** /*atts*/)
     {
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };
 
   State xsd_choice_element{"xsd:element",
-    [this](const XML_Char **atts)
+    [this](const XML_Char ** /*atts*/)
     {
     },
     nullptr,
-    [this](const char *pBuf, int len)
+    [this](const char* /*pBuf*/, int /*len*/)
     {
     }
   };

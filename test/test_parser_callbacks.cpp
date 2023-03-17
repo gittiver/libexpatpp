@@ -32,13 +32,13 @@ SCENARIO("test element callbacks")
     size_t cnt_start{0};
     size_t cnt_end{0};
 
-    void onStartElement( const XML_Char *fullname,
-                        const XML_Char **atts) override
+    void onStartElement( const XML_Char *element_name,
+                        const XML_Char **_atts) override
     {
       cnt_start++;
-      this->fullname = fullname;
-      for(; *atts!=NULL;atts++) {
-        this->atts.push_back(*atts);
+      this->fullname = element_name;
+      for(; *_atts!=NULL;_atts++) {
+        this->atts.push_back(*_atts);
       }
       // TODO atts
     }
@@ -104,12 +104,12 @@ SCENARIO("virtual void onProcessingInstruction(const XML_Char* target,"
     string target;
     string data;
 
-    void onProcessingInstruction(const XML_Char* target,
-                                 const XML_Char* data) override
+    void onProcessingInstruction(const XML_Char* _target,
+                                 const XML_Char* _data) override
     {
       cnt_start++;
-      this->target = target;
-      this->data = data;
+      this->target = _target;
+      this->data = _data;
     }
   };
 
@@ -143,18 +143,18 @@ SCENARIO("virtual void onUnparsedEntityDecl(const XML_Char* entityName,"
     string notationName;
 
 
-    void onUnparsedEntityDecl(const XML_Char* entityName,
-              const XML_Char* base,
-             const XML_Char* systemId,
-             const XML_Char* publicId,
-             const XML_Char* notationName) override
+    void onUnparsedEntityDecl(const XML_Char* _entityName,
+              const XML_Char* _base,
+             const XML_Char* _systemId,
+             const XML_Char* _publicId,
+             const XML_Char* _notationName) override
     {
       cnt++;
-      this->entityName = VALID_STRING(entityName);
-      this->base = VALID_STRING(base);
-      this->systemId = VALID_STRING(systemId);
-      this->publicId = VALID_STRING(publicId);
-      this->notationName = VALID_STRING(notationName);
+      this->entityName = VALID_STRING(_entityName);
+      this->base = VALID_STRING(_base);
+      this->systemId = VALID_STRING(_systemId);
+      this->publicId = VALID_STRING(_publicId);
+      this->notationName = VALID_STRING(_notationName);
     }
   };
 
@@ -195,16 +195,16 @@ SCENARIO("virtual void onNotationDecl(const XML_Char* notationName,"
     string systemId;
     string publicId;
 
-    void onNotationDecl(const XML_Char* notationName,
-             const XML_Char* base,
-             const XML_Char* systemId,
-             const XML_Char* publicId) override
+    void onNotationDecl(const XML_Char* _notationName,
+             const XML_Char* _base,
+             const XML_Char* _systemId,
+             const XML_Char* _publicId) override
     {
       cnt++;
-      this->notationName = VALID_STRING(notationName);
-      this->base = VALID_STRING(base);
-      this->systemId = VALID_STRING(systemId);
-      this->publicId = VALID_STRING(publicId);
+      this->notationName = VALID_STRING(_notationName);
+      this->base = VALID_STRING(_base);
+      this->systemId = VALID_STRING(_systemId);
+      this->publicId = VALID_STRING(_publicId);
     }
   };
 
@@ -239,11 +239,11 @@ SCENARIO("virtual void onStartNamespace(const XML_Char* prefix,"
     vector<string> prefix;
     vector<string> uri;
 
-    void onStartNamespace(const XML_Char* prefix,const XML_Char* uri) override
+    void onStartNamespace(const XML_Char* prefix_,const XML_Char* uri_) override
     {
       cnt_start++;
-      this->prefix.push_back(prefix?prefix:"");
-      this->uri.push_back(uri);
+      this->prefix.push_back(prefix_?prefix_:"");
+      this->uri.push_back(uri_);
     }
 
     void onEndNamespace(const XML_Char*) override
@@ -313,18 +313,18 @@ SCENARIO("virtual void onAttlistDecl(const XML_Char *elname,"
     std::vector<string> dflt;
     std::vector<int> isrequired;
 
-    void onAttlistDecl(const XML_Char *elname,
-               const XML_Char *attname,
-               const XML_Char *att_type,
-               const XML_Char *dflt,
-               bool             isrequired) override
+    void onAttlistDecl(const XML_Char *elname_,
+               const XML_Char *attname_,
+               const XML_Char *att_type_,
+               const XML_Char *dflt_,
+               bool             isrequired_) override
     {
       cnt++;
-      this->elname = elname;
-      this->name.push_back(attname);
-      this->type.push_back(att_type);
-      this->dflt.push_back(dflt? dflt : "" );
-      this->isrequired.push_back(isrequired);
+      this->elname = elname_;
+      this->name.push_back(attname_);
+      this->type.push_back(att_type_);
+      this->dflt.push_back(dflt_? dflt_ : "" );
+      this->isrequired.push_back(isrequired_);
     }
   };
 
@@ -419,18 +419,18 @@ SCENARIO("virtual void onStartDoctypeDecl(const XML_Char *doctypeName,"
     string doctypeName;
     string sysid;
     string pubid;
-    int has_internal_subset;
+    int has_internal_subset{};
 
-    void onStartDoctypeDecl(const XML_Char *doctypeName,
-                            const XML_Char *sysid,
-                            const XML_Char *pubid,
-                            int has_internal_subset) override
+    void onStartDoctypeDecl(const XML_Char *doctypeName_,
+                            const XML_Char *sysid_,
+                            const XML_Char *pubid_,
+                            int has_internal_subset_) override
     {
       cnt++;
-      this->doctypeName = doctypeName ? doctypeName : "";
-      this->sysid = sysid ? sysid : "";
-      this->pubid = pubid ? pubid : "";
-      this->has_internal_subset = has_internal_subset;
+      this->doctypeName = doctypeName_ ? doctypeName_ : "";
+      this->sysid = sysid_ ? sysid_ : "";
+      this->pubid = pubid_ ? pubid_ : "";
+      this->has_internal_subset = has_internal_subset_;
     }
 
     void onEndDoctypeDecl() override
@@ -504,12 +504,12 @@ SCENARIO("virtual void onElementDecl( const XML_Char *name, XML_Content *model)"
   public:
     int cnt{0};
     std::string name;
-    XML_Content* model;
+    XML_Content* model{};
 
-    void onElementDecl( const XML_Char *name, XML_Content *model) override {
+    void onElementDecl( const XML_Char *name_, XML_Content *model_) override {
       cnt++;
-      this->name = name;
-      this->model = model;
+      this->name = name_;
+      this->model = model_;
     }
   };
 
@@ -562,24 +562,24 @@ SCENARIO("virtual void onEntityDecl("
     string notationName;
 
     void onEntityDecl(
-             const XML_Char *entityName,
-             int is_parameter_entity,
-             const XML_Char *value,
-             int value_length,
-             const XML_Char *base,
-             const XML_Char *systemId,
-             const XML_Char *publicId,
-             const XML_Char *notationName) override
+             const XML_Char *entityName_,
+             int is_parameter_entity_,
+             const XML_Char *value_,
+             int value_length_,
+             const XML_Char *base_,
+             const XML_Char *systemId_,
+             const XML_Char *publicId_,
+             const XML_Char *notationName_) override
     {
       cnt++;
-      this->entityName = entityName;
-      this->is_parameter_entity = is_parameter_entity;
-      this->value.append(value, value_length);
-      this->value_length = value_length;
-      this->base = VALID_STRING(base);
-      this->systemId = VALID_STRING(systemId);
-      this->publicId = VALID_STRING(publicId);
-      this->notationName = VALID_STRING(notationName);
+      this->entityName = entityName_;
+      this->is_parameter_entity = is_parameter_entity_;
+      this->value.append(value_, value_length_);
+      this->value_length = value_length_;
+      this->base = VALID_STRING(base_);
+      this->systemId = VALID_STRING(systemId_);
+      this->publicId = VALID_STRING(publicId_);
+      this->notationName = VALID_STRING(notationName_);
     }
   };
 
@@ -617,13 +617,13 @@ SCENARIO("virtual void onXmlDecl( const XML_Char      *version,"
     string version;
     string encoding;
 
-    void  onXmlDecl(const XML_Char      *version,
-                    const XML_Char      *encoding,
+    void  onXmlDecl(const XML_Char      *version_,
+                    const XML_Char      *encoding_,
                     int /*standalone*/ ) override
     {
       cnt++;
-      this->version = version;
-      this->encoding = encoding;
+      this->version = version_;
+      this->encoding = encoding_;
     }
   };
 
@@ -667,13 +667,13 @@ SCENARIO("OnParseError")
     size_t pos{0};
     xmlpp::Error error{XML_ERROR_NONE};
 
-    void onParseError(size_t line,size_t column, size_t pos, xmlpp::Error error) override
+    void onParseError(size_t line_,size_t column_, size_t pos_, xmlpp::Error error_) override
     {
       cnt++;
-      this->line = line;
-      this->column = column;
-      this->pos = pos;
-      this->error = error;
+      this->line = line_;
+      this->column = column_;
+      this->pos = pos_;
+      this->error = error_;
     }
   };
 

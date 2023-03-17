@@ -45,7 +45,6 @@ TEST_CASE("parse ASAM mdf v4 fragment")
   };  
 
   SECTION("parse asam mdf v4") {
-    empty_delegate d;
     REQUIRE(parser::parseString(SAMPLE,d)==xmlpp::parser::result::OK);
     REQUIRE(expected==d.elementnames);
   }

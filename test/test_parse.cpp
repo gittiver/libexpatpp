@@ -25,9 +25,9 @@ using xmlpp::parser;
 
 TEST_CASE("parseString")
 {
-  empty_delegate d;
-
+  
   SECTION("invalid filename") {
+    empty_delegate d;
     std::string empty;
     REQUIRE(parser::parseString(nullptr,d)==xmlpp::parser::result::INVALID_INPUT);
   }

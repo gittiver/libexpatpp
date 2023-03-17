@@ -47,10 +47,10 @@ using xmlpp::parser;
 
 TEST_CASE_METHOD(ParseFileFixture,"parse file")
 {
-  empty_delegate d;
-
+  
   SECTION("invalid filename") {
     std::string empty;
+    empty_delegate d;
     REQUIRE(parser::parseFile(empty,d)==xmlpp::parser::result::ERROR_OPEN_FILE);
     REQUIRE(parser::parseFile("file_does_not_exist",d)==xmlpp::parser::result::ERROR_OPEN_FILE);
   }
