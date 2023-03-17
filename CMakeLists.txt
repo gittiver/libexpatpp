@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.3)
+cmake_minimum_required(VERSION 3.15)
 
 enable_language(C)
 enable_language(CXX)
@@ -27,6 +27,10 @@ set(CMAKE_CXX_STANDARD 11)
 #
 if(POLICY CMP0077)
     cmake_policy(SET CMP0077 NEW)
+endif()
+
+if(POLICY CMP0092)
+    cmake_policy(SET CMP0092 NEW)
 endif()
 
 if (MSVC)
