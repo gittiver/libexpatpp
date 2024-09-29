@@ -1,8 +1,13 @@
 <map id="expatpp.hpp" name="expatpp.hpp">
-<area shape="rect" id="node1" title="contains the expatpp libraries interface header" alt="" coords="42,5,145,32"/>
-<area shape="rect" id="node2" href="$xmlparser_8hpp.html" title="contains the xml parser module interface" alt="" coords="36,80,151,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,155,72,181"/>
-<area shape="rect" id="node4" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface" alt="" coords="96,155,203,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="75,229,133,256"/>
-<area shape="rect" id="node6" title=" " alt="" coords="158,229,229,256"/>
+<area shape="rect" id="Node000001" title="contains the expatpp libraries interface header" alt="" coords="42,5,145,31"/>
+<area shape="rect" id="Node000002" href="$xmlparser_8hpp.html" title="contains the xml parser module interface" alt="" coords="36,79,151,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,31,96,65,91,65,91,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,152,72,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="86,106,58,143,54,140,82,103"/>
+<area shape="rect" id="Node000004" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface" alt="" coords="96,152,203,177"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="105,103,134,140,130,143,100,106"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="75,225,133,251"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="144,179,121,215,116,212,140,176"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="158,225,229,251"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="159,176,181,212,177,215,154,179"/>
 </map>

@@ -1,9 +1,16 @@
 <map id="xmlparser.cpp" name="xmlparser.cpp">
-<area shape="rect" id="node1" title="implementation of xml parser functions" alt="" coords="101,5,215,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,80,76,107"/>
-<area shape="rect" id="node3" href="$xmlparser_8hpp.html" title="contains the xml parser module interface" alt="" coords="101,80,215,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="216,229,287,256"/>
-<area shape="rect" id="node4" title=" " alt="" coords="18,155,85,181"/>
-<area shape="rect" id="node5" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface" alt="" coords="109,155,215,181"/>
-<area shape="rect" id="node6" title=" " alt="" coords="133,229,191,256"/>
+<area shape="rect" id="Node000001" title="implementation of xml parser functions" alt="" coords="101,5,215,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,76,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,33,73,74,70,69,138,28"/>
+<area shape="rect" id="Node000003" href="$xmlparser_8hpp.html" title="contains the xml parser module interface" alt="" coords="101,79,215,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,31,161,65,155,65,155,31"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="216,225,287,251"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="179,29,206,49,230,77,244,112,252,148,255,211,250,212,246,149,239,113,225,80,202,53,176,33"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="18,152,85,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="142,106,82,147,79,142,139,102"/>
+<area shape="rect" id="Node000005" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface" alt="" coords="109,152,215,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="161,104,163,138,158,139,156,104"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="133,225,191,251"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="165,178,165,212,159,212,159,178"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="178,175,228,214,224,219,175,179"/>
 </map>

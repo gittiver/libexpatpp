@@ -1,9 +1,16 @@
 <map id="delegate.hpp" name="delegate.hpp">
-<area shape="rect" id="node1" title="contains the xml parsers delegate interface" alt="" coords="111,5,217,32"/>
-<area shape="rect" id="node2" href="$delegate_8cpp.html" title="contains delegate implementation" alt="" coords="5,155,112,181"/>
-<area shape="rect" id="node3" href="$state_8hpp.html" title="contains classes for stateful parse delegate" alt="" coords="123,80,205,107"/>
-<area shape="rect" id="node5" href="$xmlparser_8hpp.html" title="contains the xml parser module interface" alt="" coords="237,80,352,107"/>
-<area shape="rect" id="node4" href="$state_8cpp.html" title="contains classes for stateful parse delegate" alt="" coords="136,155,219,181"/>
-<area shape="rect" id="node6" href="$expatpp_8hpp.html" title="contains the expatpp libraries interface header" alt="" coords="243,155,346,181"/>
-<area shape="rect" id="node7" href="$xmlparser_8cpp.html" title="implementation of xml parser functions" alt="" coords="371,155,485,181"/>
+<area shape="rect" id="Node000001" title="contains the xml parsers delegate interface" alt="" coords="111,5,217,31"/>
+<area shape="rect" id="Node000002" href="$delegate_8cpp.html" title="contains delegate implementation" alt="" coords="5,152,112,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,43,113,80,67,153,63,151,109,77,141,39"/>
+<area shape="rect" id="Node000003" href="$state_8hpp.html" title="contains classes for stateful parse delegate" alt="" coords="123,79,205,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="167,44,167,79,161,79,161,44"/>
+<area shape="rect" id="Node000005" href="$xmlparser_8hpp.html" title="contains the xml parser module interface" alt="" coords="237,79,352,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="199,35,275,76,272,81,196,40"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="137,114,77,154,74,150,134,110"/>
+<area shape="rect" id="Node000004" href="$state_8cpp.html" title="contains classes for stateful parse delegate" alt="" coords="136,152,219,177"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="171,117,178,151,173,152,166,118"/>
+<area shape="rect" id="Node000006" href="$expatpp_8hpp.html" title="contains the expatpp libraries interface header" alt="" coords="243,152,346,177"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="297,118,297,152,292,152,292,118"/>
+<area shape="rect" id="Node000007" href="$xmlparser_8cpp.html" title="implementation of xml parser functions" alt="" coords="371,152,485,177"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="329,108,407,149,405,154,327,113"/>
 </map>

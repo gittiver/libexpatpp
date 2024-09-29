@@ -1,7 +1,11 @@
 <map id="xmlparser.hpp" name="xmlparser.hpp">
-<area shape="rect" id="node1" title="contains the xml parser module interface" alt="" coords="36,5,151,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,80,72,107"/>
-<area shape="rect" id="node3" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface" alt="" coords="96,80,203,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="75,155,133,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="158,155,229,181"/>
+<area shape="rect" id="Node000001" title="contains the xml parser module interface" alt="" coords="36,5,151,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,72,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,33,58,69,54,66,82,29"/>
+<area shape="rect" id="Node000003" href="$delegate_8hpp.html" title="contains the xml parsers delegate interface" alt="" coords="96,79,203,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="105,29,134,66,130,69,100,33"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="75,152,133,177"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="144,106,121,142,116,139,140,103"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="158,152,229,177"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="159,103,181,139,177,142,154,106"/>
 </map>
