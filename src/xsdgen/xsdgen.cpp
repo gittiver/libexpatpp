@@ -94,7 +94,7 @@ void generate(const xsd::schema_t::simpleType_t& s) {
     } else
       cout << ", " << endl << v.value;
 // TODO:uppercase
-  };
+  }
   cout << endl << "};" << endl << endl;
 
   cout << "std::string to_string(" << s.name <<" e) {" << endl

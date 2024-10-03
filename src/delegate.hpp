@@ -18,7 +18,7 @@ namespace xmlpp {
 /** wrapper class type for expats XML_Error */
 class Error  {
 public:
-  Error (XML_Error error) noexcept;
+  explicit Error (XML_Error error) noexcept;
   std::string to_string() const;
   XML_Error errorcode() const;
 private:
@@ -216,7 +216,7 @@ public:
  only needed methods needs to be overridden, all interface maethods have an empt default implementation */
 class abstract_delegate : public delegate {
 public:
-  abstract_delegate();
+  abstract_delegate()=default;
   
   void onStartElement(const XML_Char *fullname, const XML_Char **atts) override;
   void onEndElement(	const XML_Char *fullname) override;

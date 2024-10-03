@@ -9,6 +9,7 @@
 #include <string>
 #include <list>
 #include <memory>
+#include <iostream>
 
 namespace xmlpp {
 /** generating xml elements */
@@ -19,7 +20,6 @@ struct attribute {
 };
 
 struct node {
-protected:
   virtual void serialize(std::ostream& os) = 0;
 };
 
@@ -32,6 +32,8 @@ protected:
 
 struct composite_element: public element {
   std::list<std::shared_ptr<node>> children;
+protected:
+  void serialize(std::ostream& os) override;
 };
 
 struct text: public node {
@@ -41,4 +43,4 @@ protected:
 };
 } // end namespace generator
 } // end: namespace xmlpp
-#endif // #ifndef xlmpp_generator_hpp
+#endif // #ifndef xmlpp_generator_hpp

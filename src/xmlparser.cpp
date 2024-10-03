@@ -4,9 +4,10 @@
  * See LICENSE for copyright information.
  */
 
-#include <string.h>
-#include "xmlparser.hpp"
+#include <cstring>
 #include <expat.h>
+
+#include "xmlparser.hpp"
 
 using std::string;
 
@@ -302,17 +303,17 @@ xmlpp::parser::result parser::parseFile(const std::string& filename,
 parser::error_t parser::errorcode() const
 { return (error_t)XML_GetErrorCode(m_parser); }
 
-int parser::current_line_number() const
+size_t parser::current_line_number() const
 { return XML_GetCurrentLineNumber(m_parser); }
-int parser::current_column_number() const
+size_t parser::current_column_number() const
 { return XML_GetCurrentColumnNumber(m_parser); }
 
 const XML_Char* parser::xmlGetAttrValue(const XML_Char** attrs,
                                         const XML_Char* key)
 {
-  if (attrs!=NULL)
+  if (attrs!= nullptr)
   {
-    for (size_t i = 0; attrs[i]!=NULL;i+=2)
+    for (size_t i = 0; attrs[i]!=nullptr;i+=2)
     {
       if (!strcmp(attrs[i],key))
       {
@@ -320,7 +321,7 @@ const XML_Char* parser::xmlGetAttrValue(const XML_Char** attrs,
       }
     }
   }
-  return NULL;
+  return nullptr;
 }
 
 std::string Attr::getValue(const char* key)

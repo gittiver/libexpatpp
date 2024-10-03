@@ -29,8 +29,6 @@ XML_Error Error::errorcode() const
   return error;
 }
 
-abstract_delegate::abstract_delegate() {}
-
 void abstract_delegate::onStartElement(const XML_Char */* fullname */,
                                        const XML_Char ** /* atts */)
 {}

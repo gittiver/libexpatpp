@@ -18,7 +18,7 @@
 namespace xmlpp {
 
 struct State {
-  State(const std::string& _tag,
+  explicit State(const std::string& _tag,
         std::function<void (const XML_Char **atts)> _pfStart = nullptr,
         std::function<void ()> _pfEnd = nullptr,
         std::function<void (const char *pBuf, int len)> _pfText = nullptr
@@ -29,12 +29,12 @@ struct State {
     tag{_tag}
   {}
 
-  virtual ~State(){}
+  virtual ~State()=default;
 
   void addState(State* s) { substates_.push_back(s); }
   State* addState(const std::string& tagname)
   {
-    State* s = new State(tagname);
+    auto s = new State(tagname);
     substates_.push_back(s);
     return s;
   }
@@ -43,7 +43,7 @@ struct State {
   std::function<void ()> pfEnd{nullptr};
   std::function<void (const char *pBuf, int len)> pfText{nullptr};
 
-  std::string tag;
+  std::string tag{};
 private:
   std::list<State*> substates_;
 };

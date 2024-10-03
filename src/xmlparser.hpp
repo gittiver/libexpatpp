@@ -15,7 +15,7 @@ namespace xmlpp {
 /** namespace for SAX2 xml Parser based on expat */
 class parser {
 public:
-  enum class result : uint8_t {
+  enum result : uint8_t {
     OK,
     NO_DELEGATE,
     ERROR_OPEN_FILE,
@@ -74,7 +74,7 @@ public:
     INVALID_ARGUMENT
   };
 
-  parser(delegate& delegate,char namespaceSeparator = ':');
+  explicit parser(delegate& delegate,char namespaceSeparator = ':');
   virtual ~parser();
 
   static result parseString(const char*pszString, delegate& delegate);
@@ -91,8 +91,8 @@ public:
 
   status_t parse(const char* buffer, int len, bool isFinal);
   error_t errorcode() const;
-  int current_line_number() const ;
-  int current_column_number() const ;
+  size_t current_line_number() const ;
+  size_t current_column_number() const ;
 private:
   XML_Parser m_parser;
 };
@@ -102,7 +102,7 @@ private:
 
 class Attr {
 public:
-  Attr(const XML_Char** attrs) : attrs_(attrs){};
+  explicit Attr(const XML_Char** attrs) : attrs_(attrs){};
   std::string getValue(const char* key);
 private:
   const XML_Char** attrs_{nullptr};

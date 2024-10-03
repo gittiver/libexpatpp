@@ -36,7 +36,7 @@ void StatefulDelegate::onStartElement( const XML_Char *fullname,
       processed = true;
       break;
     }
-  };
+  }
   if (!processed)
   {
     cerr << "unexpected Element: " << fullname  << "@" << parseStates.top()->tag << endl;

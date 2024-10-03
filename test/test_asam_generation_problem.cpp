@@ -12,7 +12,7 @@ struct empty_delegate : public xmlpp::abstract_delegate {
 		       const XML_Char ** /* atts*/ ) override
   {
     //    printf("|%s|\n",fullname);
-    elementnames.push_back(fullname);
+    elementnames.emplace_back(fullname);
   }
 
   void onEndElement(  const XML_Char * /* fullname */ ) override
