@@ -1,11 +1,13 @@
 <map id="generator.cpp" name="generator.cpp">
-<area shape="rect" id="Node000001" title="implementation of xml generation functions" alt="" coords="54,5,165,31"/>
-<area shape="rect" id="Node000002" href="$generator_8hpp.html" title="contains the definitions for xml structure definitions" alt="" coords="53,79,165,104"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,31,112,65,107,65,107,31"/>
+<area shape="rect" id="Node000001" title="implementation of xml generation functions" alt="" coords="95,5,206,31"/>
+<area shape="rect" id="Node000002" href="$generator_8hpp.html" title="contains the definitions for xml structure definitions" alt="" coords="95,79,207,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,31,153,65,148,65,148,31"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="5,152,64,177"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,106,59,144,55,141,96,102"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="133,106,67,147,64,142,131,102"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="88,152,131,177"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="112,104,112,138,107,138,107,104"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="146,106,125,141,121,139,142,103"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="155,152,232,177"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="125,102,171,141,167,145,121,106"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="160,103,182,139,177,142,155,106"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="256,152,336,177"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="175,102,261,144,259,148,173,106"/>
 </map>
