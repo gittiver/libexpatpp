@@ -3,3 +3,4 @@ build_xcode
 .vs
 docs/html
 docs/xml
+.idea
