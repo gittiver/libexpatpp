@@ -46,6 +46,8 @@ project(expatpp
         CXX
 )
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set(PACKAGE_BUGREPORT "gittiver@traumkristalle.net")
 set(PACKAGE_NAME "expatpp")
 set(PACKAGE_VERSION "${PROJECT_VERSION}")
@@ -120,7 +122,7 @@ endif(EXPATPP_USE_SYSTEM_EXPAT)
 if (NOT EXPAT_FOUND)
   FetchContent_Declare(expat
   		 GIT_REPOSITORY https://github.com/libexpat/libexpat.git
-		 GIT_TAG R_2_7_5)
+		 GIT_TAG R_2_8_2)
   if(NOT expat_POPULATED)
 
     set(EXPAT_SHARED_LIBS Off)
